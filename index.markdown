@@ -72,24 +72,24 @@ I strongly encourage you to use and sharpen your use of AI tools as part of this
 ## High level course schedule
 
 
-| Week | Topic | Notes |
-| --- | --- | --- |
-| W01 (9/2) | Introduction	| 	|
-| W02 (9/9) | Basic estimators, common pitfalls | |
-| W03 (9/16) | Covariate balancing, experimental design |   |
-| W04 (9/23) | Positivity, trimming, target populations, partial identification	|  |
-| W05 (9/30) | *Presentations I* | |
-| W06 (10/7) | Interference | Project I Due |
-| W07 (10/14) | Estimation with structural models | |	
-| | **Fall break** | |
-| W08 (10/28)   | Policy evaluation; panel data |  |	
-| W09 (11/4) | *Presentations II* | |
-| W10 (11/11) | Advanced estimation topics	| Project II Due |
-| W11 (11/18) | AI for causal inference | |
+| Lecture | Date | Topic | Notes |
+| --- | --- | --- | --- |
+| L01 | 9/2 | Introduction	| 	|
+| L02 | 9/9 | Basic estimators, common pitfalls | |
+| L03 | 9/16 | Covariate balancing, experimental design |   |
+| L04 | 9/23 | Positivity, trimming, target populations, partial identification	|  |
+| | 9/30 | *Presentations I* | |
+| L05 | 10/7 | Interference | Project I Due |
+| L06 | 10/14 | Estimation with structural models | |	
+| | | **Fall break** | |
+| L07 | 10/28   | Policy evaluation; panel data |  |	
+| | 11/4 | *Presentations II* | |
+| L08 | 11/11 | Advanced estimation topics	| Project II Due |
+| L09 | 11/18 | AI for causal inference | |
 | | **Thanksgiving break** | |
-| W12 (12/2)  | Overflow | |
-| W13 (12/9) | *Presentations III*  | | 
-| Exam week | (No exam)	 | Project III Due | 
+| L10 | 12/2  | Overflow | |
+| | 12/9 | *Presentations III*  | | 
+| Exam week | | (No exam)	 | Project III Due | 
 
 <!--
 Social contagion, diffusion, social influence
