@@ -74,21 +74,21 @@ I strongly encourage you to use and sharpen your use of AI tools as part of this
 
 | Week | Topic | Notes |
 | --- | --- | --- |
-| Week 1 (9/2) | Introduction	| 	|
-| Week 2 (9/9) | Basic estimators, common pitfalls | |
-| Week 3 (9/16) | Covariate balancing, experimental design |   |
-| Week 4 (9/23) | Positivity, trimming, target populations, partial identification	|  |
-| Week 5 (9/30) | Presentations I | |
-| Week 6 (10/7) | Interference | Project I Due |
-| Week 7 (10/14) | Estimation with structural models | |	
+| W01 (9/2) | Introduction	| 	|
+| W02 (9/9) | Basic estimators, common pitfalls | |
+| W03 (9/16) | Covariate balancing, experimental design |   |
+| W04 (9/23) | Positivity, trimming, target populations, partial identification	|  |
+| W05 (9/30) | *Presentations I* | |
+| W06 (10/7) | Interference | Project I Due |
+| W07 (10/14) | Estimation with structural models | |	
 | | **Fall break** | |
-| Week 8 (10/28)   | Policy evaluation; panel data |  |	
-| Week 9 (11/4) |  | Presentations II |
-| Week 10 (11/11) | Advanced estimation topics	| Project II Due |
-| Week 11 (11/18) | AI for causal inference | |
+| W08 (10/28)   | Policy evaluation; panel data |  |	
+| W09 (11/4) | *Presentations II* | |
+| W10 (11/11) | Advanced estimation topics	| Project II Due |
+| W11 (11/18) | AI for causal inference | |
 | | **Thanksgiving break** | |
-| Week 12 (12/2)  | Overflow | |
-| Week 13 (12/9) | Presentations III  | | 
+| W12 (12/2)  | Overflow | |
+| W13 (12/9) | *Presentations III*  | | 
 | Exam week | (No exam)	 | Project III Due | 
 
 <!--
