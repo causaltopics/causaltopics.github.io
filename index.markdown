@@ -78,17 +78,17 @@ I strongly encourage you to use and sharpen your use of AI tools as part of this
 | L02 | 9/9 | Basic estimators, common pitfalls | |
 | L03 | 9/16 | Covariate balancing, experimental design |   |
 | L04 | 9/23 | Positivity, trimming, target populations, partial identification	|  |
-| | 9/30 | *Presentations I* | |
+| *P01 | 9/30 | Presentations I* | |
 | L05 | 10/7 | Interference | Project I Due |
 | L06 | 10/14 | Estimation with structural models | |	
 | | **Fall break** | | |
 | L07 | 10/28   | Policy evaluation; panel data |  |	
-| | 11/4 | *Presentations II* | |
+| *P02 | 11/4 | Presentations II* | |
 | L08 | 11/11 | Advanced estimation topics	| Project II Due |
 | L09 | 11/18 | AI for causal inference | |
-| | **Thanksgiving break** | |
+| | **Thanksgiving break** | | |
 | L10 | 12/2  | Overflow | | |
-| | 12/9 | *Presentations III*  | | 
+| *P03 | 12/9 | Presentations III*  | | 
 | Exam week | | (No exam)	 | Project III Due | 
 
 <!--
