@@ -78,17 +78,17 @@ I strongly encourage you to use and sharpen your use of AI tools as part of this
 | L02 | 9/9 | Basic estimators, common pitfalls | |
 | L03 | 9/16 | Covariate balancing, experimental design |   |
 | L04 | 9/23 | Positivity, trimming, target populations, partial identification	|  |
-| *P01 | 9/30 | Presentations I* | |
+| *P01* | *9/30* | *Presentations I* | |
 | L05 | 10/7 | Interference | Project I Due |
 | L06 | 10/14 | Estimation with structural models | |	
 | | **Fall break** | | |
-| L07 | 10/28   | Policy evaluation; panel data |  |	
-| *P02 | 11/4 | Presentations II* | |
+| L07 | 10/28   | Policy evaluation; panel data | |	
+| *P02* | *11/4* | *Presentations II* | |
 | L08 | 11/11 | Advanced estimation topics	| Project II Due |
 | L09 | 11/18 | AI for causal inference | |
 | | **Thanksgiving break** | | |
-| L10 | 12/2  | Overflow | | |
-| *P03 | 12/9 | Presentations III*  | | 
+| L10 | 12/2  | Overflow | |
+| *P03* | *12/9* | *Presentations III*  | | 
 | Exam week | | (No exam)	 | Project III Due | 
 
 <!--
@@ -123,4 +123,4 @@ For more information, please visit: <https://sas.yale.edu>
 
 ## Computing Environment
 
-A Unix-like setup is strongly recommended (e.g., Linux, Mac OS X, or Cygwin). We will use Python 3 (JupyterLab is recommended). 
+A Unix-like setup is strongly recommended (e.g., Linux, Mac OS X, or Cygwin). Students may use Python (JupyterLab is recommended) or R, per their preferences. 
