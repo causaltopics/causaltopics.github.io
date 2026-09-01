@@ -22,7 +22,7 @@ Instructor: Prof. Johan Ugander (johan.ugander@)
 ## Schedule
 
 **Class**
-W 9:25a-11:20a, location TBD
+W 9:25a-11:20a, Mason Lab 104 (ML104)
 
 **Office Hours**
 Johan: TBD
@@ -66,7 +66,7 @@ Collaboration in this course is strongly encouraged, but all collaboration must 
 
 ## AI Policy
 
-I strongly encourage you to use and sharpen your use of AI tools as part of this course. For each problem set and for the projects, I will ask you to document how you used AI, what was useful and what wasn't, so we can all learn together about best practices. Mindless use of AI (i.e., submitting work that is nonsensical or wrong in ways where you can't explain what you did) will be graded harshly. Undocumented use of AI will be considered a violation of academic integrity. 
+Unless explicitly forbidden (for certain aspects of certain assignments), I strongly encourage you to use and sharpen your use of AI tools as part of this course. For problem sets and projects, I will ask you to document how you used AI, what was useful and what wasn't, so we can all learn together about best practices. Mindless use of AI (i.e., submitting work that is nonsensical or wrong in ways where you can't explain what you did) will be graded harshly. Undocumented use of AI will be considered a violation of academic integrity. 
 
 
 ## High level course schedule
@@ -119,7 +119,6 @@ Yale University is committed to providing equal access to its academic programs.
 If you are approved for accommodations for this course (e.g., extended exam time or other adjustments), please email me as early as possible and include your accommodation letter from SAS so that we can make appropriate arrangements in a timely manner. Early communication is important to ensure that accommodations can be implemented effectively.
 
 For more information, please visit: <https://sas.yale.edu>
-
 
 ## Computing Environment
 
