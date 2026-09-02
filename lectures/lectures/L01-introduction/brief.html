@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-09-02">
+
+<title>Introduction</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<header id="title-block-header">
+<h1 class="title">Introduction</h1>
+
+<p class="date">2026-09-02</p>
+</header>
+
+
+<h1 id="lecture-scope">Lecture scope</h1>
+<ul>
+<li><p>For this lecture, the meeting duration is set to only 60 minutes (instead of the usual 115), since a solid hour will be spent going over the meta/admin/structure of the course.</p></li>
+<li><p>Begin with a concise course overview and explain the course’s design-based emphasis.</p></li>
+<li><p>Also emphasize how we will be making parallel use of “design”, meaning choices/optimizations of the experimental design, and “analysis”, meaning choice/optimization of estimators and adjustments, etc. Note that the estimand/target will generally be fixed, except for when it isn’t (Lecture 4’s discussion of sample trimming).</p></li>
+<li><p>Define potential outcomes in the Neyman-Rubin framework. Present this framework as a natural outgrowth of survey-sampling ideas applied to causal effects, and briefly contrast it with Pearl-style structural causal inference. Keep the historical lineage concise in the lecture spine and give primary-source pointers in Further reading at the end of this lecture’s lecture notes.</p></li>
+<li><p>Give an example of a “science table,” giving a view of individual outcomes and individual treatment effects (ITEs), and encourage critical thinking about when we should care about the average treatment effect or other perspectives on the table.</p></li>
+<li><p>Develop Neyman’s perspective from his argricultural work, setting up design-based inference. Contrast with the idea of modelling the outcomes, e.g., through linear models or some other method of imputation.</p></li>
+<li><p>Having defined outcomes, define a randomized experimental design as a probability distribution over assignment vectors. Contrast complete randomization, which fixes the treated count, with Bernoulli i.i.d. randomization, which assigns units independently and leaves the treated count random. Note that under complete randomization, the treatmenet vector elements are weakly dependent.</p></li>
+<li><p>Introduce positivity (only after defining the design), as a property of the assignment mechanism relative to the causal comparisons of interest.</p></li>
+<li><p>Explain why randomization identifies causal effects, while keeping clear which conclusions come from the design and which would require a model or superpopulation argument (explain what a superpopulation estimand is).</p></li>
+<li><p>Emphasize the importance of specifying the target population and estimand. Distinguish an estimand, an estimator, and an estimate.</p></li>
+<li><p>Define SUTVA and preview (very briefly) how its components will be relaxed later in the course.</p></li>
+<li><p>Define the finite-sample average treatment effect as the main estimand of causal inference. Briefly map it to population ATEs, CATEs, GATEs (Global Average Treatment Effects, when SUTVA is not assumed), without developing the specialized identification arguments for any of those estimands.</p></li>
+<li><p>Do not include an interactive demonstration in this lecture.</p></li>
+</ul>
+<h1 id="advanced-material">Advanced material</h1>
+<ul>
+<li>Give a compact missing-data interpretation of potential outcomes and distinguish MCAR, MAR, and MNAR, including enough history to locate the terminology without making missing-data theory part of the central lecture path.</li>
+<li>Elaborate on subtleties of Bernoulli randomization, including random treatment-arm sizes and the possibility of an empty arm in a small experiment.</li>
+<li>Clarify the distinction among finite-population, sample, and superpopulation estimands, and explain why the target population will matter later when the course studies overlap and trimming.</li>
+<li>Give the exact Neyman randomization variance under complete randomization and explain why its treatment-effect-heterogeneity term is not generally identified from observed outcomes.</li>
+</ul>
+<h1 id="deferred-or-sidelined-material">Deferred or sidelined material</h1>
+<ul>
+<li>Defer indefinitely: structural causal models, causal graphs, and do-calculus; the Pearl comparison here is high-level only and not a focus of the course.</li>
+<li>Defer indefinitely: derivation and identification of LATE to a later treatment of noncompliance or instrumental variables; use LATE here only (if at all) to show that causal questions can target different populations and contrasts.</li>
+<li>Defer substantive treatments of positivity failures, overlap, trimming, and partial identification to L04.</li>
+<li>Defer a full development of variance estimators, confidence intervals, and alternative estimators to L02.</li>
+<li>Defer interference and departures from SUTVA to L05.</li>
+</ul>
+<h1 id="literature">Literature</h1>
+<ul>
+<li>Neyman (1934), “On the Two Different Aspects of the Representative Method” (<a href="https://doi.org/10.1111/j.2397-2335.1934.tb04184.x">DOI</a>).</li>
+<li>Neyman (1923; English translation 1990), “On the Application of Probability Theory to Agricultural Experiments” (<a href="https://doi.org/10.1214/ss/1177012031">DOI</a>).</li>
+<li>Rubin (1974), “Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies” (<a href="https://doi.org/10.1037/h0037350">DOI</a>).</li>
+<li>Rubin (1976), “Inference and Missing Data” (<a href="https://doi.org/10.1093/biomet/63.3.581">DOI</a>).</li>
+<li>Holland (1986), “Statistics and Causal Inference” (<a href="https://doi.org/10.1080/01621459.1986.10478354">DOI</a>).</li>
+<li>Pearl (1995), “Causal Diagrams for Empirical Research” (<a href="https://doi.org/10.1093/biomet/82.4.669">DOI</a>).</li>
+<li>Seaman et al.&nbsp;(2013), “What Is Meant by ‘Missing at Random’?” (<a href="https://doi.org/10.1214/13-STS415">DOI</a>).</li>
+<li>Angrist, Imbens, and Rubin (1996), “Identification of Causal Effects Using Instrumental Variables” (<a href="https://doi.org/10.1080/01621459.1996.10476902">DOI</a>).</li>
+<li>Crump et al.&nbsp;(2009), “Dealing with Limited Overlap in Estimation of Average Treatment Effects” (<a href="https://doi.org/10.1093/biomet/asn055">DOI</a>).</li>
+</ul>
+
+
+
+
+
+</body></html>

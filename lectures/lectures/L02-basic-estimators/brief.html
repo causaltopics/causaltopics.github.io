@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-09-09">
+
+<title>Basic Estimators and Experimental Pitfalls</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<header id="title-block-header">
+<h1 class="title">Basic Estimators and Experimental Pitfalls</h1>
+
+<p class="date">2026-09-09</p>
+</header>
+
+
+<h1 id="lecture-scope">Lecture scope</h1>
+<ul>
+<li>Present the difference-in-means estimator as an estimator of the finite-sample average treatment effect under complete randomization. Derive its design unbiasedness.</li>
+<li>Introduce the randomization variance of the estimator and distinguish it from an estimator of that variance and from the realized variance estimate. <!-- - Introduce randomization-based inference and explain how its probability statements arise from the assignment mechanism.
+--></li>
+<li>Use one small, hand-workable finite-population example that can be reconstructed at the blackboard.</li>
+<li>Introduce Inverse probability weighting (IPW).</li>
+<li>introduce the Horvitz-Thompson (HT) estimator.</li>
+<li>Above, we present the difference in means as an estimator of the finite-sample average treatment effect under complete randomization and derive its design unbiasedness. Now consider an iid Bernoulli design. Explain that the usual difference-in-means estimator is undefined on all-treated and all-control assignments, but is design-unbiased conditional on any nondegenerate realized treatment count. Explain that the Horvitz–Thompson estimator is unconditionally design-unbiased under both iid Bernoulli and complete randomization, and that under complete randomization it coincides with difference in means.</li>
+<li>Introduce Hajek estimator. Explain self-normalization idea, and how it almost always reduces variance and MSE (Sarndal’s textbook has an analysis of the variance (or MSE?) based on taylor expansion. Reproduce it tersely.</li>
+<li>Embed an interactive simulation where the HT estiamtor wins or the Hajek estimator wins, in terms of MSE, depending on the settings of the simulation. For the PDF version, create a static plot with two panels showing one winning vs.&nbsp;the other winning.</li>
+<li>Trotter-Tukey estimators, per Khan and Ugander. Summarize this paper rather completely, at least the ideas of TT, and the iteration, and the fixed point, and the fixed point being a regression control estimator. I like it a lot, it teaches a lot I think, and I want to present it pretty fully.<br>
+</li>
+<li>Regression adjustment, including for treatment probabilities (build forward from Khan and Ugander).</li>
+<li>Variance reduction using covariates (other than treatment probabilities).</li>
+<li>Generalized regression estimators (GREG)</li>
+<li>CUPED</li>
+<li>Calibration estimators. See the long-form notes in scattered_notes/calibration_estimators_notes_latex_bundle/ and distill content that is suitable for the lecture, leaving longer exposition for Advanced material.</li>
+</ul>
+<p>Advanced material (each bullet should be a stand alone section):</p>
+<ul>
+<li><p>Summarize Ron Kohavi’s work on “common pitfalls” in experimentation and related work. See “Seven pitfalls to avoid when running controlled experiments on the web” from KDD 2009. See the recent paper from KDD 2026, “Trustworthy A/B Patterns and the Winner’s Curse: Lessons from Eight Large-Scale Replications”. Review Kohavi’s other practical/empirical papers and produce a concise summary of this line of work, through the 2026 paper, with pointers to read more.</p></li>
+<li><p>Outline the arguments of Hirano, Imbens, and Ridder (2003, <em>Econometrica</em>), sometimes called the propensity paradox. Note how this has implications specifically for (non-observational) experiments where assignment probabilities are known.</p></li>
+<li><p>Give a history of th different IPW estimator ideas (HT, Hajek, Trotter-Tukey) including relation to ideas in Monte Carlo (Art Owen’s lecture notes), and relation to papers like Swaminathan &amp; Joachims’s paper on self-normalized estimators.</p></li>
+<li><p>Give a short summary of Parikh et al.&nbsp;(2026), <a href="https://arxiv.org/abs/2607.23254">arXiv:2607.23254</a>, as it relates to the language of this lecture.</p></li>
+</ul>
+<h1 id="literature">Literature</h1>
+<p>Hajek and self-normalization:</p>
+<ul>
+<li>Hale F. Trotter and John W. Tukey. Conditional monte carlo for normal samples. In Symposium on Monte Carlo Methods, 1954.</li>
+<li>D Basu. An essay on the logical foundations of survey sampling, part i. In VP Godambe and DA Sprott, editors, Foundations of Statistical Inferences. Holt, Rinehart and Winston, Toronto, Canada, 1971.</li>
+<li>Adith Swaminathan and Thorsten Joachims. The self-normalized estimator for counterfactual learning. In Advances in Neural Information Processing Systems, pages 3231–3239, 2015.</li>
+<li>Samir Khan, Johan Ugander (2023) “Adaptive normalization for IPW estimation,” Journal of Causal Inference.</li>
+</ul>
+<p>Regression control:</p>
+<ul>
+<li>Lin, Winston. 2013. “Agnostic Notes on Regression Adjustments to Experimental Data: Reexamining Freedman’s Critique.” The Annals of Applied Statistics 7 (1): 295–318. <a href="https://doi.org/10.1214/12-AOAS583" class="uri">https://doi.org/10.1214/12-AOAS583</a>.</li>
+</ul>
+<p>Calibration:</p>
+<ul>
+<li>Deville and Sarndal (1992), calibration estimators; full citation pending verification</li>
+</ul>
+<p>Pitfalls</p>
+<ul>
+<li>Kohavi et al., common pitfalls in experimentation; exact source pending verification</li>
+</ul>
+<p>Estimating propensities:</p>
+<ul>
+<li>Hirano, Imbens, and Ridder 2003, Econometrica.</li>
+</ul>
+
+
+
+
+
+</body></html>

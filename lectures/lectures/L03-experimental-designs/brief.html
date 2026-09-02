@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-09-16">
+
+<title>Experimental Design, Blocking, Balancing</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<header id="title-block-header">
+<h1 class="title">Experimental Design, Blocking, Balancing</h1>
+
+<p class="date">2026-09-16</p>
+</header>
+
+
+<h1 id="lecture-scope">Lecture scope</h1>
+<ul>
+<li><p>Develop blocking and stratified randomization, connecting to the contast between complete randomization and Bernoulli randomization, in a world with covariates. Matched pairs design. Discuss pros and cons. Give an introduction to approaches based on discrepancy minimization.</p></li>
+<li><p>Contrast the use of blocking or stratified randomization (a design choice), with using an i.i.d. Bernoulli design but employing covariate adjustment (an analysis choice). Use this contrast a basic example of choices that happen “during design vs.&nbsp;during analysis”.</p></li>
+<li><p>Motivate and develop Augmented inverse probability weighting (AIPW).</p></li>
+<li><p>Review Imai, King, Nall (2009) on “pair matching” for cluster randomized experiments. Discuss work analyzing such designs since, including Candogan, Chen, Niazadeh (2023) in Management Science. Condogan et al.&nbsp;does not use covariate information, which is notable. Describe their assumptions. If too much material, have the main lecture just discuss Imai et al.&nbsp;(2009), with a pointer to Condogan et al.&nbsp;as Advanced Material.</p></li>
+<li><p>As a possible initial motivation for studying blocking, to explore the consequences of experimental design choices, consider what happens if you have N=1000 units, Bernoulli randomization with a p=0.5 coin flip probability, but their treatment assignemnts are perfectly correlated in 10 groups of 100. Study the variance of the HT estimator of the ATE for this population. Contrast it with the variance of the HT estimator under a Bernoulli(0.5) iid design with N=10 units, and a Bernoulli(0.5) iid design with N=1000 units.</p></li>
+<li><p>Present re-randomization, develop it as a form of randomized design. Give the classic pros and cons, and how to analyze experiments under re-randomization. Summarize the work of Li, Ding, Rubin (2018). Draw on Peng Ding’s lecture notes, specifically Section 6.1.</p></li>
+</ul>
+<p>Advanced Material:</p>
+<ul>
+<li>As a key example of an exotic design, briefly introduce Gram-Schmidt random walk designs, connecting experimental design to discrepancy theory.</li>
+<li>Connect Harshaw et al.’s work to the very recent pre-print by Max Cytrynbaum (<a href="https://arxiv.org/abs/2608.18057" class="uri">https://arxiv.org/abs/2608.18057</a>), and briefly discuss kernalization of GSW.</li>
+<li>Harshaw discusses “optimization-based designs” and cites many papers by Kallus as well as others (e.g., D Bertsimas, M Johnson, N Kallus, Operations Research, 2015; Kallus 2018 “Optimal a priori balance in the design of controlled experiments”, JRSSB; Kallus 2021, “On the optimality of randomization in experimental design: How to randomize for minimax variance and design-based inference”, JRSSB). These predate the GSW work. Discuss the aspects of the Harshaw et al.&nbsp;paper that emphasis the robustness-balance tradeoff, how the best assignment from optimization-based designs are usually deterministic and thus may lack robustness.</li>
+<li>As another example of an exotic experimental deisgn, present Efron’s biased-coin designs</li>
+<li>As part of the dicsussion of optimization-based deisgns, briefly summarize the contents of Section 7.5 of Boyd and Vandenberghe’s Convex optimization book, on optimized experimental designs, including D-optimal, A-optimal, and E-optimal designs. Give pointers to that book chapter (available online). Are there connections to the Harshaw et al.&nbsp;paper on GSW?<br>
+</li>
+<li>Briefly mention staggered rollout experiments, and consider their value for no-SUTVA experiments.</li>
+</ul>
+<!-- - Introduce double robustness.  -->
+<h1 id="literature">Literature</h1>
+<ul>
+<li>Morgan and Rubin, rerandomization; exact source pending verification</li>
+<li>Efron, biased-coin designs; exact source pending verification</li>
+<li>Gram-Schmidt random-walk designs; exact source pending verification</li>
+</ul>
+
+
+
+
+
+</body></html>
