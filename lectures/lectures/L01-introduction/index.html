@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-09-02">
+
+<title>L01: Introduction – Topics in Causal Inference</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../lectures/L02-basic-estimators/index.html" rel="next">
+<link href="../../how-notes-are-made.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b43a5d9faffcaba08472c20bb36c51d9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-581546e9418954a1390d7be89183347a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../lectures/L01-introduction/index.html"><span class="chapter-title">L01: Introduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../index.html">Topics in Causal Inference</a> 
+        <div class="sidebar-tools-main">
+    <a href="../../pdf/causal-inference-course.pdf" title="Download the full course PDF" class="quarto-navigation-tool px-1" aria-label="Download the full course PDF"><i class="bi bi-file-pdf"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Overview</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../assignments/projects.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Projects</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../assignments/problem-sets.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problem Sets</span></a>
+  </div>
+</li>
+<li class="px-0"><hr class="sidebar-divider hi"></li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../how-notes-are-made.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How These Notes Are Made</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L01-introduction/index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">L01: Introduction</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L02-basic-estimators/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L02: Basic Estimators and Experimental Pitfalls</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L03-experimental-designs/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L03: Experimental Design, Blocking, Balancing</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L04-positivity-partial-identification/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L04: Positivity, Trimming, Target Populations, and Partial Identification</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L05-interference/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L05: Interference</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L06-structural-models/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L06: Estimation with Structural Models</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L07-policy-evaluation-panel-data/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L07: Policy Evaluation and Panel Data</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L08-advanced-estimation/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L08: Advanced Estimation Topics</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L09-ai-for-causal-inference/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L09: AI for Causal Inference</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L10-overflow/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L10: Overflow</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../appendices/notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Notation</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+      </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-course-about-choices" id="toc-a-course-about-choices" class="nav-link active" data-scroll-target="#a-course-about-choices">A course about choices</a></li>
+  <li><a href="#the-comparison-hidden-in-every-unit" id="toc-the-comparison-hidden-in-every-unit" class="nav-link" data-scroll-target="#the-comparison-hidden-in-every-unit">The comparison hidden in every unit</a></li>
+  <li><a href="#what-the-two-column-table-assumes" id="toc-what-the-two-column-table-assumes" class="nav-link" data-scroll-target="#what-the-two-column-table-assumes">What the two-column table assumes</a></li>
+  <li><a href="#neymans-move-model-the-assignment-not-the-outcomes" id="toc-neymans-move-model-the-assignment-not-the-outcomes" class="nav-link" data-scroll-target="#neymans-move-model-the-assignment-not-the-outcomes">Neyman’s move: model the assignment, not the outcomes</a></li>
+  <li><a href="#a-randomized-design-is-a-distribution" id="toc-a-randomized-design-is-a-distribution" class="nav-link" data-scroll-target="#a-randomized-design-is-a-distribution">A randomized design is a distribution</a>
+  <ul class="collapse">
+  <li><a href="#complete-randomization" id="toc-complete-randomization" class="nav-link" data-scroll-target="#complete-randomization">Complete randomization</a></li>
+  <li><a href="#bernoulli-randomization" id="toc-bernoulli-randomization" class="nav-link" data-scroll-target="#bernoulli-randomization">Bernoulli randomization</a></li>
+  </ul></li>
+  <li><a href="#why-randomization-identifies-an-average-effect" id="toc-why-randomization-identifies-an-average-effect" class="nav-link" data-scroll-target="#why-randomization-identifies-an-average-effect">Why randomization identifies an average effect</a></li>
+  <li><a href="#estimand-estimator-estimateand-population" id="toc-estimand-estimator-estimateand-population" class="nav-link" data-scroll-target="#estimand-estimator-estimateand-population">Estimand, estimator, estimate—and population</a></li>
+  <li><a href="#what-to-carry-forward" id="toc-what-to-carry-forward" class="nav-link" data-scroll-target="#what-to-carry-forward">What to carry forward</a></li>
+  <li><a href="#advanced-material" id="toc-advanced-material" class="nav-link" data-scroll-target="#advanced-material">Advanced material</a>
+  <ul class="collapse">
+  <li><a href="#potential-outcomes-as-missing-data" id="toc-potential-outcomes-as-missing-data" class="nav-link" data-scroll-target="#potential-outcomes-as-missing-data">Potential outcomes as missing data</a></li>
+  <li><a href="#random-arm-sizes-under-bernoulli-assignment" id="toc-random-arm-sizes-under-bernoulli-assignment" class="nav-link" data-scroll-target="#random-arm-sizes-under-bernoulli-assignment">Random arm sizes under Bernoulli assignment</a></li>
+  <li><a href="#exact-randomization-variance-under-complete-randomization" id="toc-exact-randomization-variance-under-complete-randomization" class="nav-link" data-scroll-target="#exact-randomization-variance-under-complete-randomization">Exact randomization variance under complete randomization</a>
+  <ul class="collapse">
+  <li><a href="#center-the-science-table-and-recall-the-design-moments" id="toc-center-the-science-table-and-recall-the-design-moments" class="nav-link" data-scroll-target="#center-the-science-table-and-recall-the-design-moments">Center the science table and recall the design moments</a></li>
+  <li><a href="#variance-of-each-arm-mean" id="toc-variance-of-each-arm-mean" class="nav-link" data-scroll-target="#variance-of-each-arm-mean">Variance of each arm mean</a></li>
+  <li><a href="#covariance-between-the-arm-means" id="toc-covariance-between-the-arm-means" class="nav-link" data-scroll-target="#covariance-between-the-arm-means">Covariance between the arm means</a></li>
+  <li><a href="#assemble-the-pieces" id="toc-assemble-the-pieces" class="nav-link" data-scroll-target="#assemble-the-pieces">Assemble the pieces</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">L01: Introduction</span></h1>
+<p class="subtitle lead">Potential outcomes and design-based causal inference</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 2, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="lecture-provenance">
+<p><strong>Lecture brief:</strong> <a href="brief.md">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
+</div>
+<p><strong>Download:</strong> <a href="../../pdf/lectures/L01-introduction.pdf">Lecture PDF</a></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Lecture outline">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lecture outline
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Separate the causal target from choices made during design and analysis.</li>
+<li>Use a science table to define potential outcomes, SUTVA, and the finite-population average treatment effect.</li>
+<li>Define randomized designs and show how complete randomization identifies average potential outcomes and yields an unbiased estimator.</li>
+</ul>
+</div>
+</div>
+<section id="a-course-about-choices" class="level1">
+<h1>A course about choices</h1>
+<p>Causal inference begins with a comparison: what would happen under one course of action rather than another? Data do not answer that question on their own. We must decide what comparison matters, how treatment will be assigned, and how the resulting observations will be analyzed.</p>
+<p>This course emphasizes <strong>design-based inference</strong>. We will treat the units and their potential outcomes as fixed and locate randomness in an assignment mechanism that we know because we chose it. That perspective keeps two kinds of choices visibly separate:</p>
+<ul>
+<li><strong>Design choices</strong> determine the probability distribution used to assign treatment. Complete randomization, blocking, rerandomization, and clustered assignment are different designs.</li>
+<li><strong>Analysis choices</strong> determine how the realized data are turned into an estimate. Difference in means, inverse-probability weighting, regression adjustment, and calibration are different analyses.</li>
+</ul>
+<p>The causal target—the <strong>estimand</strong>—usually comes first and remains fixed while we compare designs and analyses. Sometimes the target itself changes. Trimming units with poor overlap in L04, for example, may improve the statistical problem by changing the population about which we ask the question. That is not merely a better estimator of the old target.</p>
+<p>This distinction is a recurring discipline: <strong>what is the question, what was randomized, and what was calculated?</strong></p>
+</section>
+<section id="the-comparison-hidden-in-every-unit" class="level1">
+<h1>The comparison hidden in every unit</h1>
+<p>Consider six plots in an agricultural experiment. Label the plots <span class="math inline">\(i=1,\ldots,6\)</span>, and let the treatment label <span class="math inline">\(z\)</span> equal <span class="math inline">\(1\)</span> for fertilizer and <span class="math inline">\(0\)</span> for control. For plot <span class="math inline">\(i\)</span>, define <span class="math inline">\(Y_i(z)\)</span> to be the yield that would be observed if that plot were assigned treatment <span class="math inline">\(z\)</span>. The plot therefore has two potential outcomes, <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span>, and their difference</p>
+<p><span class="math display">\[
+\tau_i=Y_i(1)-Y_i(0)
+\]</span></p>
+<p>is its <strong>individual treatment effect</strong>. Before discussing how treatment is assigned, imagine that both potential outcomes are written down for every plot.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Plot <span class="math inline">\(i\)</span></th>
+<th style="text-align: right;">Yield under control <span class="math inline">\(Y_i(0)\)</span></th>
+<th style="text-align: right;">Yield under treatment <span class="math inline">\(Y_i(1)\)</span></th>
+<th style="text-align: right;">Individual effect <span class="math inline">\(\tau_i=Y_i(1)-Y_i(0)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">-1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+<p>This is often called the <strong>science table</strong>. It is not a table we observe. Rather, it represents the fixed causal quantities that an experiment is meant to teach us about. To connect the table to observed data, we require a well-defined treatment, no interference between units, and consistency between assignment and observation; these requirements are stated more precisely below.</p>
+<p>Let <span class="math inline">\(Z_i\in\{0,1\}\)</span> denote plot <span class="math inline">\(i\)</span>’s actual assignment. We use an uppercase <span class="math inline">\(Z_i\)</span> because, before randomization, the assignment is a random variable. Once the design draws its assignment, only</p>
+<p><span class="math display">\[
+Y_i^{\mathrm{obs}}
+=Y_i(Z_i)
+=Z_iY_i(1)+(1-Z_i)Y_i(0)
+\]</span></p>
+<p>is observed. If <span class="math inline">\(Z_i=1\)</span>, the formula selects <span class="math inline">\(Y_i(1)\)</span>; if <span class="math inline">\(Z_i=0\)</span>, it selects <span class="math inline">\(Y_i(0)\)</span>. The other entry in the row remains missing. This is the fundamental obstacle: the unit-level comparison is scientifically meaningful but cannot be observed jointly for the same unit.</p>
+<p>The table also forces a substantive question. Why summarize the six effects by their average? The average effect is often a natural policy or welfare summary, and randomization makes it especially tractable. But the table may also contain harm, unequal gains, or effects concentrated in a subgroup. An average is a target, not a law of nature.</p>
+<p>For this course, the default target is the <strong>finite-population average treatment effect</strong></p>
+<p><span id="eq-l01-ate"><span class="math display">\[
+\tau
+=\frac{1}{N}\sum_{i=1}^N \tau_i
+=\overline Y(1)-\overline Y(0),
+\tag{1}\]</span></span></p>
+<p>where <span class="math inline">\(N\)</span> is the number of experimental units and</p>
+<p><span class="math display">\[
+\overline Y(z)=\frac{1}{N}\sum_{i=1}^N Y_i(z)
+\]</span></p>
+<p>is the finite-population mean under treatment level <span class="math inline">\(z\)</span>. In the table, <span class="math inline">\(\overline Y(1)=76/6\)</span>, <span class="math inline">\(\overline Y(0)=65/6\)</span>, and therefore <span class="math inline">\(\tau=11/6\)</span>. These are features of these six plots; at this point no larger population or probability model for their yields has been invoked.</p>
+</section>
+<section id="what-the-two-column-table-assumes" class="level1">
+<h1>What the two-column table assumes</h1>
+<p>Writing <span class="math inline">\(Y_i(z)\)</span> assumes that the single label <span class="math inline">\(z\)</span> contains all the treatment information needed to specify unit <span class="math inline">\(i\)</span>’s potential outcome. This bundles two ideas commonly called the <strong>stable unit treatment value assumption</strong> (SUTVA) <span class="citation" data-cites="rubin1980">(<a href="../../references.html#ref-rubin1980" role="doc-biblioref">Rubin 1980</a>)</span>:</p>
+<ol type="1">
+<li><strong>No multiple versions:</strong> the treatment labeled <span class="math inline">\(z\)</span> has no causally distinct, unrecorded versions. If several fertilizer formulations or application protocols matter for yield, the binary label must be refined or the versions must be declared irrelevant to the question.</li>
+<li><strong>No interference:</strong> unit <span class="math inline">\(i\)</span>’s outcome does not depend on other units’ assignments. If fertilizer runs off from a neighboring plot, <span class="math inline">\(Y_i(z)\)</span> is generally not enough; the neighbors’ assignments also matter.</li>
+</ol>
+<p><strong>Consistency</strong> then links the potential outcome to observation: if the realized assignment is <span class="math inline">\(Z_i=z\)</span>, then <span class="math inline">\(Y_i^{\mathrm{obs}}=Y_i(z)\)</span>. SUTVA is not a metaphysical truth. It is a simplification whose credibility depends on how units and treatments are defined. L05 will replace <span class="math inline">\(Y_i(z)\)</span> with potential outcomes indexed by richer assignment or exposure patterns. The corresponding science table becomes much larger, but the logic—define the possible interventions before asking what is identified—survives.</p>
+</section>
+<section id="neymans-move-model-the-assignment-not-the-outcomes" class="level1">
+<h1>Neyman’s move: model the assignment, not the outcomes</h1>
+<p>One response to the missing entry is to model it. We might fit a linear model, posit a distribution for outcomes, or impute each unobserved potential outcome. Such strategies can be useful, but their conclusions depend on the outcome model.</p>
+<p>The design-based alternative starts elsewhere. Hold the entire science table fixed and introduce a known random mechanism that reveals selected entries. The probability calculation then concerns which assignment vector was drawn, not how the potential outcomes were generated.</p>
+<p>Fisher made randomization central to experimental inference, while Neyman’s agricultural experiments and survey-sampling work developed the finite-population, design-based argument <span class="citation" data-cites="fisher1935 neyman1990 neyman1934">(<a href="../../references.html#ref-fisher1935" role="doc-biblioref">Fisher 1935</a>; <a href="../../references.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman et al. 1990</a>; <a href="../../references.html#ref-neyman1934" role="doc-biblioref">Neyman 1934</a>)</span>. In survey sampling, known inclusion probabilities let us learn about a fixed collection of units <span class="citation" data-cites="horvitz1952">(<a href="../../references.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. In a randomized experiment, known treatment probabilities let us learn about a fixed collection of causal contrasts. Rubin’s later formulation made the potential-outcomes language central across randomized and observational studies <span class="citation" data-cites="rubin1974 rubin2005">(<a href="../../references.html#ref-rubin1974" role="doc-biblioref">Rubin 1974</a>, <a href="../../references.html#ref-rubin2005" role="doc-biblioref">2005</a>)</span>.</p>
+<p>The contrast with an outcome model is therefore not “statistics versus no statistics.” It is a choice about what supplies the probability statement:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{design-based:}&amp;\quad \text{condition on the potential outcomes and average over }\mathbf Z,\\
+\text{model-based:}&amp;\quad \text{posit a probability law for potential outcomes or observed responses,}\\
+&amp;\qquad \text{possibly conditional on treatment and pretreatment covariates.}
+\end{aligned}
+\]</span></p>
+<p>In the first line, repeated-assignment statements concern the same plots and the same science table under different possible treatment assignments. In the second, probability also describes how outcomes vary across units or hypothetical samples. We will often combine the two—using regression, for example, to improve precision—but the assignment mechanism will remain the foundation for causal comparisons in randomized experiments.</p>
+</section>
+<section id="a-randomized-design-is-a-distribution" class="level1">
+<h1>A randomized design is a distribution</h1>
+<p>Let</p>
+<p><span class="math display">\[
+\mathbf Z=(Z_1,\ldots,Z_N)\in\{0,1\}^N
+\]</span></p>
+<p>be the assignment vector. Uppercase <span class="math inline">\(\mathbf Z\)</span> denotes the random vector before the design is realized; lowercase <span class="math inline">\(\mathbf z\)</span> denotes one particular assignment it could produce. A <strong>randomized experimental design</strong> is a probability distribution</p>
+<p><span class="math display">\[
+\mathbb P_Z(\mathbf Z=\mathbf z)
+\]</span></p>
+<p>over possible assignment vectors <span class="math inline">\(\mathbf z\)</span>. The subscript <span class="math inline">\(Z\)</span> emphasizes that this probability comes from the assignment mechanism, with the potential outcomes held fixed. The support</p>
+<p><span class="math display">\[
+\mathcal Z=\{\mathbf z:\mathbb P_Z(\mathbf Z=\mathbf z)&gt;0\}
+\]</span></p>
+<p>records exactly which assignments the design can produce.</p>
+<p>This definition matters. Saying “the study is randomized” is incomplete until we know both the support and the probabilities placed on it. Those choices determine which causal comparisons are possible and how estimators behave under repeated assignment.</p>
+<section id="complete-randomization" class="level2">
+<h2 class="anchored" data-anchor-id="complete-randomization">Complete randomization</h2>
+<p>Under complete randomization, the experimenter fixes the treated count <span class="math inline">\(N_1\)</span> in advance and therefore also fixes the control count <span class="math inline">\(N_0=N-N_1\)</span>. Assume <span class="math inline">\(0&lt;N_1&lt;N\)</span>, so both arms are nonempty. Every vector containing exactly <span class="math inline">\(N_1\)</span> ones is equally likely:</p>
+<p><span class="math display">\[
+\mathbb P_Z(\mathbf Z=\mathbf z)
+=
+\begin{cases}
+\binom{N}{N_1}^{-1}, &amp; \sum_{i=1}^N z_i=N_1,\\
+0, &amp; \text{otherwise.}
+\end{cases}
+\]</span></p>
+<p>There are <span class="math inline">\(\binom{N}{N_1}\)</span> ways to choose the treated units, which explains the probability in the first line. Each unit has marginal treatment probability <span class="math inline">\(N_1/N\)</span>, but the assignments are not independent. If one unit is treated, one fewer treatment slot remains. In fact, for <span class="math inline">\(i\ne j\)</span>,</p>
+<p><span class="math display">\[
+\mathbb E_Z(Z_iZ_j)
+=\mathbb P_Z(Z_i=1,Z_j=1)
+=\frac{N_1(N_1-1)}{N(N-1)},
+\]</span></p>
+<p>and therefore</p>
+<p><span class="math display">\[
+\operatorname{Cov}_Z(Z_i,Z_j)
+=-\frac{(N_1/N)(N_0/N)}{N-1}.
+\]</span></p>
+<p>That weak negative dependence is precisely what fixes the arm sizes.</p>
+</section>
+<section id="bernoulli-randomization" class="level2">
+<h2 class="anchored" data-anchor-id="bernoulli-randomization">Bernoulli randomization</h2>
+<p>Under an independent Bernoulli design with common probability <span class="math inline">\(p\)</span>,</p>
+<p><span class="math display">\[
+Z_i\overset{\mathrm{iid}}{\sim}\operatorname{Bernoulli}(p),
+\qquad
+\mathbb P_Z(\mathbf Z=\mathbf z)
+=p^{\sum_i z_i}(1-p)^{N-\sum_i z_i}.
+\]</span></p>
+<p>Now each unit receives an independent random draw, so the treated count <span class="math inline">\(N_1=\sum_iZ_i\)</span> is random rather than fixed by the design. Throughout the course, <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_0\)</span> denote realized arm sizes: under complete randomization their values are fixed in advance, while under Bernoulli randomization they vary across possible assignments. The Bernoulli design is operationally simple and sometimes convenient for sequential enrollment. It can also produce imbalance. The probability of an empty treatment arm is <span class="math inline">\((1-p)^N\)</span>, and the probability of an empty control arm is <span class="math inline">\(p^N\)</span>. We return to that complication in L02.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Design comes before positivity">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Design comes before positivity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write <span class="math inline">\(\pi_i=\mathbb P_Z(Z_i=1)\)</span> for unit <span class="math inline">\(i\)</span>’s marginal treatment probability. <strong>Positivity</strong> is a property of the assignment mechanism relative to the causal comparison. For both arm-specific finite-population means to be learned without extrapolation, every unit’s two relevant potential outcomes must each have a chance to be observed. Thus, for the treatment-control comparison, <span class="math display">\[
+0&lt;\pi_i&lt;1
+\qquad\text{for every }i.
+\]</span> Under nondegenerate complete randomization, <span class="math inline">\(\pi_i=N_1/N\)</span>; under the common-probability Bernoulli design, <span class="math inline">\(\pi_i=p\)</span>. Notice that complete randomization satisfies this unit-level requirement even though it assigns probability zero to every vector with the wrong treated count. For more complicated exposures, the relevant requirement concerns the exposure contrasts defining the estimand—not an abstract rule that every assignment vector must be possible.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="why-randomization-identifies-an-average-effect" class="level1">
+<h1>Why randomization identifies an average effect</h1>
+<p>Return to complete randomization. Here <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_0\)</span> are fixed, positive constants chosen by the design. The observed treated and control means are</p>
+<p><span class="math display">\[
+\overline Y_1^{\mathrm{obs}}
+=\frac{1}{N_1}\sum_{i=1}^NZ_iY_i^{\mathrm{obs}},
+\qquad
+\overline Y_0^{\mathrm{obs}}
+=\frac{1}{N_0}\sum_{i=1}^N(1-Z_i)Y_i^{\mathrm{obs}}.
+\]</span></p>
+<p>Consistency lets us rewrite these observable quantities in terms of the science table:</p>
+<p><span class="math display">\[
+\overline Y_1^{\mathrm{obs}}
+=\frac{1}{N_1}\sum_{i=1}^N Z_iY_i(1),
+\qquad
+\overline Y_0^{\mathrm{obs}}
+=\frac{1}{N_0}\sum_{i=1}^N(1-Z_i)Y_i(0).
+\]</span></p>
+<p>For example, when <span class="math inline">\(Z_i=1\)</span>, the factor <span class="math inline">\(Z_i\)</span> selects <span class="math inline">\(Y_i(1)\)</span>; when <span class="math inline">\(Z_i=0\)</span>, that unit contributes zero to the treated total. Under complete randomization, <span class="math inline">\(\mathbb E_Z(Z_i)=N_1/N\)</span>. The notation <span class="math inline">\(\mathbb E_Z\)</span> means that we average only over assignments produced by the design, holding all potential outcomes fixed. Because the arm sizes are fixed, their denominators can be taken outside the expectation:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb E_Z\!\left(\overline Y_1^{\mathrm{obs}}\right)
+&amp;=\frac{1}{N_1}\sum_i\mathbb E_Z(Z_i)Y_i(1)
+=\overline Y(1),\\
+\mathbb E_Z\!\left(\overline Y_0^{\mathrm{obs}}\right)
+&amp;=\frac{1}{N_0}\sum_i\mathbb E_Z(1-Z_i)Y_i(0)
+=\overline Y(0).
+\end{aligned}
+\]</span></p>
+<p>The cancellation is simple but important: each unit enters the treated average with probability <span class="math inline">\(N_1/N\)</span>, and division by the fixed treated count turns those inclusion probabilities into equal weight <span class="math inline">\(1/N\)</span> on every <span class="math inline">\(Y_i(1)\)</span>. The same argument applies to control.</p>
+<p>These equalities are the design-based <strong>identification</strong> step: each fixed arm-specific mean is represented as the expectation of an observable random variable under the known assignment distribution. They do not identify either missing potential outcome for an individual unit. They also show why the distinction between complete and Bernoulli randomization matters. Under Bernoulli assignment, the denominators <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_0\)</span> are random and may equal zero, so one cannot repeat this calculation by simply moving them outside the expectation. L02 handles that case directly.</p>
+<p>The corresponding <strong>estimator</strong> in the realized experiment is the difference in observed means,</p>
+<p><span id="eq-l01-dm"><span class="math display">\[
+\widehat\tau_{\mathrm{DM}}
+=\overline Y_1^{\mathrm{obs}}-\overline Y_0^{\mathrm{obs}}.
+\tag{2}\]</span></span></p>
+<p>Linearity of design expectation then establishes its design unbiasedness:</p>
+<p><span id="eq-l01-unbiased"><span class="math display">\[
+\mathbb E_Z(\widehat\tau_{\mathrm{DM}})=\tau.
+\tag{3}\]</span></span></p>
+<p>The equality is a fact about the design. It does not require linearity, normal outcomes, constant effects, or a random sample from a larger population. It says that if we repeatedly reassigned these same <span class="math inline">\(N\)</span> units while leaving their science table unchanged, the estimator would average to the fixed finite-population effect.</p>
+<p>Randomization does not literally reveal both potential outcomes for any unit. It makes the observed treatment group representative of the finite population in expectation, and likewise for the control group. Identification concerns the average; unbiasedness concerns the repeated-assignment behavior of the estimator used to estimate it.</p>
+</section>
+<section id="estimand-estimator-estimateand-population" class="level1">
+<h1>Estimand, estimator, estimate—and population</h1>
+<p>Three words prevent a great deal of confusion:</p>
+<ul>
+<li>The <strong>estimand</strong> is the fixed target, here <span class="math inline">\(\tau\)</span> in <a href="#eq-l01-ate" class="quarto-xref">Equation&nbsp;<span>1</span></a>.</li>
+<li>The <strong>estimator</strong> is the rule that maps the random assignment and resulting observed outcomes to <span class="math inline">\(\widehat\tau_{\mathrm{DM}}\)</span>. Before assignment, its value is random under the design.</li>
+<li>The <strong>estimate</strong> is the numerical value produced by the realized assignment and outcomes.</li>
+</ul>
+<p>The target population must be stated just as carefully. Our <span class="math inline">\(\tau\)</span> averages over the <span class="math inline">\(N\)</span> experimental units. It is a <strong>finite-population</strong> estimand. Even if those units were sampled from a larger population, treatment randomization by itself justifies the repeated-assignment statement for this realized collection of units.</p>
+<p>We might instead posit a population distribution <span class="math inline">\(P\)</span> for a generic unit’s potential outcomes and target the <strong>superpopulation</strong> ATE</p>
+<p><span class="math display">\[
+\tau_P=\mathbb E_P\{Y(1)-Y(0)\}.
+\]</span></p>
+<p>Here <span class="math inline">\(\mathbb E_P\)</span> averages over units generated by <span class="math inline">\(P\)</span>, rather than over alternative treatment assignments for the same units. Moving from the realized finite-population ATE to <span class="math inline">\(\tau_P\)</span> requires a sampling, transport, or superpopulation argument in addition to treatment randomization. A conditional average treatment effect,</p>
+<p><span class="math display">\[
+\tau(x)=\mathbb E_P\{Y(1)-Y(0)\mid X=x\},
+\]</span></p>
+<p>targets units with a particular value <span class="math inline">\(x\)</span> of pretreatment covariates <span class="math inline">\(X\)</span>. Under interference, one may instead define a global average treatment effect comparing two population-wide assignment regimes—for example, the average outcome if everyone were assigned treatment versus the average outcome if everyone were assigned control. These targets answer different questions; random assignment in one experimental sample does not automatically identify all of them.</p>
+</section>
+<section id="what-to-carry-forward" class="level1">
+<h1>What to carry forward</h1>
+<p>The science table states the causal comparisons. The design states which entries can be revealed and with what probabilities. The analysis states how the revealed entries are combined. Under complete randomization, the difference in observed means is design-unbiased for the finite-population average treatment effect. Every later refinement in the course should be locatable in that three-part structure.</p>
+</section>
+<section id="advanced-material" class="level1">
+<h1>Advanced material</h1>
+<section id="potential-outcomes-as-missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="potential-outcomes-as-missing-data">Potential outcomes as missing data</h2>
+<p>Potential outcomes invite a missing-data reading: after assignment, one entry in each row of the science table is observed and the other is missing. More explicitly, the indicator that <span class="math inline">\(Y_i(1)\)</span> is observed is <span class="math inline">\(Z_i\)</span>, while the indicator that <span class="math inline">\(Y_i(0)\)</span> is observed is <span class="math inline">\(1-Z_i\)</span>. Rubin’s missing-data framework distinguishes mechanisms according to whether missingness depends on observed or unobserved values <span class="citation" data-cites="rubin1976 seaman2013">(<a href="../../references.html#ref-rubin1976" role="doc-biblioref">Rubin 1976</a>; <a href="../../references.html#ref-seaman2013" role="doc-biblioref">Seaman et al. 2013</a>)</span>. Very roughly:</p>
+<ul>
+<li><strong>MCAR</strong>: missingness is independent of observed and missing values.</li>
+<li><strong>MAR</strong>: conditional on observed information, missingness does not depend on the missing values.</li>
+<li><strong>MNAR</strong>: dependence on missing values remains after conditioning.</li>
+</ul>
+<p>Under complete randomization, assignment probabilities do not depend on the values in the fixed science table. In that limited, design-based sense, the missingness pattern for each treatment-specific outcome resembles MCAR: which entry is revealed is randomized independently of the values themselves. The assignment indicators remain dependent across units because the treated count is fixed, so the analogy should not be read as a claim that every missingness indicator is independent. More importantly, causal inference requires the interventions and their potential outcomes to be well defined; generic missing-data notation does not supply that scientific content.</p>
+</section>
+<section id="random-arm-sizes-under-bernoulli-assignment" class="level2">
+<h2 class="anchored" data-anchor-id="random-arm-sizes-under-bernoulli-assignment">Random arm sizes under Bernoulli assignment</h2>
+<p>Under i.i.d. Bernoulli assignment, <span class="math inline">\(N_1\sim\operatorname{Binomial}(N,p)\)</span>. The usual difference in means is undefined when <span class="math inline">\(N_1=0\)</span> or <span class="math inline">\(N_1=N\)</span>. Conditional on any nondegenerate realized count <span class="math inline">\(N_1=n_1\)</span>, however,</p>
+<p><span class="math display">\[
+\mathbb P_Z(\mathbf Z=\mathbf z\mid N_1=n_1)
+=\binom{N}{n_1}^{-1}
+\qquad\text{when }\sum_i z_i=n_1.
+\]</span></p>
+<p>The conditional design is therefore complete randomization with <span class="math inline">\(n_1\)</span> treated units, and the difference in means is conditionally design-unbiased. This does not make the ordinary difference in means unconditionally unbiased as a universally defined estimator: it still has no value on the two empty-arm events unless an extra convention is imposed. L02 introduces Horvitz–Thompson estimation, which uses the known assignment probabilities and remains defined and unbiased without conditioning on nondegeneracy.</p>
+</section>
+<section id="exact-randomization-variance-under-complete-randomization" class="level2">
+<h2 class="anchored" data-anchor-id="exact-randomization-variance-under-complete-randomization">Exact randomization variance under complete randomization</h2>
+<p>We now derive Neyman’s exact variance formula rather than simply state it. The calculation has three parts: find the randomization variance of each observed arm mean, find their covariance, and then combine those pieces. The covariance matters because complete randomization selects complementary treatment and control groups rather than two independent samples.</p>
+<p>The difference in means varies across assignments because different units enter each arm. To describe that variation, define the finite-population variances</p>
+<p><span class="math display">\[
+S_z^2
+=\frac{1}{N-1}\sum_{i=1}^N\{Y_i(z)-\overline Y(z)\}^2,
+\qquad
+S_\tau^2
+=\frac{1}{N-1}\sum_{i=1}^N(\tau_i-\tau)^2.
+\]</span></p>
+<p>Here <span class="math inline">\(S_1^2\)</span> and <span class="math inline">\(S_0^2\)</span> are <span class="math inline">\(S_z^2\)</span> evaluated at <span class="math inline">\(z=1\)</span> and <span class="math inline">\(z=0\)</span>. All three variances are fixed features of the science table. The only randomness below comes from the assignment.</p>
+<section id="center-the-science-table-and-recall-the-design-moments" class="level3">
+<h3 class="anchored" data-anchor-id="center-the-science-table-and-recall-the-design-moments">Center the science table and recall the design moments</h3>
+<p>It will help to work with outcomes centered around their finite-population means. For this derivation only, write</p>
+<p><span class="math display">\[
+a_i=Y_i(1)-\overline Y(1),
+\qquad
+b_i=Y_i(0)-\overline Y(0),
+\]</span></p>
+<p>so that <span class="math inline">\(\sum_i a_i=\sum_i b_i=0\)</span>. Also define the finite-population covariance between the two columns of the science table,</p>
+<p><span class="math display">\[
+S_{10}=\frac{1}{N-1}\sum_{i=1}^N a_i b_i.
+\]</span></p>
+<p>Under complete randomization, exactly <span class="math inline">\(N_1\)</span> of the <span class="math inline">\(N\)</span> units are treated. A specified unit is treated with probability <span class="math inline">\(N_1/N\)</span>, so</p>
+<p><span class="math display">\[
+\operatorname{Var}_Z(Z_i)
+=\frac{N_1}{N}\left(1-\frac{N_1}{N}\right)
+=\frac{N_1N_0}{N^2}.
+\]</span></p>
+<p>For two distinct units <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, the probability that both are treated is</p>
+<p><span class="math display">\[
+\mathbb E_Z(Z_iZ_j)
+=\frac{N_1}{N}\frac{N_1-1}{N-1}
+=\frac{N_1(N_1-1)}{N(N-1)}.
+\]</span></p>
+<p>Subtracting <span class="math inline">\(\mathbb E_Z(Z_i)\mathbb E_Z(Z_j)\)</span> gives</p>
+<p><span class="math display">\[
+\operatorname{Cov}_Z(Z_i,Z_j)
+=-\frac{N_1N_0}{N^2(N-1)},
+\qquad i\ne j.
+\]</span></p>
+<p>This negative covariance is the algebraic expression of sampling without replacement: once unit <span class="math inline">\(i\)</span> occupies one of the fixed <span class="math inline">\(N_1\)</span> treatment slots, there is one fewer slot available to unit <span class="math inline">\(j\)</span>. Treating the assignment indicators as independent would discard exactly the feature of complete randomization that produces the finite-population correction.</p>
+</section>
+<section id="variance-of-each-arm-mean" class="level3">
+<h3 class="anchored" data-anchor-id="variance-of-each-arm-mean">Variance of each arm mean</h3>
+<p>Centering the treated mean gives</p>
+<p><span class="math display">\[
+\overline Y_1^{\mathrm{obs}}-\overline Y(1)
+=\frac{1}{N_1}\sum_{i=1}^N Z_i a_i.
+\]</span></p>
+<p>The finite-population mean <span class="math inline">\(\overline Y(1)\)</span> is fixed, so it does not affect the variance. Expanding the variance of the sum into its diagonal and off-diagonal pieces yields</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{Var}_Z(\overline Y_1^{\mathrm{obs}})
+&amp;=\frac{1}{N_1^2}
+\operatorname{Var}_Z\!\left(\sum_i Z_i a_i\right)\\
+&amp;=\frac{1}{N_1^2}
+\left\{
+\sum_i \operatorname{Var}_Z(Z_i)a_i^2
++\sum_{i\ne j}\operatorname{Cov}_Z(Z_i,Z_j)a_i a_j
+\right\}\\
+&amp;=\frac{1}{N_1^2}
+\left\{
+\frac{N_1N_0}{N^2}\sum_i a_i^2
+-\frac{N_1N_0}{N^2(N-1)}\sum_{i\ne j}a_i a_j
+\right\}.
+\end{aligned}
+\]</span></p>
+<p>Here and below, <span class="math inline">\(\sum_{i\ne j}\)</span> runs over ordered pairs of distinct units. Thus both <span class="math inline">\((i,j)\)</span> and <span class="math inline">\((j,i)\)</span> appear.</p>
+<p>The off-diagonal sum is not a new unknown. Because the <span class="math inline">\(a_i\)</span> are centered,</p>
+<p><span class="math display">\[
+0=\left(\sum_i a_i\right)^2
+=\sum_i a_i^2+\sum_{i\ne j}a_i a_j,
+\]</span></p>
+<p>and hence <span class="math inline">\(\sum_{i\ne j}a_i a_j=-\sum_i a_i^2\)</span>. Substituting this identity, and using <span class="math inline">\(\sum_i a_i^2=(N-1)S_1^2\)</span>, gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{Var}_Z(\overline Y_1^{\mathrm{obs}})
+&amp;=\frac{1}{N_1^2}\frac{N_1N_0}{N^2}
+\left(1+\frac{1}{N-1}\right)\sum_i a_i^2\\
+&amp;=\frac{N_0}{NN_1}S_1^2
+=\left(\frac{1}{N_1}-\frac{1}{N}\right)S_1^2.
+\end{aligned}
+\]</span></p>
+<p>The factor <span class="math inline">\(1/N_1-1/N\)</span> is the usual sampling-without-replacement correction. By the same calculation, now treating the <span class="math inline">\(N_0\)</span> control units as a simple random sample from the fixed <span class="math inline">\(Y_i(0)\)</span> values,</p>
+<p><span class="math display">\[
+\operatorname{Var}_Z(\overline Y_0^{\mathrm{obs}})
+=\left(\frac{1}{N_0}-\frac{1}{N}\right)S_0^2.
+\]</span></p>
+</section>
+<section id="covariance-between-the-arm-means" class="level3">
+<h3 class="anchored" data-anchor-id="covariance-between-the-arm-means">Covariance between the arm means</h3>
+<p>The two arm means are built from complementary groups, so their covariance must be included. Centering the control mean makes that dependence visible:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\overline Y_0^{\mathrm{obs}}-\overline Y(0)
+&amp;=\frac{1}{N_0}\sum_i(1-Z_i)b_i\\
+&amp;=-\frac{1}{N_0}\sum_i Z_i b_i.
+\end{aligned}
+\]</span></p>
+<p>The second equality uses <span class="math inline">\(\sum_i b_i=0\)</span>. Therefore,</p>
+<p><span class="math display">\[
+\operatorname{Cov}_Z(\overline Y_1^{\mathrm{obs}},\overline Y_0^{\mathrm{obs}})
+=-\frac{1}{N_1N_0}
+\operatorname{Cov}_Z\!\left(\sum_iZ_i a_i,\sum_jZ_j b_j\right).
+\]</span></p>
+<p>Expand the covariance inside the last expression, again separating the terms with <span class="math inline">\(i=j\)</span> from those with <span class="math inline">\(i\ne j\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{Cov}_Z\!\left(\sum_iZ_i a_i,\sum_jZ_j b_j\right)
+&amp;=\frac{N_1N_0}{N^2}\sum_i a_i b_i
+-\frac{N_1N_0}{N^2(N-1)}\sum_{i\ne j}a_i b_j.
+\end{aligned}
+\]</span></p>
+<p>Because both sets of outcomes are centered,</p>
+<p><span class="math display">\[
+0=\left(\sum_i a_i\right)\left(\sum_j b_j\right)
+=\sum_i a_i b_i+\sum_{i\ne j}a_i b_j.
+\]</span></p>
+<p>Thus the off-diagonal sum is <span class="math inline">\(-\sum_i a_i b_i\)</span>. Using the definition of <span class="math inline">\(S_{10}\)</span> then gives</p>
+<p><span class="math display">\[
+\operatorname{Cov}_Z\!\left(\sum_iZ_i a_i,\sum_jZ_j b_j\right)
+=\frac{N_1N_0}{N}S_{10},
+\]</span></p>
+<p>and consequently</p>
+<p><span class="math display">\[
+\operatorname{Cov}_Z(\overline Y_1^{\mathrm{obs}},\overline Y_0^{\mathrm{obs}})
+=-\frac{S_{10}}{N}.
+\]</span></p>
+<p>The minus sign comes from writing the centered control mean as a negative sum over treatment indicators. It does not imply that this covariance must be negative: its sign also depends on the finite-population covariance <span class="math inline">\(S_{10}\)</span> between the two potential-outcome columns.</p>
+</section>
+<section id="assemble-the-pieces" class="level3">
+<h3 class="anchored" data-anchor-id="assemble-the-pieces">Assemble the pieces</h3>
+<p>Since <span class="math inline">\(\widehat\tau_{\mathrm{DM}}=\overline Y_1^{\mathrm{obs}}-\overline Y_0^{\mathrm{obs}}\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{DM}})
+&amp;=\operatorname{Var}_Z(\overline Y_1^{\mathrm{obs}})
++\operatorname{Var}_Z(\overline Y_0^{\mathrm{obs}})
+-2\operatorname{Cov}_Z(\overline Y_1^{\mathrm{obs}},\overline Y_0^{\mathrm{obs}})\\
+&amp;=\left(\frac{1}{N_1}-\frac{1}{N}\right)S_1^2
++\left(\frac{1}{N_0}-\frac{1}{N}\right)S_0^2
++\frac{2S_{10}}{N}.
+\end{aligned}
+\]</span></p>
+<p>The remaining step rewrites the covariance between the two columns in terms of treatment-effect heterogeneity. Since</p>
+<p><span class="math display">\[
+\tau_i-\tau
+=\{Y_i(1)-\overline Y(1)\}-\{Y_i(0)-\overline Y(0)\}
+=a_i-b_i,
+\]</span></p>
+<p>we have</p>
+<p><span class="math display">\[
+\begin{aligned}
+S_\tau^2
+&amp;=\frac{1}{N-1}\sum_i(a_i-b_i)^2\\
+&amp;=S_1^2+S_0^2-2S_{10}.
+\end{aligned}
+\]</span></p>
+<p>Substituting <span class="math inline">\(2S_{10}=S_1^2+S_0^2-S_\tau^2\)</span> into the preceding variance expression produces Neyman’s exact formula <span class="citation" data-cites="neyman1990">(<a href="../../references.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman et al. 1990</a>)</span>:</p>
+<p><span id="eq-l01-neyman-var"><span class="math display">\[
+\boxed{
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{DM}})
+=\frac{S_1^2}{N_1}+\frac{S_0^2}{N_0}-\frac{S_\tau^2}{N}
+}.
+\tag{4}\]</span></span></p>
+<p>The first two terms are the arm-specific variance contributions before accounting for how the two potential outcomes are paired within units. The subtraction by <span class="math inline">\(S_\tau^2/N\)</span> records that pairing. If every unit has the same treatment effect, then <span class="math inline">\(S_\tau^2=0\)</span>. With heterogeneous effects, <span class="math inline">\(S_\tau^2&gt;0\)</span>, so the exact variance is smaller than <span class="math inline">\(S_1^2/N_1+S_0^2/N_0\)</span>. This comparison describes the terms in the displayed decomposition; it does not say that changing a science table to create more heterogeneous effects must improve precision, since <span class="math inline">\(S_1^2\)</span> and <span class="math inline">\(S_0^2\)</span> may change as well.</p>
+<p><strong>A check using the six-plot science table.</strong> Suppose three of the six plots are assigned to treatment. From the complete table,</p>
+<p><span class="math display">\[
+S_1^2=\frac{22}{15},
+\qquad
+S_0^2=\frac{37}{6},
+\qquad
+S_\tau^2=\frac{113}{30}.
+\]</span></p>
+<p>Neyman’s formula therefore gives</p>
+<p><span class="math display">\[
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{DM}})
+=\frac{22/15}{3}+\frac{37/6}{3}-\frac{113/30}{6}
+=\frac{23}{12}.
+\]</span></p>
+<p>There are <span class="math inline">\(\binom{6}{3}=20\)</span> possible balanced assignments. Computing the difference in means under each one and averaging its squared deviation from <span class="math inline">\(\tau=11/6\)</span> gives the same <span class="math inline">\(23/12\)</span>.</p>
+<p>The numerical agreement is a useful check on the algebra; the formula itself applies to any fixed science table under complete randomization.</p>
+<p>We cannot generally identify <span class="math inline">\(S_\tau^2\)</span> from the observed experiment. Its calculation requires knowing each pair <span class="math inline">\((Y_i(1),Y_i(0))\)</span>, yet randomization reveals only one member of each pair. Equivalently, the cross-column covariance <span class="math inline">\(S_{10}\)</span> is unknown. By contrast, provided each arm contains at least two units, its observed outcomes let us estimate <span class="math inline">\(S_1^2\)</span> and <span class="math inline">\(S_0^2\)</span>. Omitting the nonnegative <span class="math inline">\(S_\tau^2/N\)</span> term therefore gives an upper bound on the exact variance; replacing <span class="math inline">\(S_1^2\)</span> and <span class="math inline">\(S_0^2\)</span> with observed within-arm sample variances produces Neyman’s conservative variance estimator, developed in L02.</p>
+</section>
+</section>
+</section>
+<section id="further-reading" class="level1">
+<h1>Further reading</h1>
+<p>For the foundations of randomized experiments, read Fisher’s <em>Design of Experiments</em> alongside Neyman’s agricultural-experiment analysis <span class="citation" data-cites="fisher1935 neyman1990">(<a href="../../references.html#ref-fisher1935" role="doc-biblioref">Fisher 1935</a>; <a href="../../references.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman et al. 1990</a>)</span>. Neyman’s representative-method essay and Horvitz–Thompson estimation make the survey-sampling lineage explicit <span class="citation" data-cites="neyman1934 horvitz1952">(<a href="../../references.html#ref-neyman1934" role="doc-biblioref">Neyman 1934</a>; <a href="../../references.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. Rubin developed the modern potential-outcomes and missing-data presentation <span class="citation" data-cites="rubin1974 rubin1976 rubin2005">(<a href="../../references.html#ref-rubin1974" role="doc-biblioref">Rubin 1974</a>, <a href="../../references.html#ref-rubin1976" role="doc-biblioref">1976</a>, <a href="../../references.html#ref-rubin2005" role="doc-biblioref">2005</a>)</span>, while his comment on Fisher randomization connects potential outcomes to sharp-null randomization tests <span class="citation" data-cites="rubin1980">(<a href="../../references.html#ref-rubin1980" role="doc-biblioref">Rubin 1980</a>)</span>. Holland sharpened the distinction between causal effects and statistical association <span class="citation" data-cites="holland1986">(<a href="../../references.html#ref-holland1986" role="doc-biblioref">Holland 1986</a>)</span>.</p>
+<p>Pearl’s structural approach encodes causal claims through equations and graphs rather than beginning from a randomized assignment distribution <span class="citation" data-cites="pearl1995 pearl2009">(<a href="../../references.html#ref-pearl1995" role="doc-biblioref">Pearl 1995</a>, <a href="../../references.html#ref-pearl2009" role="doc-biblioref">2009</a>)</span>. The two frameworks overlap in many applications, but this course develops the potential-outcomes, design-based route. For later examples of targets changing with the population or treatment received, see overlap-based trimming <span class="citation" data-cites="crump2009">(<a href="../../references.html#ref-crump2009" role="doc-biblioref">Crump et al. 2009</a>)</span> and the local average treatment effect <span class="citation" data-cites="angrist1996">(<a href="../../references.html#ref-angrist1996" role="doc-biblioref">Angrist et al. 1996</a>)</span>.</p>
+<div class="lecture-provenance">
+<p><strong>Lecture brief:</strong> <a href="brief.md">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
+</div>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-angrist1996" class="csl-entry" role="listitem">
+Angrist, Joshua D., Guido W. Imbens, and Donald B. Rubin. 1996. <span>“Identification of Causal Effects Using Instrumental Variables.”</span> <em>Journal of the American Statistical Association</em> 91 (434): 444–55. <a href="https://doi.org/10.1080/01621459.1996.10476902">https://doi.org/10.1080/01621459.1996.10476902</a>.
+</div>
+<div id="ref-crump2009" class="csl-entry" role="listitem">
+Crump, Richard K., V. Joseph Hotz, Guido W. Imbens, and Oscar A. Mitnik. 2009. <span>“Dealing with Limited Overlap in Estimation of Average Treatment Effects.”</span> <em>Biometrika</em> 96 (1): 187–99. <a href="https://doi.org/10.1093/biomet/asn055">https://doi.org/10.1093/biomet/asn055</a>.
+</div>
+<div id="ref-fisher1935" class="csl-entry" role="listitem">
+Fisher, Ronald A. 1935. <em>The Design of Experiments</em>. Oliver &amp; Boyd.
+</div>
+<div id="ref-holland1986" class="csl-entry" role="listitem">
+Holland, Paul W. 1986. <span>“Statistics and Causal Inference.”</span> <em>Journal of the American Statistical Association</em> 81 (396): 945–60. <a href="https://doi.org/10.1080/01621459.1986.10478354">https://doi.org/10.1080/01621459.1986.10478354</a>.
+</div>
+<div id="ref-horvitz1952" class="csl-entry" role="listitem">
+Horvitz, D. G., and D. J. Thompson. 1952. <span>“A Generalization of Sampling Without Replacement from a Finite Universe.”</span> <em>Journal of the American Statistical Association</em> 47 (260): 663–85. <a href="https://doi.org/10.1080/01621459.1952.10483446">https://doi.org/10.1080/01621459.1952.10483446</a>.
+</div>
+<div id="ref-neyman1934" class="csl-entry" role="listitem">
+Neyman, Jerzy. 1934. <span>“On the Two Different Aspects of the Representative Method: The Method of Stratified Sampling and the Method of Purposive Selection.”</span> <em>Journal of the Royal Statistical Society</em> 97 (4): 558–606. <a href="https://doi.org/10.2307/2342192">https://doi.org/10.2307/2342192</a>.
+</div>
+<div id="ref-pearl1995" class="csl-entry" role="listitem">
+Pearl, Judea. 1995. <span>“Causal Diagrams for Empirical Research.”</span> <em>Biometrika</em> 82 (4): 669–88. <a href="https://doi.org/10.1093/biomet/82.4.669">https://doi.org/10.1093/biomet/82.4.669</a>.
+</div>
+<div id="ref-pearl2009" class="csl-entry" role="listitem">
+Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511803161">https://doi.org/10.1017/CBO9780511803161</a>.
+</div>
+<div id="ref-rubin1974" class="csl-entry" role="listitem">
+Rubin, Donald B. 1974. <span>“Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies.”</span> <em>Journal of Educational Psychology</em> 66 (5): 688–701. <a href="https://doi.org/10.1037/h0037350">https://doi.org/10.1037/h0037350</a>.
+</div>
+<div id="ref-rubin1976" class="csl-entry" role="listitem">
+Rubin, Donald B. 1976. <span>“Inference and Missing Data.”</span> <em>Biometrika</em> 63 (3): 581–92. <a href="https://doi.org/10.1093/biomet/63.3.581">https://doi.org/10.1093/biomet/63.3.581</a>.
+</div>
+<div id="ref-rubin1980" class="csl-entry" role="listitem">
+Rubin, Donald B. 1980. <span>“Randomization Analysis of Experimental Data: The Fisher Randomization Test Comment.”</span> <em>Journal of the American Statistical Association</em> 75 (371): 591–93. <a href="https://doi.org/10.2307/2287653">https://doi.org/10.2307/2287653</a>.
+</div>
+<div id="ref-rubin2005" class="csl-entry" role="listitem">
+Rubin, Donald B. 2005. <span>“Causal Inference Using Potential Outcomes: Design, Modeling, Decisions.”</span> <em>Journal of the American Statistical Association</em> 100 (469): 322–31. <a href="https://doi.org/10.1198/016214504000001880">https://doi.org/10.1198/016214504000001880</a>.
+</div>
+<div id="ref-seaman2013" class="csl-entry" role="listitem">
+Seaman, Shaun, John Galati, Dan Jackson, and John Carlin. 2013. <span>“What Is Meant by <span>‘Missing at Random’</span>?”</span> <em>Statistical Science</em> 28 (2): 257–68. <a href="https://doi.org/10.1214/13-STS415">https://doi.org/10.1214/13-STS415</a>.
+</div>
+<div id="ref-neyman1990" class="csl-entry" role="listitem">
+Splawa-Neyman, Jerzy, Dorota M. Dabrowska, and Terence P. Speed. 1990. <span>“On the Application of Probability Theory to Agricultural Experiments: Essay on Principles, Section 9.”</span> <em>Statistical Science</em> 5 (4): 465–72. <a href="https://doi.org/10.1214/ss/1177012031">https://doi.org/10.1214/ss/1177012031</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../how-notes-are-made.html" class="pagination-link" aria-label="How These Notes Are Made">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">How These Notes Are Made</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../lectures/L02-basic-estimators/index.html" class="pagination-link" aria-label="L02: Basic Estimators and Experimental Pitfalls">
+        <span class="nav-page-text"><span class="chapter-title">L02: Basic Estimators and Experimental Pitfalls</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-09-16">
+
+<title>L03: Experimental Design, Blocking, Balancing – Topics in Causal Inference</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../lectures/L04-positivity-partial-identification/index.html" rel="next">
+<link href="../../lectures/L02-basic-estimators/index.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b43a5d9faffcaba08472c20bb36c51d9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-581546e9418954a1390d7be89183347a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../lectures/L03-experimental-designs/index.html"><span class="chapter-title">L03: Experimental Design, Blocking, Balancing</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../index.html">Topics in Causal Inference</a> 
+        <div class="sidebar-tools-main">
+    <a href="../../pdf/causal-inference-course.pdf" title="Download the full course PDF" class="quarto-navigation-tool px-1" aria-label="Download the full course PDF"><i class="bi bi-file-pdf"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Overview</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../assignments/projects.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Projects</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../assignments/problem-sets.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problem Sets</span></a>
+  </div>
+</li>
+<li class="px-0"><hr class="sidebar-divider hi"></li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../how-notes-are-made.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How These Notes Are Made</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L01-introduction/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L01: Introduction</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L02-basic-estimators/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L02: Basic Estimators and Experimental Pitfalls</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L03-experimental-designs/index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">L03: Experimental Design, Blocking, Balancing</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L04-positivity-partial-identification/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L04: Positivity, Trimming, Target Populations, and Partial Identification</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L05-interference/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L05: Interference</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L06-structural-models/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L06: Estimation with Structural Models</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L07-policy-evaluation-panel-data/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L07: Policy Evaluation and Panel Data</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L08-advanced-estimation/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L08: Advanced Estimation Topics</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L09-ai-for-causal-inference/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L09: AI for Causal Inference</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/L10-overflow/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">L10: Overflow</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../appendices/notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Notation</span></a>
+  </div>
+</li>
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+      </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ten-coin-flips-disguised-as-one-thousand" id="toc-ten-coin-flips-disguised-as-one-thousand" class="nav-link active" data-scroll-target="#ten-coin-flips-disguised-as-one-thousand">Ten coin flips disguised as one thousand</a></li>
+  <li><a href="#blocking-randomize-among-comparable-units" id="toc-blocking-randomize-among-comparable-units" class="nav-link" data-scroll-target="#blocking-randomize-among-comparable-units">Blocking: randomize among comparable units</a>
+  <ul class="collapse">
+  <li><a href="#matched-pairs" id="toc-matched-pairs" class="nav-link" data-scroll-target="#matched-pairs">Matched pairs</a></li>
+  </ul></li>
+  <li><a href="#design-balance-versus-analysis-adjustment" id="toc-design-balance-versus-analysis-adjustment" class="nav-link" data-scroll-target="#design-balance-versus-analysis-adjustment">Design balance versus analysis adjustment</a></li>
+  <li><a href="#aipw-prediction-plus-randomized-correction" id="toc-aipw-prediction-plus-randomized-correction" class="nav-link" data-scroll-target="#aipw-prediction-plus-randomized-correction">AIPW: prediction plus randomized correction</a></li>
+  <li><a href="#pair-matching-in-cluster-randomized-experiments" id="toc-pair-matching-in-cluster-randomized-experiments" class="nav-link" data-scroll-target="#pair-matching-in-cluster-randomized-experiments">Pair matching in cluster-randomized experiments</a></li>
+  <li><a href="#rerandomization" id="toc-rerandomization" class="nav-link" data-scroll-target="#rerandomization">Rerandomization</a>
+  <ul class="collapse">
+  <li><a href="#what-rerandomization-buys" id="toc-what-rerandomization-buys" class="nav-link" data-scroll-target="#what-rerandomization-buys">What rerandomization buys</a></li>
+  <li><a href="#the-robustness-tradeoff" id="toc-the-robustness-tradeoff" class="nav-link" data-scroll-target="#the-robustness-tradeoff">The robustness tradeoff</a></li>
+  </ul></li>
+  <li><a href="#what-to-carry-forward" id="toc-what-to-carry-forward" class="nav-link" data-scroll-target="#what-to-carry-forward">What to carry forward</a></li>
+  <li><a href="#advanced-material" id="toc-advanced-material" class="nav-link" data-scroll-target="#advanced-material">Advanced material</a>
+  <ul class="collapse">
+  <li><a href="#gramschmidt-walk-designs" id="toc-gramschmidt-walk-designs" class="nav-link" data-scroll-target="#gramschmidt-walk-designs">Gram–Schmidt walk designs</a></li>
+  <li><a href="#correlated-cluster-designs-without-rich-covariates" id="toc-correlated-cluster-designs-without-rich-covariates" class="nav-link" data-scroll-target="#correlated-cluster-designs-without-rich-covariates">Correlated cluster designs without rich covariates</a></li>
+  <li><a href="#optimization-based-designs-and-the-value-of-randomness" id="toc-optimization-based-designs-and-the-value-of-randomness" class="nav-link" data-scroll-target="#optimization-based-designs-and-the-value-of-randomness">Optimization-based designs and the value of randomness</a></li>
+  <li><a href="#efrons-biased-coin" id="toc-efrons-biased-coin" class="nav-link" data-scroll-target="#efrons-biased-coin">Efron’s biased coin</a></li>
+  <li><a href="#d--a--and-e-optimal-design" id="toc-d--a--and-e-optimal-design" class="nav-link" data-scroll-target="#d--a--and-e-optimal-design">D-, A-, and E-optimal design</a></li>
+  <li><a href="#staggered-rollouts-beyond-sutva" id="toc-staggered-rollouts-beyond-sutva" class="nav-link" data-scroll-target="#staggered-rollouts-beyond-sutva">Staggered rollouts beyond SUTVA</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">L03: Experimental Design, Blocking, Balancing</span></h1>
+<p class="subtitle lead">Balance, rerandomization, and covariate-aware designs</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 16, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="lecture-provenance">
+<p><strong>Lecture brief:</strong> <a href="brief.md">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
+</div>
+<p><strong>Download:</strong> <a href="../../pdf/lectures/L03-experimental-designs.pdf">Lecture PDF</a></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Lecture outline">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lecture outline
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Use a grouped-assignment example to show why marginal treatment probabilities do not determine precision.</li>
+<li>Develop blocking and matched pairs as design-stage uses of pretreatment covariates.</li>
+<li>Contrast design-stage balance with regression and AIPW corrections made during analysis.</li>
+<li>Treat rerandomization as a complete design whose balance restrictions must also govern inference.</li>
+</ul>
+</div>
+</div>
+<section id="ten-coin-flips-disguised-as-one-thousand" class="level1">
+<h1>Ten coin flips disguised as one thousand</h1>
+<p>An experimental design is a probability distribution over complete assignment vectors, not merely a list of unit-level treatment probabilities. The distinction matters whenever assignments are dependent. As an extreme example, suppose <span class="math inline">\(N=1000\)</span> units each have marginal treatment probability <span class="math inline">\(1/2\)</span>. Partition them into ten groups of one hundred and flip one fair coin per group. Every unit in a group receives the same assignment.</p>
+<p>The marginal probabilities match i.i.d. Bernoulli assignment, but the design contains only ten independent random decisions. Let <span class="math inline">\(g=1,\ldots,10\)</span> index the groups, let <span class="math inline">\(\mathcal I_g\)</span> be the set of units in group <span class="math inline">\(g\)</span>, and let <span class="math inline">\(A_g\in\{0,1\}\)</span> be the result of its coin flip. Thus <span class="math inline">\(Z_i=A_g\)</span> whenever <span class="math inline">\(i\in\mathcal I_g\)</span>. With treatment probability <span class="math inline">\(1/2\)</span>, the observable HT estimator <span class="citation" data-cites="horvitz1952">(<a href="../../references.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span> can be written first using observed outcomes and then, by consistency, using the corresponding potential outcomes:</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{HT}}
+=\frac{1}{N}\sum_{i=1}^N
+\left\{2Z_iY_i^{\mathrm{obs}}-2(1-Z_i)Y_i^{\mathrm{obs}}\right\}
+=\frac{1}{N}\sum_{i=1}^N
+\left\{2Z_iY_i(1)-2(1-Z_i)Y_i(0)\right\}.
+\]</span></p>
+<p>The second expression may look as though it uses both potential outcomes, but its assignment indicators select only the observed one: the <span class="math inline">\(Y_i(0)\)</span> term vanishes for a treated unit and the <span class="math inline">\(Y_i(1)\)</span> term vanishes for a control unit. Subtracting the fixed estimand and collecting units that share a coin gives the exact error representation</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{HT}}-\tau
+=
+\frac{1}{N}\sum_{g=1}^{10}(2A_g-1)
+\sum_{i\in\mathcal I_g}\{Y_i(1)+Y_i(0)\}.
+\]</span></p>
+<p>The inner sum is a fixed group total; all assignment randomness in that group is the single sign <span class="math inline">\(2A_g-1\)</span>. Independence of the ten signs therefore gives</p>
+<p><span id="eq-l03-grouped-var"><span class="math display">\[
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{HT}})
+=\frac{1}{N^2}\sum_{g=1}^{10}
+\left[\sum_{i\in\mathcal I_g}\{Y_i(1)+Y_i(0)\}\right]^2.
+\tag{1}\]</span></span></p>
+<p>Under i.i.d. unit-level Bernoulli assignment, the corresponding variance is</p>
+<p><span id="eq-l03-iid-var"><span class="math display">\[
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{HT}})
+=\frac{1}{N^2}\sum_{i=1}^{N}\{Y_i(1)+Y_i(0)\}^2.
+\tag{2}\]</span></span></p>
+<p>The contrast between <a href="#eq-l03-grouped-var" class="quarto-xref">Equation&nbsp;<span>1</span></a> and <a href="#eq-l03-iid-var" class="quarto-xref">Equation&nbsp;<span>2</span></a> is the location of the square. In the grouped design, outcomes are summed within a group and then squared, so the one hundred units sharing a coin move together. Under unit-level assignment, each unit contributes its own squared term.</p>
+<p>Take the stark special case <span class="math inline">\(Y_i(1)=a\)</span> and <span class="math inline">\(Y_i(0)=b\)</span> for every unit. The grouped design has variance <span class="math inline">\((a+b)^2/10\)</span>. That is exactly the i.i.d. Bernoulli variance for <strong>ten</strong> units, not one thousand. I.i.d. Bernoulli assignment of all one thousand units has variance <span class="math inline">\((a+b)^2/1000\)</span>.</p>
+<p>This exact equivalence is specific to HT in the example with constant potential outcomes. It partly reflects HT’s random total weight: conditional on at least one treated and one control group, difference in means is exactly <span class="math inline">\(a-b\)</span> and has zero variance. With heterogeneous group totals, however, every estimator’s assignment variation still originates in only ten coin flips. The example therefore combines two lessons from L02 and L03: normalization matters, and dependence determines the effective source of randomization.</p>
+<p>The point is not that dependence is always harmful. The positive dependence in this example makes many units move together. Negative dependence, by contrast, can force treatment and control counts or covariate totals to balance and thereby improve precision. What determines these properties is the <strong>joint distribution of the whole assignment vector</strong> <span class="math inline">\(\mathbf Z\)</span>, not the marginal probabilities considered one unit at a time.</p>
+</section>
+<section id="blocking-randomize-among-comparable-units" class="level1">
+<h1>Blocking: randomize among comparable units</h1>
+<p>The grouped example used dependence badly: it made every unit in a group receive the same treatment. Blocking uses dependence for the opposite purpose. Imagine a student experiment in which prior achievement is strongly predictive of the outcome. A simple complete randomization can, by chance, place more high-achieving students in one arm. Before assigning treatment, we can divide students into groups with similar prior achievement and require both treatment arms to appear within every group. The comparison is then made among students who were similar before treatment.</p>
+<p>Formally, suppose pretreatment covariates divide the finite population into <span class="math inline">\(H\)</span> nonoverlapping <strong>blocks</strong>, also called strata. Let <span class="math inline">\(\mathcal I_h\)</span> denote the units in block <span class="math inline">\(h\)</span> and <span class="math inline">\(N_h=|\mathcal I_h|\)</span> its size. We choose in advance to treat exactly <span class="math inline">\(N_{1h}\)</span> units and control <span class="math inline">\(N_{0h}=N_h-N_{1h}\)</span> units in that block. <strong>Stratified complete randomization</strong>, or blocking, performs complete randomization independently within each <span class="math inline">\(\mathcal I_h\)</span>. Thus units in different blocks are randomized separately, while assignments inside a block are negatively dependent because their treated count is fixed.</p>
+<p>For arm <span class="math inline">\(z\in\{0,1\}\)</span>, define the observed mean within block <span class="math inline">\(h\)</span> by</p>
+<p><span class="math display">\[
+\overline Y_{zh}^{\mathrm{obs}}
+=\frac{1}{N_{zh}}
+\sum_{i\in\mathcal I_h}\mathbf 1\{Z_i=z\}Y_i^{\mathrm{obs}},
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf 1\{Z_i=z\}\)</span> is the indicator that unit <span class="math inline">\(i\)</span> was assigned to arm <span class="math inline">\(z\)</span>, and <span class="math inline">\(N_{zh}\)</span> is the fixed number assigned to that arm in block <span class="math inline">\(h\)</span>. The within-block treatment-control contrast is</p>
+<p><span class="math display">\[
+\widehat\tau_h
+=\overline Y_{1h}^{\mathrm{obs}}-\overline Y_{0h}^{\mathrm{obs}}
+\]</span></p>
+<p>Define the block-specific finite-population effect</p>
+<p><span class="math display">\[
+\tau_h=\frac{1}{N_h}\sum_{i\in\mathcal I_h}\{Y_i(1)-Y_i(0)\}.
+\]</span></p>
+<p>Complete randomization within the block makes <span class="math inline">\(\widehat\tau_h\)</span> design-unbiased for <span class="math inline">\(\tau_h\)</span>. The population ATE is not an equally weighted average of the block effects unless all blocks have the same size: every unit, rather than every block, must receive equal weight. This yields</p>
+<p><span id="eq-l03-block-estimator"><span class="math display">\[
+\widehat\tau_{\mathrm{block}}
+=\sum_{h=1}^H\frac{N_h}{N}\widehat\tau_h.
+\tag{3}\]</span></span></p>
+<p>The weights <span class="math inline">\(N_h/N\)</span> are the fractions of experimental units in the blocks, so <span class="math inline">\(\tau=\sum_h(N_h/N)\tau_h\)</span> and <a href="#eq-l03-block-estimator" class="quarto-xref">Equation&nbsp;<span>3</span></a> is design-unbiased for <span class="math inline">\(\tau\)</span>. To describe its precision, let <span class="math inline">\(S_{zh}^2\)</span> be the finite-population variance of <span class="math inline">\(Y_i(z)\)</span> among units in block <span class="math inline">\(h\)</span>, and let <span class="math inline">\(S_{\tau h}^2\)</span> be the within-block variance of the individual effects <span class="math inline">\(\tau_i\)</span>. Applying Neyman’s finite-population variance calculation inside each block and then adding across the independently randomized blocks gives <span class="citation" data-cites="neyman1990">(<a href="../../references.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman et al. 1990</a>)</span></p>
+<p><span id="eq-l03-block-var"><span class="math display">\[
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{block}})
+=\sum_{h=1}^H\left(\frac{N_h}{N}\right)^2
+\left(
+\frac{S_{1h}^2}{N_{1h}}
++\frac{S_{0h}^2}{N_{0h}}
+-\frac{S_{\tau h}^2}{N_h}
+\right).
+\tag{4}\]</span></span></p>
+<p>The factor <span class="math inline">\((N_h/N)^2\)</span> appears because each random within-block contrast enters the overall estimator multiplied by <span class="math inline">\(N_h/N\)</span>. As in L02, <span class="math inline">\(S_{\tau h}^2\)</span> is generally unidentified: observing only one potential outcome per unit does not reveal the within-block variance of individual treatment effects. A usable conservative estimator drops these nonnegative terms and substitutes the observed within-block sample variances <span class="math inline">\(s_{zh}^2\)</span> for <span class="math inline">\(S_{zh}^2\)</span>:</p>
+<p><span class="math display">\[
+\widehat V_{\mathrm{Neyman}}
+=\sum_{h=1}^H\left(\frac{N_h}{N}\right)^2
+\left(
+\frac{s_{1h}^2}{N_{1h}}
++\frac{s_{0h}^2}{N_{0h}}
+\right).
+\]</span></p>
+<p>This plug-in estimator requires enough observed units to estimate both within-block arm variances. In a matched-pair design there is only one observed outcome per arm in each pair, so uncertainty must instead be estimated from the collection of randomized pair contributions.</p>
+<p>Blocking helps when the blocks capture pretreatment differences that predict outcomes. For example, if outcomes contain a large block-specific baseline component, that component is shared by the treated and control units compared within the block and cancels from their contrast. Between-block baseline differences therefore do not inflate the treatment comparison. Blocking also fixes arm counts within every block. With a common treatment fraction, it exactly balances the categorical block indicators; continuous covariates used to construct the blocks are balanced only approximately, to the extent that units placed together are similar.</p>
+<p>Blocking is not free. Many fine blocks can be operationally difficult; attrition can break their intended structure; and a block must contain enough units to support the planned arm counts. Blocking on weakly prognostic variables can provide little gain. The design should also be preserved in the analysis: estimate effects within blocks and aggregate using the target-population weights.</p>
+<section id="matched-pairs" class="level2">
+<h2 class="anchored" data-anchor-id="matched-pairs">Matched pairs</h2>
+<p>Matched pairs are the limiting case <span class="math inline">\(N_h=2\)</span> and <span class="math inline">\(N_{1h}=1\)</span>. Suppose there are <span class="math inline">\(H=N/2\)</span> pairs, and label the two units in pair <span class="math inline">\(h\)</span> by <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. Let <span class="math inline">\(A_h=1\)</span> when unit <span class="math inline">\(a\)</span> is treated and <span class="math inline">\(A_h=0\)</span> when unit <span class="math inline">\(b\)</span> is treated. The signed observed difference</p>
+<p><span class="math display">\[
+D_h=(2A_h-1)\left(Y_{ha}^{\mathrm{obs}}-Y_{hb}^{\mathrm{obs}}\right)
+\]</span></p>
+<p>always means “treated outcome minus control outcome”: when <span class="math inline">\(A_h=1\)</span>, it is <span class="math inline">\(Y_{ha}^{\mathrm{obs}}-Y_{hb}^{\mathrm{obs}}\)</span>; when <span class="math inline">\(A_h=0\)</span>, the sign reverses. Its design expectation is the average of the two unit-level effects in pair <span class="math inline">\(h\)</span>. Consequently,</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{pair}}=\frac{1}{H}\sum_{h=1}^H D_h
+\]</span></p>
+<p>is design-unbiased for the finite-population ATE. Because each pair supplies only one treated and one control observation, there is no within-arm variance estimate inside a pair. Precision is instead learned from how the randomized contributions <span class="math inline">\(D_h\)</span> vary across pairs.</p>
+<p>Pairing can be powerful because assignment only decides which of two deliberately similar units is treated. If the matched units have similar potential outcomes under each arm, the two possible values of <span class="math inline">\(D_h\)</span> are close, reducing its assignment variance. Pairing concentrates randomization locally: each pair has only two possible assignments, although assignments remain independent across pairs. <span class="citation" data-cites="bai2022optimal">Bai (<a href="../../references.html#ref-bai2022optimal" role="doc-biblioref">2022</a>)</span> characterizes precision-optimal matched-pair designs, while <span class="citation" data-cites="bai2022inference">Bai et al. (<a href="../../references.html#ref-bai2022inference" role="doc-biblioref">2022</a>)</span> develops inference that respects the pairing. Poor matches can lock in bad comparisons, and missing outcomes are especially damaging. Matching should therefore be based on pretreatment information chosen for prognostic value, not on an urge to balance every measured variable.</p>
+</section>
+</section>
+<section id="design-balance-versus-analysis-adjustment" class="level1">
+<h1>Design balance versus analysis adjustment</h1>
+<p>Return to the prior-achievement example. We can use the baseline score <strong>before assignment</strong>, by blocking students with similar scores, or <strong>after assignment</strong>, by statistically correcting whatever baseline-score difference happened to arise. These are different interventions on the experiment. The first changes the assignment distribution; the second leaves the design alone and changes the estimator. The broader design-first principle is articulated by <span class="citation" data-cites="rubin2008">Rubin (<a href="../../references.html#ref-rubin2008" role="doc-biblioref">2008</a>)</span>, while <span class="citation" data-cites="bruhn2009">Bruhn and McKenzie (<a href="../../references.html#ref-bruhn2009" role="doc-biblioref">2009</a>)</span> compares common randomization procedures in field-experiment practice:</p>
+<ul>
+<li><strong>At design:</strong> restrict or structure assignments so covariate imbalance is small by construction.</li>
+<li><strong>At analysis:</strong> allow a simpler assignment design and subtract the part of the outcome difference predicted by realized covariate imbalance.</li>
+</ul>
+<p>To make the analysis-stage option precise, suppose <span class="math inline">\(X_i\)</span> is a column vector of pretreatment covariates, <span class="math inline">\(\overline X_z^{\mathrm{obs}}\)</span> is its observed sample mean in arm <span class="math inline">\(z\)</span>, and <span class="math inline">\(\beta\)</span> is a coefficient vector of the same dimension. Under two-arm complete randomization, consider the regression-adjusted form</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{adj}}(\beta)
+=\widehat\tau_{\mathrm{DM}}-\beta^\top
+(\overline X_1^{\mathrm{obs}}-\overline X_0^{\mathrm{obs}}).
+\]</span></p>
+<p>The vector <span class="math inline">\(\overline X_1^{\mathrm{obs}}-\overline X_0^{\mathrm{obs}}\)</span> is the realized covariate imbalance. Its inner product with <span class="math inline">\(\beta\)</span> is the part of the raw outcome difference attributed to that imbalance, so the estimator subtracts it. If <span class="math inline">\(\beta\)</span> is fixed with respect to assignment, the correction has design expectation zero because complete randomization gives each arm the same expected covariate mean. A coefficient aligned with the outcome–covariate relationship can therefore reduce assignment variance without changing the design expectation; a poorly chosen coefficient can instead increase variance.</p>
+<p>A coefficient fitted from the experiment’s outcomes is assignment-dependent and needs the finite-sample or asymptotic justification discussed in L02 <span class="citation" data-cites="freedman2008 lin2013">(<a href="../../references.html#ref-freedman2008" role="doc-biblioref">Freedman 2008</a>; <a href="../../references.html#ref-lin2013" role="doc-biblioref">Lin 2013</a>)</span>. Design balance is visible before outcomes are observed and protects a range of later analyses. Analysis adjustment can use continuous, high-dimensional, or nonlinear predictions more flexibly, but it requires appropriate estimation and uncertainty calculations. The two are complements: one can block on a few decisive variables and adjust for remaining prognostic variation.</p>
+<p>This comparison also reveals a general principle. Design validity does not require a correct outcome model relating <span class="math inline">\(Y\)</span> to <span class="math inline">\(X\)</span>; its precision gains do. Balancing weak or wrongly represented features may provide little benefit, while concentrating the design too aggressively around one criterion can reduce robustness to outcome structure that criterion missed.</p>
+</section>
+<section id="aipw-prediction-plus-randomized-correction" class="level1">
+<h1>AIPW: prediction plus randomized correction</h1>
+<p>Covariate adjustment presents a useful tension. An outcome model can predict a missing potential outcome for every unit, but a misspecified model need not average to the correct finite-population mean. An HT estimator has the opposite strength: known assignment probabilities make it design-unbiased, but it may be noisy because it inverse-weights the full observed outcomes. <strong>Augmented inverse probability weighting</strong> (AIPW) combines these two starting points. It uses predictions to remove explainable variation and uses randomization to correct the predictions rather than trusting them outright.</p>
+<p>The target for arm <span class="math inline">\(z\)</span> is the finite-population mean <span class="math inline">\(\overline Y(z)\)</span>. Let <span class="math inline">\(m_z(x)\)</span> predict the potential outcome under arm <span class="math inline">\(z\)</span> from pretreatment covariates. For the moment, treat the <span class="math inline">\(N\)</span> numbers <span class="math inline">\(m_z(X_i)\)</span> as fixed before assignment; they need not equal the actual potential outcomes. Also assume the relevant positivity condition</p>
+<p><span class="math display">\[
+\pi_i(z)=\mathbb P_Z(Z_i=z)&gt;0
+\qquad\text{for every unit and arm under study.}
+\]</span></p>
+<p>Here <span class="math inline">\(\pi_i(z)\)</span> is the known probability that the design assigns unit <span class="math inline">\(i\)</span> to arm <span class="math inline">\(z\)</span>. Positivity ensures that every unit whose potential outcome contributes to <span class="math inline">\(\overline Y(z)\)</span> has some chance of revealing that outcome.</p>
+<p>The population average of the predictions, <span class="math inline">\(N^{-1}\sum_i m_z(X_i)\)</span>, is available because the covariates are observed for all experimental units. Correct it using the prediction errors observed in arm <span class="math inline">\(z\)</span>:</p>
+<p><span id="eq-l03-aipw-mean"><span class="math display">\[
+\widehat\mu_{z,\mathrm{AIPW}}
+=\frac{1}{N}\sum_{i=1}^N
+\left[
+m_z(X_i)
++\frac{\mathbf 1\{Z_i=z\}}{\pi_i(z)}
+\{Y_i^{\mathrm{obs}}-m_z(X_i)\}
+\right],
+\tag{5}\]</span></span></p>
+<p>The indicator <span class="math inline">\(\mathbf 1\{Z_i=z\}\)</span> is one exactly when unit <span class="math inline">\(i\)</span> is assigned to arm <span class="math inline">\(z\)</span>. Thus the second term is zero for units outside that arm and equals the observed residual divided by its assignment probability for units inside it. Subtracting the two arm-specific mean estimators gives</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{AIPW}}
+=\widehat\mu_{1,\mathrm{AIPW}}-\widehat\mu_{0,\mathrm{AIPW}}
+\]</span></p>
+<p>as an estimator of <span class="math inline">\(\tau=\overline Y(1)-\overline Y(0)\)</span> <span class="citation" data-cites="robins1994 tsiatis2008">(<a href="../../references.html#ref-robins1994" role="doc-biblioref">Robins et al. 1994</a>; <a href="../../references.html#ref-tsiatis2008" role="doc-biblioref">Tsiatis et al. 2008</a>)</span>. The GREG construction in L02 has the same prediction-plus-weighted-residual architecture; AIPW writes it arm by arm and allows general prediction functions.</p>
+<p>The construction can be read in three steps:</p>
+<ol type="1">
+<li>predict every unit’s potential outcome under arm <span class="math inline">\(z\)</span>;</li>
+<li>among units actually observed in arm <span class="math inline">\(z\)</span>, inverse-weight the prediction error;</li>
+<li>add that correction to the population average prediction.</li>
+</ol>
+<p>The correction works because, for each unit separately, inverse-probability weighting recovers the full prediction error. Since <span class="math inline">\(Y_i^{\mathrm{obs}}=Y_i(z)\)</span> on the event <span class="math inline">\(Z_i=z\)</span>,</p>
+<p><span class="math display">\[
+\mathbb E_Z\left[
+\frac{\mathbf 1\{Z_i=z\}}{\pi_i(z)}
+\{Y_i^{\mathrm{obs}}-m_z(X_i)\}
+\right]
+=Y_i(z)-m_z(X_i).
+\]</span></p>
+<p>Adding the fixed prediction back therefore gives design unbiasedness without assuming that the prediction is correct:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb E_Z(\widehat\mu_{z,\mathrm{AIPW}})
+&amp;=\frac{1}{N}\sum_i
+\left[m_z(X_i)+Y_i(z)-m_z(X_i)\right]\\
+&amp;=\overline Y(z).
+\end{aligned}
+\]</span></p>
+<p>This is the central division of labor. The model supplies a precision device; the randomization correction supplies validity for the finite-population target. When <span class="math inline">\(m_z(X_i)\)</span> is close to <span class="math inline">\(Y_i(z)\)</span>, the residuals passed through the random inverse-probability weights are smaller and the estimator can be more precise than HT. A poor fixed predictor does not destroy design unbiasedness, though it can increase variance.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Fitted predictions are part of the estimator">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Fitted predictions are part of the estimator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The exact argument above treats <span class="math inline">\(m_z\)</span> as fixed with respect to assignment. An externally trained or otherwise preassignment predictor preserves that exact conditional design-unbiasedness. If the same randomized outcomes are used to fit <span class="math inline">\(m_z\)</span>, exact finite-sample unbiasedness does not follow automatically. Under independent assignment, carefully constructed leave-one-out or cross-fitted predictions can separate a unit’s assignment from its prediction. Under complete, blocked, or rerandomized designs, assignments are dependent, so cross-fitting alone is not a universal finite-sample fix; one needs a design-specific argument or suitable asymptotics. Randomization remains the foundation, but “the model may be wrong” does not mean “the fitting procedure is irrelevant.”</p>
+</div>
+</div>
+<p>In observational causal inference, AIPW is often introduced through double robustness. That is not the focus here: the assignment probabilities in a randomized experiment are known. Our emphasis is the control-variate interpretation—prediction for precision, inverse-probability correction for the design-based target.</p>
+</section>
+<section id="pair-matching-in-cluster-randomized-experiments" class="level1">
+<h1>Pair matching in cluster-randomized experiments</h1>
+<p>Sometimes treatment is assigned to schools, villages, or clinics while outcomes are measured on individuals. With few clusters, ordinary cluster randomization can leave large baseline differences. <span class="citation" data-cites="imai2009">Imai et al. (<a href="../../references.html#ref-imai2009" role="doc-biblioref">2009</a>)</span> argue for pairing similar clusters and randomizing one cluster within each pair; <span class="citation" data-cites="middleton2015">Middleton and Aronow (<a href="../../references.html#ref-middleton2015" role="doc-biblioref">2015</a>)</span> develops the design-based estimand and weighting issues for cluster-randomized experiments.</p>
+<p>The distinction between the unit of assignment and the unit of measurement is essential. Suppose there are <span class="math inline">\(K\)</span> pairs indexed by <span class="math inline">\(k=1,\ldots,K\)</span>, and pair <span class="math inline">\(k\)</span> contains clusters <span class="math inline">\(j=1,2\)</span>. Cluster <span class="math inline">\((k,j)\)</span> contains <span class="math inline">\(n_{kj}\)</span> individuals, and <span class="math inline">\(N=\sum_{k=1}^K\sum_{j=1}^2 n_{kj}\)</span> is the total number of individuals. Under cluster-level treatment and no interference between clusters, define the cluster potential-outcome total</p>
+<p><span class="math display">\[
+T_{kj}(z)=\sum_{\ell=1}^{n_{kj}}Y_{kj\ell}(z),
+\]</span></p>
+<p>where <span class="math inline">\(\ell\)</span> indexes individuals within a cluster. The individual-weighted finite-population ATE is then</p>
+<p><span class="math display">\[
+\tau
+=\frac{1}{N}\sum_{k=1}^K\sum_{j=1}^2
+\{T_{kj}(1)-T_{kj}(0)\}.
+\]</span></p>
+<p>Let <span class="math inline">\(A_k=1\)</span> mean that cluster <span class="math inline">\(1\)</span> in pair <span class="math inline">\(k\)</span> is treated; when <span class="math inline">\(A_k=0\)</span>, cluster <span class="math inline">\(2\)</span> is treated. The two possibilities occur with probability <span class="math inline">\(1/2\)</span>, independently across pairs. Write <span class="math inline">\(T_{kj}^{\mathrm{obs}}\)</span> for the total under the assignment cluster <span class="math inline">\((k,j)\)</span> actually receives. The HT estimator of the individual-weighted ATE is</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{HT}}
+=\frac{2}{N}\sum_{k=1}^K(2A_k-1)
+\{T_{k1}^{\mathrm{obs}}-T_{k2}^{\mathrm{obs}}\}.
+\]</span></p>
+<p>The sign <span class="math inline">\(2A_k-1\)</span> always orients the expression as treated-cluster total minus control-cluster total. The leading factor <span class="math inline">\(2\)</span> is the inverse of each cluster’s treatment or control probability. Averaging over the two assignments in pair <span class="math inline">\(k\)</span> recovers the sum of the treatment effects for all individuals in both clusters; dividing by <span class="math inline">\(N\)</span> therefore targets the individual-weighted ATE above.</p>
+<p>Each pair contributes one independent randomized contrast, so design-based uncertainty is built from variation across those pair contributions. Two details are easy to miss:</p>
+<ul>
+<li>The effective randomization units are clusters, not the individuals nested within them.</li>
+<li>Weighting determines the estimand. The total-based HT expression targets an average over individuals. Averaging cluster means equally instead targets a cluster-weighted or pair-weighted effect; unequal cluster sizes make the distinction consequential.</li>
+</ul>
+<p>Pair matching can substantially improve precision when matches are prognostic, but the analysis must honor both pairing and unequal cluster sizes. Treating all individual observations as independently randomized produces fictitious precision.</p>
+</section>
+<section id="rerandomization" class="level1">
+<h1>Rerandomization</h1>
+<p>Blocking is attractive when units fall naturally into small groups within which fixed treatment counts can be enforced. With several continuous covariates, however, useful blocks may be difficult to define. <strong>Rerandomization</strong> takes a different route: repeatedly draw an assignment from a familiar proposal design, measure its global covariate imbalance, and retain the draw only if that imbalance meets a prespecified standard <span class="citation" data-cites="morgan2012">(<a href="../../references.html#ref-morgan2012" role="doc-biblioref">Morgan and Rubin 2012</a>)</span>. It changes the design before outcomes are seen; it is not post hoc deletion of an inconvenient randomization.</p>
+<p>Write <span class="math inline">\(\mathbb P_{\mathrm{CR}}\)</span> for the proposal complete-randomization design and assume equal-sized treatment arms. For the pretreatment covariate vector <span class="math inline">\(X_i\)</span>, let</p>
+<p><span class="math display">\[
+\widehat\tau_X
+=\overline X_1^{\mathrm{obs}}-\overline X_0^{\mathrm{obs}}
+\]</span></p>
+<p>be the vector of treated-minus-control covariate mean differences. Zero is perfect mean balance. Different coordinates may have different units and may be strongly correlated, so an ordinary Euclidean norm is not a meaningful common scale. Assuming the covariance matrix is nonsingular, the Mahalanobis balance score <span class="citation" data-cites="mahalanobis1936">(<a href="../../references.html#ref-mahalanobis1936" role="doc-biblioref">Mahalanobis 1936</a>)</span> standardizes the imbalance by its covariance under the proposal design:</p>
+<p><span id="eq-l03-mahalanobis"><span class="math display">\[
+M(\mathbf Z)
+=\widehat\tau_X^\top
+\left\{\operatorname{Cov}_{\mathrm{CR}}(\widehat\tau_X)\right\}^{-1}
+\widehat\tau_X.
+\tag{6}\]</span></span></p>
+<p>The covariance subscript “CR” matters: <span class="math inline">\(\operatorname{Cov}_{\mathrm{CR}}(\widehat\tau_X)\)</span> describes how covariate imbalance would vary over repeated proposal assignments, with the covariates held fixed. Consequently, <span class="math inline">\(M(\mathbf Z)\)</span> is a scalar standardized squared distance from exact balance. With a single covariate, it is simply the squared mean difference divided by its complete-randomization variance.</p>
+<p>Choose a threshold <span class="math inline">\(a\)</span> before assignment so that the acceptance event has positive proposal probability. Repeatedly draw a complete randomization and accept the first draw satisfying <span class="math inline">\(M(\mathbf Z)\le a\)</span>. The actual rerandomization design, denoted <span class="math inline">\(\mathbb P_{\mathrm{ReM}}\)</span>, is the proposal distribution conditional on acceptance:</p>
+<p><span id="eq-l03-rerand-design"><span class="math display">\[
+\begin{aligned}
+\mathbb P_{\mathrm{ReM}}(\mathbf Z=\mathbf z)
+&amp;=\mathbb P_{\mathrm{CR}}
+\{\mathbf Z=\mathbf z\mid M(\mathbf Z)\le a\}\\
+&amp;=\frac{
+\mathbb P_{\mathrm{CR}}(\mathbf Z=\mathbf z)
+\mathbf 1\{M(\mathbf z)\le a\}
+}{
+\mathbb P_{\mathrm{CR}}\{M(\mathbf Z)\le a\}
+}.
+\end{aligned}
+\tag{7}\]</span></span></p>
+<p>If complete randomization is uniform over assignments with the prescribed arm sizes, rerandomization is uniform over the subset that passes the balance rule. This is still a randomized design, provided the covariates, score, and threshold are fixed in advance and the acceptance procedure is recorded. Ad hoc rejection until the groups merely “look nice” does not define a reproducible assignment law.</p>
+<section id="what-rerandomization-buys" class="level2">
+<h2 class="anchored" data-anchor-id="what-rerandomization-buys">What rerandomization buys</h2>
+<p>Let <span class="math inline">\(\mathbf 1_N\)</span> denote the length-<span class="math inline">\(N\)</span> vector of ones, so the treatment-control complement of <span class="math inline">\(\mathbf z\)</span> is <span class="math inline">\(\mathbf 1_N-\mathbf z\)</span>. If the acceptance rule is symmetric—<span class="math inline">\(\mathbf z\)</span> is accepted exactly when its complement is—then every accepted assignment has an equally likely accepted partner that reverses all arm labels. With equal arm sizes, each unit therefore retains marginal treatment probability <span class="math inline">\(1/2\)</span>, and difference in means remains design-unbiased. The joint assignment distribution has nevertheless changed: assignments with large <span class="math inline">\(M(\mathbf Z)\)</span> now have probability zero. When the balanced covariates predict outcomes, removing those assignments can substantially reduce variance.</p>
+<p>But the analysis must use the design that was actually run. An exact Fisher randomization test of a sharp null should sample from accepted assignments, not from all complete randomizations. Under the regularity conditions studied by <span class="citation" data-cites="li2018">Li et al. (<a href="../../references.html#ref-li2018" role="doc-biblioref">2018</a>)</span>, the usual Neyman normal interval calculated as if complete randomization had been used is asymptotically conservative; this is not a universal finite-sample statement.</p>
+<p>The large-sample result of <span class="citation" data-cites="li2018">Li et al. (<a href="../../references.html#ref-li2018" role="doc-biblioref">2018</a>)</span> explains the mechanism. Decompose the outcome variation into a component linearly associated with the balanced covariates and a residual component orthogonal to them. Under their regularity conditions, the difference-in-means fluctuation likewise separates into two independent pieces. The residual piece remains asymptotically Gaussian because the acceptance rule does not directly constrain it. The covariate-associated piece has a Gaussian limit truncated to the accepted balance region. Rerandomization therefore shrinks precisely the part of the estimator’s variation aligned with <span class="math inline">\(X\)</span>. The precision gain is larger when that part explains more of the outcome and when the threshold is more stringent. <span class="citation" data-cites="li2020">Li and Ding (<a href="../../references.html#ref-li2020" role="doc-biblioref">2020</a>)</span> then studies how regression adjustment and rerandomization interact rather than treating design- and analysis-stage balance as substitutes.</p>
+</section>
+<section id="the-robustness-tradeoff" class="level2">
+<h2 class="anchored" data-anchor-id="the-robustness-tradeoff">The robustness tradeoff</h2>
+<p>Rerandomization has an appealing operational story and preserves multiple acceptable assignments. Its weaknesses are equally instructive:</p>
+<ul>
+<li>a stringent threshold lowers the acceptance probability and concentrates the assignment distribution;</li>
+<li>Mahalanobis balance is only as relevant as the chosen covariates and feature representation; in high dimensions, covariance regularization also changes the metric;</li>
+<li>for a fixed acceptance probability, increasing dimension weakens the attainable improvement in each direction and makes covariance estimation or regularization more consequential;</li>
+<li>unrecorded changes to the acceptance rule invalidate the stated design;</li>
+<li>analysis that pretends complete randomization was used mischaracterizes uncertainty.</li>
+</ul>
+<p>The threshold therefore mediates balance against robustness. Making <span class="math inline">\(a\)</span> smaller improves balance along the chosen covariate directions, but it leaves fewer possible assignments and makes the design more dependent on whether those directions capture the outcome structure that matters. Here robustness includes both protection against a misspecified balance criterion and enough randomness to support credible, reproducible inference. Perfect observed balance is not the only goal of a randomized experiment.</p>
+</section>
+</section>
+<section id="what-to-carry-forward" class="level1">
+<h1>What to carry forward</h1>
+<p>Experimental design controls the dependence among assignments. Blocking uses scientifically meaningful local comparisons; matching makes those blocks as small as possible; rerandomization conditions on acceptable global balance. Analysis adjustment and AIPW can recover additional precision after a simpler design. In every case, the estimator and its uncertainty calculation must correspond to the assignment distribution that was actually used.</p>
+</section>
+<section id="advanced-material" class="level1">
+<h1>Advanced material</h1>
+<section id="gramschmidt-walk-designs" class="level2">
+<h2 class="anchored" data-anchor-id="gramschmidt-walk-designs">Gram–Schmidt walk designs</h2>
+<p>The word <strong>discrepancy</strong> describes a signed imbalance. To see the connection to experiments, suppose the treatment and control arms have equal size and define the assignment sign <span class="math inline">\(s_i=2Z_i-1\)</span>, which is <span class="math inline">\(+1\)</span> for treatment and <span class="math inline">\(-1\)</span> for control. Then</p>
+<p><span class="math display">\[
+\widehat\tau_X
+=\overline X_1^{\mathrm{obs}}-\overline X_0^{\mathrm{obs}}
+=\frac{2}{N}\sum_{i=1}^N s_iX_i.
+\]</span></p>
+<p>Thus choosing signs that make the vector sum <span class="math inline">\(\sum_i s_iX_i\)</span> small is exactly choosing an assignment with small covariate mean imbalance. Discrepancy theory studies how signs can be chosen so that many coordinates or other linear summaries remain small simultaneously. The norm used to judge the signed sum specifies which kinds of imbalance matter.</p>
+<p>A purely discrepancy-minimizing algorithm might return one deterministic assignment. The Gram–Schmidt walk (GSW) instead turns a discrepancy-control procedure into a randomized assignment design <span class="citation" data-cites="harshaw2024">(<a href="../../references.html#ref-harshaw2024" role="doc-biblioref">Harshaw et al. 2024</a>)</span>. It generates the signs through a random walk while steering their covariate sum toward balance.</p>
+<p>The design has a tuning parameter that governs how aggressively the walk prioritizes covariate balance relative to unconstrained randomization. At one extreme it behaves more like conventional random assignment; at the other it pushes harder to keep the linear discrepancy small. Crucially, it retains prescribed unit-level marginals, such as <span class="math inline">\(\mathbb P_Z(Z_i=1)=1/2\)</span>, while inducing dependence among assignments. The resulting guarantees concern design-based mean squared error over specified classes of outcome structure. This separates GSW from selecting a single best-looking assignment: its balance comes from a probability distribution over assignments, not from abandoning randomization.</p>
+<p>The guarantee also states its own limitation: linear balance protects outcomes whose conditional mean is well represented by the chosen linear features. <span class="citation" data-cites="cytrynbaum2026">Cytrynbaum (<a href="../../references.html#ref-cytrynbaum2026" role="doc-biblioref">2026</a>)</span> shows that uniformly approaching classical efficiency over broad smooth outcome classes becomes impossible once dimension grows too quickly. The paper develops a nonparametric, kernelized GSW in a reproducing-kernel Hilbert space and identifies more favorable rates under additive structure. Kernelization expands the function class being balanced; it does not eliminate the need to say which structure is plausible.</p>
+</section>
+<section id="correlated-cluster-designs-without-rich-covariates" class="level2">
+<h2 class="anchored" data-anchor-id="correlated-cluster-designs-without-rich-covariates">Correlated cluster designs without rich covariates</h2>
+<p>The paired-cluster discussion used covariates to decide which clusters should be compared. <span class="citation" data-cites="candogan2024">Candogan et al. (<a href="../../references.html#ref-candogan2024" role="doc-biblioref">2024</a>)</span> ask a different question: can dependence be designed robustly when cluster size is the principal available structure? They study correlated cluster assignments with equal marginal treatment probabilities and a cluster-aware HT estimator, choosing dependence to minimize a worst-case variance criterion.</p>
+<p>Their imbalance-reducing construction uses cluster sizes rather than a rich outcome-prediction model. The asymptotic guarantees require regularity, including that no single cluster dominate the population. The result is therefore neither covariate matching nor a claim that size is always the most prognostic variable. It shows that assignment correlation can be optimized against a stated worst-case class even when conventional matching information is sparse.</p>
+</section>
+<section id="optimization-based-designs-and-the-value-of-randomness" class="level2">
+<h2 class="anchored" data-anchor-id="optimization-based-designs-and-the-value-of-randomness">Optimization-based designs and the value of randomness</h2>
+<p>Once discrepancy has been written as a function of the assignment signs, one can search directly for the assignment minimizing it—for example, minimizing a norm of <span class="math inline">\(\sum_i s_iX_i\)</span> subject to fixed arm sizes. Mixed-integer optimization can produce striking balance in small samples <span class="citation" data-cites="bertsimas2015">(<a href="../../references.html#ref-bertsimas2015" role="doc-biblioref">Bertsimas et al. 2015</a>)</span>, and minimax formulations connect classes of plausible outcome functions to the imbalance metric that should be optimized <span class="citation" data-cites="kallus2018">(<a href="../../references.html#ref-kallus2018" role="doc-biblioref">Kallus 2018</a>)</span>. The objective is never neutral: choosing a norm, feature map, or function class says which outcome patterns the design is intended to protect.</p>
+<p>Selecting one minimizing assignment eliminates design-based randomization. Randomizing between that assignment and its treatment-control complement restores unit-level marginals of <span class="math inline">\(1/2\)</span>, but leaves only two assignments in the support. Either construction can be brittle to aspects of the outcome surface omitted from the objective. More diffuse randomization distributes that risk. <span class="citation" data-cites="kallus2021">Kallus (<a href="../../references.html#ref-kallus2021" role="doc-biblioref">2021</a>)</span> formalizes this through mixed-strategy optimal designs: with no informative structure, complete randomization is minimax; gains require restrictions on plausible outcome functions, and inference supplies a reason to retain sufficiently diffuse randomization.</p>
+<p>GSW, rerandomization, and mixed-strategy optimization occupy different points on the same frontier. Each asks how much imbalance to remove while preserving enough randomness for robustness and inference.</p>
+</section>
+<section id="efrons-biased-coin" class="level2">
+<h2 class="anchored" data-anchor-id="efrons-biased-coin">Efron’s biased coin</h2>
+<p>Efron’s biased-coin design addresses a sequential problem: how can an experiment resist persistent arm-size imbalance without making its next assignment completely predictable? <span class="citation" data-cites="efron1971">(<a href="../../references.html#ref-efron1971" role="doc-biblioref">Efron 1971</a>)</span> After <span class="math inline">\(n\)</span> assignments, let <span class="math inline">\(D_n=N_{1n}-N_{0n}\)</span> be the treated count minus the control count. If <span class="math inline">\(D_n=0\)</span>, assign the next unit by a fair coin. If <span class="math inline">\(D_n&gt;0\)</span>, treatment is overrepresented, so assign the next unit to control with a chosen probability <span class="math inline">\(q&gt;1/2\)</span>; if <span class="math inline">\(D_n&lt;0\)</span>, assign it to treatment with that probability. The parameter <span class="math inline">\(q\)</span> controls the pull back toward equal counts.</p>
+<p>At <span class="math inline">\(q=1/2\)</span>, the feedback disappears and the rule is ordinary i.i.d. Bernoulli assignment. As <span class="math inline">\(q\)</span> rises toward one, balance is restored more forcefully but future assignments become easier to predict. The design therefore makes the balance–randomness tradeoff explicit. Covariate-adaptive procedures such as <span class="citation" data-cites="pocock1975">Pocock and Simon (<a href="../../references.html#ref-pocock1975" role="doc-biblioref">1975</a>)</span> generalize the same feedback idea to prognostic-factor imbalance, but the dependence created by that feedback must be reflected in the analysis.</p>
+</section>
+<section id="d--a--and-e-optimal-design" class="level2">
+<h2 class="anchored" data-anchor-id="d--a--and-e-optimal-design">D-, A-, and E-optimal design</h2>
+<p>Section 7.5 of <span class="citation" data-cites="boyd2004">Boyd and Vandenberghe (<a href="../../references.html#ref-boyd2004" role="doc-biblioref">2004</a>)</span> gives a modern convex-optimization treatment of a classical model-based design problem whose general theory traces to <span class="citation" data-cites="kiefer1959">Kiefer (<a href="../../references.html#ref-kiefer1959" role="doc-biblioref">1959</a>)</span>. Suppose measurement option <span class="math inline">\(r\)</span> has a known regressor vector <span class="math inline">\(v_r\)</span>, and let <span class="math inline">\(\lambda_r\ge 0\)</span> be the fraction of measurement effort allocated to that option, with <span class="math inline">\(\sum_r\lambda_r=1\)</span>. In a homoskedastic linear model, the normalized information matrix is</p>
+<p><span class="math display">\[
+\mathcal I(\lambda)=\sum_r\lambda_r v_rv_r^\top.
+\]</span></p>
+<p>When this matrix is nonsingular, the coefficient covariance is proportional to <span class="math inline">\(\mathcal I(\lambda)^{-1}\)</span>. The design problem chooses the allocation <span class="math inline">\(\lambda\)</span> to make that covariance small, but a matrix is not ordered by a single universally best scalar. Common criteria emphasize different geometries:</p>
+<ul>
+<li><strong>D-optimality</strong> maximizes <span class="math inline">\(\det\{\mathcal I(\lambda)\}\)</span>, equivalently shrinking the volume of the coefficient confidence ellipsoid.</li>
+<li><strong>A-optimality</strong> minimizes <span class="math inline">\(\operatorname{tr}\{\mathcal I(\lambda)^{-1}\}\)</span>, the sum of the marginal coefficient-variance proxies.</li>
+<li><strong>E-optimality</strong> maximizes the smallest eigenvalue of <span class="math inline">\(\mathcal I(\lambda)\)</span>, protecting the least-informed coefficient direction.</li>
+</ul>
+<p>These criteria are connected to covariate-balanced treatment design through convex optimization and worst-direction reasoning. They are not the same problem. Classical optimal design begins from a response model and chooses where to measure parameters; GSW chooses a randomized treatment allocation and seeks design-based protection over outcome classes. The analogy is most useful when it makes the assumed geometry explicit.</p>
+</section>
+<section id="staggered-rollouts-beyond-sutva" class="level2">
+<h2 class="anchored" data-anchor-id="staggered-rollouts-beyond-sutva">Staggered rollouts beyond SUTVA</h2>
+<p>In a staggered rollout, clusters or units adopt treatment at different assigned times. The stepped-wedge formulation of <span class="citation" data-cites="hussey2007">Hussey and Hughes (<a href="../../references.html#ref-hussey2007" role="doc-biblioref">2007</a>)</span> is a canonical example. The design creates comparisons across adoption cohorts and calendar periods. Operational constraints often motivate it, but the schedule can also generate deliberate variation in treatment saturation and exposure duration.</p>
+<p>That variation is valuable when no-interference or no-carryover assumptions are implausible: outcomes can be indexed by neighbors’ adoption, local saturation, or time since treatment rather than by a single binary label. The cost is that calendar-time trends, anticipation, and dynamic effects become part of the estimand and design. A rollout is therefore not merely a delayed two-arm experiment; it requires a potential-outcome table indexed by assignment histories.</p>
+</section>
+</section>
+<section id="further-reading" class="level1">
+<h1>Further reading</h1>
+<p>For historical orientation, <span class="citation" data-cites="fisher1935">Fisher (<a href="../../references.html#ref-fisher1935" role="doc-biblioref">1935</a>)</span> develops randomization and blocking, while <span class="citation" data-cites="rubin2008">Rubin (<a href="../../references.html#ref-rubin2008" role="doc-biblioref">2008</a>)</span> states the modern design-before-analysis principle. <span class="citation" data-cites="ding2023">Ding (<a href="../../references.html#ref-ding2023" role="doc-biblioref">2023</a>)</span> provides a concise contemporary treatment of finite-population experiments and rerandomization. For matched designs, read <span class="citation" data-cites="bai2022optimal">Bai (<a href="../../references.html#ref-bai2022optimal" role="doc-biblioref">2022</a>)</span> and <span class="citation" data-cites="bai2022inference">Bai et al. (<a href="../../references.html#ref-bai2022inference" role="doc-biblioref">2022</a>)</span> alongside the cluster-randomized perspective of <span class="citation" data-cites="imai2009">Imai et al. (<a href="../../references.html#ref-imai2009" role="doc-biblioref">2009</a>)</span> and <span class="citation" data-cites="middleton2015">Middleton and Aronow (<a href="../../references.html#ref-middleton2015" role="doc-biblioref">2015</a>)</span>.</p>
+<p>For rerandomization, begin with <span class="citation" data-cites="morgan2012">Morgan and Rubin (<a href="../../references.html#ref-morgan2012" role="doc-biblioref">2012</a>)</span> for the design principle, then read <span class="citation" data-cites="li2018">Li et al. (<a href="../../references.html#ref-li2018" role="doc-biblioref">2018</a>)</span> for the non-Gaussian asymptotic distribution induced by acceptance and <span class="citation" data-cites="li2020">Li and Ding (<a href="../../references.html#ref-li2020" role="doc-biblioref">2020</a>)</span> for its interaction with regression adjustment. <span class="citation" data-cites="candogan2024">Candogan et al. (<a href="../../references.html#ref-candogan2024" role="doc-biblioref">2024</a>)</span> shows how cluster-assignment dependence can instead be optimized from cluster-size information and a worst-case criterion.</p>
+<p>The modern balance–robustness sequence runs from optimization-based designs <span class="citation" data-cites="bertsimas2015 kallus2018 kallus2021">(<a href="../../references.html#ref-bertsimas2015" role="doc-biblioref">Bertsimas et al. 2015</a>; <a href="../../references.html#ref-kallus2018" role="doc-biblioref">Kallus 2018</a>, <a href="../../references.html#ref-kallus2021" role="doc-biblioref">2021</a>)</span> to randomized discrepancy control <span class="citation" data-cites="harshaw2024">(<a href="../../references.html#ref-harshaw2024" role="doc-biblioref">Harshaw et al. 2024</a>)</span> and its recent nonlinear extension <span class="citation" data-cites="cytrynbaum2026">(<a href="../../references.html#ref-cytrynbaum2026" role="doc-biblioref">Cytrynbaum 2026</a>)</span>. <span class="citation" data-cites="efron1971">Efron (<a href="../../references.html#ref-efron1971" role="doc-biblioref">1971</a>)</span> and <span class="citation" data-cites="pocock1975">Pocock and Simon (<a href="../../references.html#ref-pocock1975" role="doc-biblioref">1975</a>)</span> provide sequential counterparts: use randomization feedback to resist arm-size or covariate imbalance without becoming deterministic. For classical information-matrix optimality, pair <span class="citation" data-cites="kiefer1959">Kiefer (<a href="../../references.html#ref-kiefer1959" role="doc-biblioref">1959</a>)</span> with the computational treatment in <span class="citation" data-cites="boyd2004">Boyd and Vandenberghe (<a href="../../references.html#ref-boyd2004" role="doc-biblioref">2004</a>)</span>; for staggered cluster rollouts, see <span class="citation" data-cites="hussey2007">Hussey and Hughes (<a href="../../references.html#ref-hussey2007" role="doc-biblioref">2007</a>)</span>.</p>
+<div class="lecture-provenance">
+<p><strong>Lecture brief:</strong> <a href="brief.md">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
+</div>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-bai2022optimal" class="csl-entry" role="listitem">
+Bai, Yuehao. 2022. <span>“Optimality of Matched-Pair Designs in Randomized Controlled Trials.”</span> <em>American Economic Review</em> 112 (12): 3911–40. <a href="https://doi.org/10.1257/aer.20201856">https://doi.org/10.1257/aer.20201856</a>.
+</div>
+<div id="ref-bai2022inference" class="csl-entry" role="listitem">
+Bai, Yuehao, Joseph P. Romano, and Azeem M. Shaikh. 2022. <span>“Inference in Experiments with Matched Pairs.”</span> <em>Journal of the American Statistical Association</em> 117 (540): 1726–37. <a href="https://doi.org/10.1080/01621459.2021.1883437">https://doi.org/10.1080/01621459.2021.1883437</a>.
+</div>
+<div id="ref-bertsimas2015" class="csl-entry" role="listitem">
+Bertsimas, Dimitris, Mac Johnson, and Nathan Kallus. 2015. <span>“The Power of Optimization over Randomization in Designing Experiments Involving Small Samples.”</span> <em>Operations Research</em> 63 (4): 868–76. <a href="https://doi.org/10.1287/opre.2015.1361">https://doi.org/10.1287/opre.2015.1361</a>.
+</div>
+<div id="ref-boyd2004" class="csl-entry" role="listitem">
+Boyd, Stephen, and Lieven Vandenberghe. 2004. <em>Convex Optimization</em>. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511804441">https://doi.org/10.1017/CBO9780511804441</a>.
+</div>
+<div id="ref-bruhn2009" class="csl-entry" role="listitem">
+Bruhn, Miriam, and David McKenzie. 2009. <span>“In Pursuit of Balance: Randomization in Practice in Development Field Experiments.”</span> <em>American Economic Journal: Applied Economics</em> 1 (4): 200–232. <a href="https://doi.org/10.1257/app.1.4.200">https://doi.org/10.1257/app.1.4.200</a>.
+</div>
+<div id="ref-candogan2024" class="csl-entry" role="listitem">
+Candogan, Ozan, Chen Chen, and Rad Niazadeh. 2024. <span>“Correlated Cluster-Based Randomized Experiments: Robust Variance Minimization.”</span> <em>Management Science</em> 70 (6): 4069–86. <a href="https://doi.org/10.1287/mnsc.2021.02741">https://doi.org/10.1287/mnsc.2021.02741</a>.
+</div>
+<div id="ref-cytrynbaum2026" class="csl-entry" role="listitem">
+Cytrynbaum, Max. 2026. <em>The Limits of Experimental Design: Covariate Balance Beyond Low Dimension</em>. <a href="https://doi.org/10.48550/arXiv.2608.18057">https://doi.org/10.48550/arXiv.2608.18057</a>.
+</div>
+<div id="ref-ding2023" class="csl-entry" role="listitem">
+Ding, Peng. 2023. <em>A First Course in Causal Inference</em>. <a href="https://doi.org/10.48550/arXiv.2305.18793">https://doi.org/10.48550/arXiv.2305.18793</a>.
+</div>
+<div id="ref-efron1971" class="csl-entry" role="listitem">
+Efron, Bradley. 1971. <span>“Forcing a Sequential Experiment to Be Balanced.”</span> <em>Biometrika</em> 58 (3): 403–17. <a href="https://doi.org/10.1093/biomet/58.3.403">https://doi.org/10.1093/biomet/58.3.403</a>.
+</div>
+<div id="ref-fisher1935" class="csl-entry" role="listitem">
+Fisher, Ronald A. 1935. <em>The Design of Experiments</em>. Oliver &amp; Boyd.
+</div>
+<div id="ref-freedman2008" class="csl-entry" role="listitem">
+Freedman, David A. 2008. <span>“On Regression Adjustments to Experimental Data.”</span> <em>Advances in Applied Mathematics</em> 40 (2): 180–93. <a href="https://doi.org/10.1016/j.aam.2006.12.003">https://doi.org/10.1016/j.aam.2006.12.003</a>.
+</div>
+<div id="ref-harshaw2024" class="csl-entry" role="listitem">
+Harshaw, Christopher, Fredrik Sävje, Daniel A. Spielman, and Peng Zhang. 2024. <span>“Balancing Covariates in Randomized Experiments with the Gram–Schmidt Walk Design.”</span> <em>Journal of the American Statistical Association</em> 119 (548): 2934–46. <a href="https://doi.org/10.1080/01621459.2023.2285474">https://doi.org/10.1080/01621459.2023.2285474</a>.
+</div>
+<div id="ref-horvitz1952" class="csl-entry" role="listitem">
+Horvitz, D. G., and D. J. Thompson. 1952. <span>“A Generalization of Sampling Without Replacement from a Finite Universe.”</span> <em>Journal of the American Statistical Association</em> 47 (260): 663–85. <a href="https://doi.org/10.1080/01621459.1952.10483446">https://doi.org/10.1080/01621459.1952.10483446</a>.
+</div>
+<div id="ref-hussey2007" class="csl-entry" role="listitem">
+Hussey, Michael A., and James P. Hughes. 2007. <span>“Design and Analysis of Stepped Wedge Cluster Randomized Trials.”</span> <em>Contemporary Clinical Trials</em> 28 (2): 182–91. <a href="https://doi.org/10.1016/j.cct.2006.05.007">https://doi.org/10.1016/j.cct.2006.05.007</a>.
+</div>
+<div id="ref-imai2009" class="csl-entry" role="listitem">
+Imai, Kosuke, Gary King, and Clayton Nall. 2009. <span>“The Essential Role of Pair Matching in Cluster-Randomized Experiments, with Application to the Mexican Universal Health Insurance Evaluation.”</span> <em>Statistical Science</em> 24 (1): 29–53. <a href="https://doi.org/10.1214/08-STS274">https://doi.org/10.1214/08-STS274</a>.
+</div>
+<div id="ref-kallus2018" class="csl-entry" role="listitem">
+Kallus, Nathan. 2018. <span>“Optimal a Priori Balance in the Design of Controlled Experiments.”</span> <em>Journal of the Royal Statistical Society: Series B</em> 80 (1): 85–112. <a href="https://doi.org/10.1111/rssb.12240">https://doi.org/10.1111/rssb.12240</a>.
+</div>
+<div id="ref-kallus2021" class="csl-entry" role="listitem">
+Kallus, Nathan. 2021. <span>“On the Optimality of Randomization in Experimental Design: How to Randomize for Minimax Variance and Design-Based Inference.”</span> <em>Journal of the Royal Statistical Society: Series B</em> 83 (2): 404–9. <a href="https://doi.org/10.1111/rssb.12412">https://doi.org/10.1111/rssb.12412</a>.
+</div>
+<div id="ref-kiefer1959" class="csl-entry" role="listitem">
+Kiefer, Jack. 1959. <span>“Optimum Experimental Designs.”</span> <em>Journal of the Royal Statistical Society: Series B</em> 21 (2): 272–304. <a href="https://doi.org/10.1111/j.2517-6161.1959.tb00338.x">https://doi.org/10.1111/j.2517-6161.1959.tb00338.x</a>.
+</div>
+<div id="ref-li2020" class="csl-entry" role="listitem">
+Li, Xinran, and Peng Ding. 2020. <span>“Rerandomization and Regression Adjustment.”</span> <em>Journal of the Royal Statistical Society: Series B</em> 82 (1): 241–68. <a href="https://doi.org/10.1111/rssb.12353">https://doi.org/10.1111/rssb.12353</a>.
+</div>
+<div id="ref-li2018" class="csl-entry" role="listitem">
+Li, Xinran, Peng Ding, and Donald B. Rubin. 2018. <span>“Asymptotic Theory of Rerandomization in Treatment–Control Experiments.”</span> <em>Proceedings of the National Academy of Sciences</em> 115 (37): 9157–62. <a href="https://doi.org/10.1073/pnas.1808191115">https://doi.org/10.1073/pnas.1808191115</a>.
+</div>
+<div id="ref-lin2013" class="csl-entry" role="listitem">
+Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experimental Data: Reexamining Freedman’s Critique.”</span> <em>The Annals of Applied Statistics</em> 7 (1): 295–318. <a href="https://doi.org/10.1214/12-AOAS583">https://doi.org/10.1214/12-AOAS583</a>.
+</div>
+<div id="ref-mahalanobis1936" class="csl-entry" role="listitem">
+Mahalanobis, Prasanta Chandra. 1936. <span>“On the Generalised Distance in Statistics.”</span> <em>Proceedings of the National Institute of Sciences of India</em> 2 (1): 49–55.
+</div>
+<div id="ref-middleton2015" class="csl-entry" role="listitem">
+Middleton, Joel A., and Peter M. Aronow. 2015. <span>“Unbiased Estimation of the Average Treatment Effect in Cluster-Randomized Experiments.”</span> <em>Statistics, Politics and Policy</em> 6 (1-2): 39–75. <a href="https://doi.org/10.1515/spp-2013-0002">https://doi.org/10.1515/spp-2013-0002</a>.
+</div>
+<div id="ref-morgan2012" class="csl-entry" role="listitem">
+Morgan, Kari Lock, and Donald B. Rubin. 2012. <span>“Rerandomization to Improve Covariate Balance in Experiments.”</span> <em>The Annals of Statistics</em> 40 (2): 1263–82. <a href="https://doi.org/10.1214/12-AOS1008">https://doi.org/10.1214/12-AOS1008</a>.
+</div>
+<div id="ref-pocock1975" class="csl-entry" role="listitem">
+Pocock, Stuart J., and Richard Simon. 1975. <span>“Sequential Treatment Assignment with Balancing for Prognostic Factors in the Controlled Clinical Trial.”</span> <em>Biometrics</em> 31 (1): 103–15. <a href="https://doi.org/10.2307/2529712">https://doi.org/10.2307/2529712</a>.
+</div>
+<div id="ref-robins1994" class="csl-entry" role="listitem">
+Robins, James M., Andrea Rotnitzky, and Lue Ping Zhao. 1994. <span>“Estimation of Regression Coefficients When Some Regressors Are Not Always Observed.”</span> <em>Journal of the American Statistical Association</em> 89 (427): 846–66. <a href="https://doi.org/10.1080/01621459.1994.10476818">https://doi.org/10.1080/01621459.1994.10476818</a>.
+</div>
+<div id="ref-rubin2008" class="csl-entry" role="listitem">
+Rubin, Donald B. 2008. <span>“For Objective Causal Inference, Design Trumps Analysis.”</span> <em>The Annals of Applied Statistics</em> 2 (3): 808–40. <a href="https://doi.org/10.1214/08-AOAS187">https://doi.org/10.1214/08-AOAS187</a>.
+</div>
+<div id="ref-neyman1990" class="csl-entry" role="listitem">
+Splawa-Neyman, Jerzy, Dorota M. Dabrowska, and Terence P. Speed. 1990. <span>“On the Application of Probability Theory to Agricultural Experiments: Essay on Principles, Section 9.”</span> <em>Statistical Science</em> 5 (4): 465–72. <a href="https://doi.org/10.1214/ss/1177012031">https://doi.org/10.1214/ss/1177012031</a>.
+</div>
+<div id="ref-tsiatis2008" class="csl-entry" role="listitem">
+Tsiatis, Anastasios A., Marie Davidian, Min Zhang, and Xiaomin Lu. 2008. <span>“Covariate Adjustment for Two-Sample Treatment Comparisons in Randomized Clinical Trials: A Principled yet Flexible Approach.”</span> <em>Statistics in Medicine</em> 27 (23): 4658–77. <a href="https://doi.org/10.1002/sim.3113">https://doi.org/10.1002/sim.3113</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../lectures/L02-basic-estimators/index.html" class="pagination-link" aria-label="L02: Basic Estimators and Experimental Pitfalls">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">L02: Basic Estimators and Experimental Pitfalls</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../lectures/L04-positivity-partial-identification/index.html" class="pagination-link" aria-label="L04: Positivity, Trimming, Target Populations, and Partial Identification">
+        <span class="nav-page-text"><span class="chapter-title">L04: Positivity, Trimming, Target Populations, and Partial Identification</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
