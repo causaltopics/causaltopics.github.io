@@ -9,6 +9,10 @@ example in that lecture.
 
 - $N$ is the number of units in the finite experimental population, indexed by
   $i=1,\ldots,N$.
+- $n$ is the sample size in explicitly stated i.i.d. superpopulation or
+  observational-sampling arguments. Do not silently replace the finite
+  experimental population indexed by $N$ with an i.i.d. sample indexed by
+  $n$.
 - $X_i$ is the vector of pretreatment covariates for unit $i$; $\mathbf X$
   collects these vectors.
 - A target population beyond the experimental units is described explicitly.
@@ -42,6 +46,12 @@ example in that lecture.
   finite-population average treatment effect. Qualify population and
   conditional versions with a subscript or argument, such as $\tau_P$,
   $\tau(x)$, or $\tau_g$.
+- In a stated superpopulation, $\tau_P=\mathbb E\{Y(1)-Y(0)\}$ denotes the
+  population ATE. For a measurable covariate subset $A$,
+  $\tau_A=\mathbb E\{Y(1)-Y(0)\mid X\in A\}$ is the ATE in the restricted
+  target population. For a nonnegative tilting function $h$,
+  $\tau_h=\mathbb E[h(X)\{Y(1)-Y(0)\}]/\mathbb E\{h(X)\}$ is the ATE in the
+  corresponding tilted target population.
 - A hat denotes an estimator, a random function of the assignment and observed
   outcomes. Its value at the realized data is an estimate.
 - $\widehat\tau_{\mathrm{DM}}$ denotes the treated-minus-control difference in
@@ -62,8 +72,11 @@ example in that lecture.
   treatment effects.
 - $\widehat\tau_X=\overline X_1^{\mathrm{obs}}-
   \overline X_0^{\mathrm{obs}}$ denotes realized covariate mean imbalance.
-- $m_z(x)$ denotes an outcome prediction for treatment arm $z$; distinguish a
-  function fixed before assignment from one fitted using realized outcomes.
+- In superpopulation arguments, $m_z(x)=\mathbb E\{Y(z)\mid X=x\}$ denotes
+  the conditional potential-outcome mean for arm $z$. In design-based
+  arguments, the same symbol may denote a working outcome prediction;
+  distinguish the population conditional mean, a function fixed before
+  assignment, and a function fitted using realized outcomes.
 - $\widehat\mu_{z,\mathrm{AIPW}}$ denotes the prediction-plus-IPW-correction
   estimator of $\overline Y(z)$, and
   $\widehat\tau_{\mathrm{AIPW}}=\widehat\mu_{1,\mathrm{AIPW}}-
@@ -79,6 +92,10 @@ example in that lecture.
   $\pi_i(z)=\mathbb P_Z(Z_i=z)$, so that $\pi_i(1)=\pi_i$ and
   $\pi_i(0)=1-\pi_i$.
 - Use $p$ for a common Bernoulli assignment probability.
+- In observational or superpopulation arguments,
+  $e(x)=\mathbb P(Z=1\mid X=x)$ is the propensity score. Introduce the change
+  of framework explicitly; do not use $e(x)$ as though it were the known
+  finite-population design probability $\pi_i$.
 
 ## Finite-population and superpopulation operators
 

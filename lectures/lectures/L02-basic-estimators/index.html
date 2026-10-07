@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,16 +10,10 @@
 
 <title>L02: Basic Estimators and Experimental Pitfalls – Topics in Causal Inference</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -31,6 +25,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -64,14 +59,14 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b43a5d9faffcaba08472c20bb36c51d9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a2aa1419c2c06ecd7d01c1a3241c099.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-581546e9418954a1390d7be89183347a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-4ba907f2f7475452a5a17fbf1b870ebf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -101,7 +96,7 @@ div.csl-indent {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -114,7 +109,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -490,7 +485,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Lecture outline
+Lecture outline
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -518,7 +513,7 @@ S_z^2=\frac{1}{N-1}\sum_{i=1}^N
 \qquad
 S_\tau^2=\frac{1}{N-1}\sum_{i=1}^N(\tau_i-\tau)^2,
 \]</span></p>
-<p>where <span class="math inline">\(\tau_i=Y_i(1)-Y_i(0)\)</span>. These are fixed features of the science table, not variances over a model for the outcomes. Neyman’s exact randomization variance is <span class="citation" data-cites="neyman1990">(<a href="../../references.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman et al. 1990</a>)</span></p>
+<p>where <span class="math inline">\(\tau_i=Y_i(1)-Y_i(0)\)</span>. These are fixed features of the science table, not variances over a model for the outcomes. Neyman’s exact randomization variance is <span class="citation" data-cites="neyman1990">(<a href="../L04-positivity-partial-identification/index.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman, Dabrowska, and Speed 1990</a>)</span></p>
 <p><span id="eq-l02-neyman-variance"><span class="math display">\[
 V_Z
 :=\operatorname{Var}_Z(\widehat\tau_{\mathrm{DM}})
@@ -642,7 +637,7 @@ s_z^2=\frac{1}{N_z-1}\sum_{i:Z_i=z}
 =\frac{1}{N}\sum_{i=1}^N\frac{(1-Z_i)Y_i^{\mathrm{obs}}}{1-\pi_i},
 \]</span></p>
 <p>and <span class="math inline">\(\widehat\tau_{\mathrm{HT}}=\widehat\mu_{1,\mathrm{HT}}-
-\widehat\mu_{0,\mathrm{HT}}\)</span> <span class="citation" data-cites="horvitz1952">(<a href="../../references.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. A treated unit with <span class="math inline">\(\pi_i=0.2\)</span>, for example, receives weight <span class="math inline">\(1/0.2=5\)</span>: it is observed under treatment only one fifth of the time across repeated assignments, so each such observation represents five assignment opportunities. Formally, each unit’s weighted treatment indicator has expectation one,</p>
+\widehat\mu_{0,\mathrm{HT}}\)</span> <span class="citation" data-cites="horvitz1952">(<a href="../L04-positivity-partial-identification/index.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. A treated unit with <span class="math inline">\(\pi_i=0.2\)</span>, for example, receives weight <span class="math inline">\(1/0.2=5\)</span>: it is observed under treatment only one fifth of the time across repeated assignments, so each such observation represents five assignment opportunities. Formally, each unit’s weighted treatment indicator has expectation one,</p>
 <p><span class="math display">\[
 \mathbb E_Z\left(\frac{Z_i}{\pi_i}\right)=1.
 \]</span></p>
@@ -680,7 +675,7 @@ s_z^2=\frac{1}{N_z-1}\sum_{i:Z_i=z}
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>What HT is correcting
+What HT is correcting
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -697,7 +692,7 @@ s_z^2=\frac{1}{N_z-1}\sum_{i:Z_i=z}
 \qquad
 \mathbb E_Z(\widehat N_1^{\,w})=N.
 \]</span></p>
-<p>The notation <span class="math inline">\(\widehat N_1^{\,w}\)</span> does not denote the number of treated units. It is the population size represented by the treated units after weighting. HT divides its weighted outcome total by the known <span class="math inline">\(N\)</span> even when <span class="math inline">\(\widehat N_1^{\,w}\ne N\)</span>. The Hájek estimator instead divides by the realized total weight <span class="citation" data-cites="hajek1971">(<a href="../../references.html#ref-hajek1971" role="doc-biblioref">Hájek 1971</a>)</span>:</p>
+<p>The notation <span class="math inline">\(\widehat N_1^{\,w}\)</span> does not denote the number of treated units. It is the population size represented by the treated units after weighting. HT divides its weighted outcome total by the known <span class="math inline">\(N\)</span> even when <span class="math inline">\(\widehat N_1^{\,w}\ne N\)</span>. The Hájek estimator instead divides by the realized total weight <span class="citation" data-cites="hajek1971">(<a href="../L04-positivity-partial-identification/index.html#ref-hajek1971" role="doc-biblioref">Hájek 1971</a>)</span>:</p>
 <p><span id="eq-l02-hajek"><span class="math display">\[
 \widehat\mu_{1,\mathrm H}
 =\frac{\sum_i Z_iY_i^{\mathrm{obs}}/\pi_i}
@@ -761,7 +756,7 @@ s_z^2=\frac{1}{N_z-1}\sum_{i:Z_i=z}
 -\operatorname{Var}_Z(\widehat\mu_{\mathrm H})
 \approx \frac{1-p}{pN}\mu^2.
 \]</span></p>
-<p>The difference is large when the outcome mean is far from zero relative to the outcomes’ dispersion. Equivalently, a common additive shift changes HT’s variance because random total weight multiplies that shift, while it leaves the first-order Hájek variance unchanged. This is the classic survey-sampling linearization logic <span class="citation" data-cites="sarndal1989 sarndal1992">(<a href="../../references.html#ref-sarndal1989" role="doc-biblioref">Särndal et al. 1989</a>, <a href="../../references.html#ref-sarndal1992" role="doc-biblioref">1992</a>)</span>. The calculation isolates one arm; for the treatment-effect estimator, the treated- and control-arm variances must also be combined with their design covariance.</p>
+<p>The difference is large when the outcome mean is far from zero relative to the outcomes’ dispersion. Equivalently, a common additive shift changes HT’s variance because random total weight multiplies that shift, while it leaves the first-order Hájek variance unchanged. This is the classic survey-sampling linearization logic <span class="citation" data-cites="sarndal1989 sarndal1992">(<a href="../L04-positivity-partial-identification/index.html#ref-sarndal1989" role="doc-biblioref">Särndal, Swensson, and Wretman 1989</a>; <a href="../L04-positivity-partial-identification/index.html#ref-sarndal1992" role="doc-biblioref">Särndal, Swensson, and Wretman 1992</a>)</span>. The calculation isolates one arm; for the treatment-effect estimator, the treated- and control-arm variances must also be combined with their design covariance.</p>
 </section>
 <section id="ratio-bias-from-normalization" class="level2">
 <h2 class="anchored" data-anchor-id="ratio-bias-from-normalization">Ratio bias from normalization</h2>
@@ -797,7 +792,7 @@ Y_i(1)=b+\sigma x_i+\tau,
 </section>
 <section id="normalization-is-a-continuum" class="level1">
 <h1>Normalization is a continuum</h1>
-<p>HT leaves the realized total-weight error uncorrected; Hájek removes it completely. That contrast suggests a less binary question: how much of the denominator fluctuation should an estimator use? Trotter and Tukey introduced an affine family that makes this amount explicit; <span class="citation" data-cites="khan2023">Khan and Ugander (<a href="../../references.html#ref-khan2023" role="doc-biblioref">2023</a>)</span> develop the family for inverse-probability weighting. For the same generic mean problem, define</p>
+<p>HT leaves the realized total-weight error uncorrected; Hájek removes it completely. That contrast suggests a less binary question: how much of the denominator fluctuation should an estimator use? Trotter and Tukey introduced an affine family that makes this amount explicit; <span class="citation" data-cites="khan2023">Khan and Ugander (<a href="../L04-positivity-partial-identification/index.html#ref-khan2023" role="doc-biblioref">2023</a>)</span> develop the family for inverse-probability weighting. For the same generic mean problem, define</p>
 <p><span id="eq-l02-tt-family"><span class="math display">\[
 \widehat\mu_\lambda
 =\frac{\widehat T_Y}{(1-\lambda)N+\lambda\widehat N}
@@ -826,7 +821,7 @@ c_N^*:=\lambda_N^*\mu
 =\frac{\sum_iq_iY_i}{\sum_iq_i}.
 \tag{9}\]</span></span></p>
 <p>Thus the useful object is not fundamentally a fraction <span class="math inline">\(\lambda\)</span>. It is the centering constant <span class="math inline">\(c_N^*\)</span>, a weighted mean of the fixed <span class="math inline">\(Y_i\)</span> that emphasizes units with noisier inverse-probability weights.</p>
-<p>To state the adaptive choice used by <span class="citation" data-cites="khan2023">Khan and Ugander (<a href="../../references.html#ref-khan2023" role="doc-biblioref">2023</a>)</span>, we now make an explicit change of framework. The preceding variance calculations held a finite population fixed. Their asymptotic analysis instead treats the pairs <span class="math inline">\((Y_i,\pi_i)\)</span> as i.i.d. draws of a generic pair <span class="math inline">\((Y,P)\)</span>, where <span class="math inline">\(P\)</span> is a random inclusion probability. In this paragraph, <span class="math inline">\(\mu=\mathbb E(Y)\)</span> is the superpopulation mean rather than the mean of one fixed finite population. Define the weight-noise factor <span class="math inline">\(Q=(1-P)/P\)</span> and the two population moments</p>
+<p>To state the adaptive choice used by <span class="citation" data-cites="khan2023">Khan and Ugander (<a href="../L04-positivity-partial-identification/index.html#ref-khan2023" role="doc-biblioref">2023</a>)</span>, we now make an explicit change of framework. The preceding variance calculations held a finite population fixed. Their asymptotic analysis instead treats the pairs <span class="math inline">\((Y_i,\pi_i)\)</span> as i.i.d. draws of a generic pair <span class="math inline">\((Y,P)\)</span>, where <span class="math inline">\(P\)</span> is a random inclusion probability. In this paragraph, <span class="math inline">\(\mu=\mathbb E(Y)\)</span> is the superpopulation mean rather than the mean of one fixed finite population. Define the weight-noise factor <span class="math inline">\(Q=(1-P)/P\)</span> and the two population moments</p>
 <p><span class="math display">\[
 \Pi=\mathbb E(Q),
 \qquad
@@ -889,7 +884,7 @@ N\widehat\mu+\widehat c(\widehat N-N)=\widehat T_Y.
 -\widehat c\left(\frac{\widehat N}{N}-1\right).
 \tag{12}\]</span></span></p>
 <p>The fixed point is therefore a <strong>control-variate</strong>, or regression-control, estimator. The quantity <span class="math inline">\(D=\widehat N/N-1\)</span> has design expectation zero and is correlated with the part of HT error generated by total-weight fluctuation. For any <em>fixed</em> coefficient <span class="math inline">\(c\)</span>, subtracting <span class="math inline">\(cD\)</span> preserves exact design unbiasedness; choosing the population coefficient <span class="math inline">\(c^*\)</span> minimizes the first-order variance in this one-dimensional control family. HT uses <span class="math inline">\(c=0\)</span>, Hájek corresponds at first order to <span class="math inline">\(c=\mu\)</span>, and adaptive normalization plugs in <span class="math inline">\(\widehat c\)</span>.</p>
-<p>Because <span class="math inline">\(\widehat c\)</span> is estimated from the same realization as <span class="math inline">\(D\)</span>, the mean-zero property of <span class="math inline">\(D\)</span> alone does not prove exact unbiasedness of the adaptive estimator. The guarantee in <span class="citation" data-cites="khan2023">Khan and Ugander (<a href="../../references.html#ref-khan2023" role="doc-biblioref">2023</a>)</span> is asymptotic: under their moment and consistency conditions, the adaptive variance is no larger than the corresponding HT or Hájek variance. Unstable estimated moments or a nearly empty effective sample can still matter in finite samples. The closed form in <a href="#eq-l02-an-control" class="quarto-xref">Equation&nbsp;<span>12</span></a> is also preferable if an iterate passes near zero, where the <span class="math inline">\(\lambda\)</span> parameterization becomes unstable.</p>
+<p>Because <span class="math inline">\(\widehat c\)</span> is estimated from the same realization as <span class="math inline">\(D\)</span>, the mean-zero property of <span class="math inline">\(D\)</span> alone does not prove exact unbiasedness of the adaptive estimator. The guarantee in <span class="citation" data-cites="khan2023">Khan and Ugander (<a href="../L04-positivity-partial-identification/index.html#ref-khan2023" role="doc-biblioref">2023</a>)</span> is asymptotic: under their moment and consistency conditions, the adaptive variance is no larger than the corresponding HT or Hájek variance. Unstable estimated moments or a nearly empty effective sample can still matter in finite samples. The closed form in <a href="#eq-l02-an-control" class="quarto-xref">Equation&nbsp;<span>12</span></a> is also preferable if an iterate passes near zero, where the <span class="math inline">\(\lambda\)</span> parameterization becomes unstable.</p>
 </section>
 <section id="regression-adjustment" class="level1">
 <h1>Regression adjustment</h1>
@@ -922,7 +917,7 @@ N\widehat\mu+\widehat c(\widehat N-N)=\widehat T_Y.
 -(\overline X_0^{\mathrm{obs}}-\overline X)^\top\beta_0\right\}.
 \end{aligned}
 \tag{14}\]</span></span></p>
-<p>For fixed coefficients, each bracket is design-unbiased for its corresponding finite-population potential-outcome mean. Taking <span class="math inline">\(\beta_1=\beta_0=\beta\)</span> recovers <a href="#eq-l02-reg-adjust" class="quarto-xref">Equation&nbsp;<span>13</span></a>. In practice, the coefficients are usually fitted from the experimental outcomes. They are then assignment-dependent, so the exact finite-sample mean-zero argument no longer follows merely from <span class="math inline">\(\mathbb E_Z(\widehat\tau_X)=0\)</span>. The regression should allow treatment-specific slopes—equivalently, include treatment-by-centered-covariate interactions—because the two potential-outcome surfaces need not be parallel <span class="citation" data-cites="freedman2008 lin2013">(<a href="../../references.html#ref-freedman2008" role="doc-biblioref">Freedman 2008</a>; <a href="../../references.html#ref-lin2013" role="doc-biblioref">Lin 2013</a>)</span>. Randomization protects the large-sample causal interpretation under suitable regularity conditions, but careless specifications or standard errors can lose efficiency or misstate uncertainty.</p>
+<p>For fixed coefficients, each bracket is design-unbiased for its corresponding finite-population potential-outcome mean. Taking <span class="math inline">\(\beta_1=\beta_0=\beta\)</span> recovers <a href="#eq-l02-reg-adjust" class="quarto-xref">Equation&nbsp;<span>13</span></a>. In practice, the coefficients are usually fitted from the experimental outcomes. They are then assignment-dependent, so the exact finite-sample mean-zero argument no longer follows merely from <span class="math inline">\(\mathbb E_Z(\widehat\tau_X)=0\)</span>. The regression should allow treatment-specific slopes—equivalently, include treatment-by-centered-covariate interactions—because the two potential-outcome surfaces need not be parallel <span class="citation" data-cites="freedman2008 lin2013">(<a href="../L04-positivity-partial-identification/index.html#ref-freedman2008" role="doc-biblioref">Freedman 2008</a>; <a href="../L04-positivity-partial-identification/index.html#ref-lin2013" role="doc-biblioref">Lin 2013</a>)</span>. Randomization protects the large-sample causal interpretation under suitable regularity conditions, but careless specifications or standard errors can lose efficiency or misstate uncertainty.</p>
 <p>This returns us to normalization. In <a href="#eq-l02-an-control" class="quarto-xref">Equation&nbsp;<span>12</span></a>, <span class="math inline">\(\widehat N/N-1\)</span> is the inverse-weighted imbalance in the constant feature <span class="math inline">\(1\)</span>: its target mean is exactly one, but its realized weighted mean need not be. Adaptive normalization uses that scalar imbalance as a control variable. Conventional regression adjustment applies the same logic to informative pretreatment features. GREG makes the connection especially explicit.</p>
 <section id="greg-from-a-known-baseline-total" class="level2">
 <h2 class="anchored" data-anchor-id="greg-from-a-known-baseline-total">GREG from a known baseline total</h2>
@@ -946,7 +941,7 @@ N\widehat\mu+\widehat c(\widehat N-N)=\widehat T_Y.
 =\widehat\mu_{1,\mathrm{HT}}
 +(\overline X-\widehat{\overline X}_{1,\mathrm{HT}})^\top\beta.
 \tag{15}\]</span></span></p>
-<p>Under complete randomization, <span class="math inline">\(\widehat{\overline X}_{1,\mathrm{HT}}\)</span> is simply the ordinary treated-arm covariate mean, so it is the <span class="math inline">\(4.8\)</span> in the example. For a coefficient <span class="math inline">\(\beta\)</span> fixed relative to assignment, <a href="#eq-l02-greg" class="quarto-xref">Equation&nbsp;<span>15</span></a> is the <strong>generalized-difference</strong>, or regression-control, construction at the heart of GREG. Replacing <span class="math inline">\(\beta\)</span> by a weighted regression estimate gives the usual <strong>generalized regression estimator</strong> (GREG) <span class="citation" data-cites="cassel1976">(<a href="../../references.html#ref-cassel1976" role="doc-biblioref">Cassel et al. 1976</a>)</span>. In the scalar example, <span class="math inline">\(\beta=2\)</span> makes the correction <span class="math inline">\((4.0-4.8)2=-1.6\)</span>.</p>
+<p>Under complete randomization, <span class="math inline">\(\widehat{\overline X}_{1,\mathrm{HT}}\)</span> is simply the ordinary treated-arm covariate mean, so it is the <span class="math inline">\(4.8\)</span> in the example. For a coefficient <span class="math inline">\(\beta\)</span> fixed relative to assignment, <a href="#eq-l02-greg" class="quarto-xref">Equation&nbsp;<span>15</span></a> is the <strong>generalized-difference</strong>, or regression-control, construction at the heart of GREG. Replacing <span class="math inline">\(\beta\)</span> by a weighted regression estimate gives the usual <strong>generalized regression estimator</strong> (GREG) <span class="citation" data-cites="cassel1976">(<a href="../L04-positivity-partial-identification/index.html#ref-cassel1976" role="doc-biblioref">Cassel, Särndal, and Wretman 1976</a>)</span>. In the scalar example, <span class="math inline">\(\beta=2\)</span> makes the correction <span class="math inline">\((4.0-4.8)2=-1.6\)</span>.</p>
 <p>Writing <span class="math inline">\(m_1(x)=x^\top\beta\)</span> gives an equivalent prediction-plus-residual form:</p>
 <p><span id="eq-l02-greg-residual"><span class="math display">\[
 \widehat\mu_{1,\mathrm{GREG}}(m_1)
@@ -969,7 +964,7 @@ N\widehat\mu+\widehat c(\widehat N-N)=\widehat T_Y.
 \]</span></p>
 <p>HT is the case <span class="math inline">\(\beta=0\)</span>. At the other extreme, if the prediction were exact for every unit, every residual would be zero and the treated potential-outcome mean could be recovered from full-roster predictions without assignment noise. Between those extremes, the fixed-coefficient estimator reduces variance when the chosen coefficient leaves less design-weighted residual variation than the raw outcomes; an arbitrary or poorly transported coefficient need not help.</p>
 <p>For control, replace <span class="math inline">\(Z_i/\pi_i\)</span> by <span class="math inline">\((1-Z_i)/(1-\pi_i)\)</span> and use a control-outcome prediction <span class="math inline">\(m_0\)</span>. Subtracting the two prediction-plus-residual arm means estimates the ATE. This is the separate-arm version of the adjustment in <a href="#eq-l02-separate-slope-adjustment" class="quarto-xref">Equation&nbsp;<span>14</span></a>.</p>
-<p>In practice, <span class="math inline">\(\beta\)</span> is often fitted from the realized outcomes. Then the fixed-coefficient argument no longer establishes exact finite-sample unbiasedness. A coefficient fitted on historical data can be frozen before assignment; a coefficient fitted within the experiment needs the regression-adjustment qualifications discussed above. L03 uses the prediction-plus-IPW construction for both arms and names the resulting general form AIPW <span class="citation" data-cites="robins1994">(<a href="../../references.html#ref-robins1994" role="doc-biblioref">Robins et al. 1994</a>)</span>.</p>
+<p>In practice, <span class="math inline">\(\beta\)</span> is often fitted from the realized outcomes. Then the fixed-coefficient argument no longer establishes exact finite-sample unbiasedness. A coefficient fitted on historical data can be frozen before assignment; a coefficient fitted within the experiment needs the regression-adjustment qualifications discussed above. L03 uses the prediction-plus-IPW construction for both arms and names the resulting general form AIPW <span class="citation" data-cites="robins1994">(<a href="../L04-positivity-partial-identification/index.html#ref-robins1994" role="doc-biblioref">Robins, Rotnitzky, and Zhao 1994</a>)</span>.</p>
 </section>
 <section id="cuped-choosing-the-control-coefficient" class="level2">
 <h2 class="anchored" data-anchor-id="cuped-choosing-the-control-coefficient">CUPED: choosing the control coefficient</h2>
@@ -1029,11 +1024,11 @@ S_{zX}=\frac{1}{N-1}\sum_i
 +\frac{N_1}{N}\frac{S_{0X}}{S_X^2}.
 \]</span></p>
 <p>The oracle coefficient is therefore an allocation-weighted average of the two arm-specific slopes, with each slope weighted by the size of the opposite arm. Under equal allocation it is their simple average; if the two slopes coincide, their common value is optimal for any allocation. This calculation explains both why a pooled slope can work well and why treatment-specific slopes can improve on it.</p>
-<p>The original CUPED recommendation is to use the same metric from a nearby pre-experiment period: it is often strongly correlated with the experiment-period metric while remaining unaffected by treatment <span class="citation" data-cites="deng2013">(<a href="../../references.html#ref-deng2013" role="doc-biblioref">Deng et al. 2013</a>)</span>. There are several practical ways to choose <span class="math inline">\(\theta\)</span>:</p>
+<p>The original CUPED recommendation is to use the same metric from a nearby pre-experiment period: it is often strongly correlated with the experiment-period metric while remaining unaffected by treatment <span class="citation" data-cites="deng2013">(<a href="../L04-positivity-partial-identification/index.html#ref-deng2013" role="doc-biblioref">Deng et al. 2013</a>)</span>. There are several practical ways to choose <span class="math inline">\(\theta\)</span>:</p>
 <ul>
 <li><strong>Estimate it before the experiment.</strong> Use comparable historical experiments, a separate cohort, or relationships between earlier pretreatment windows, then freeze the coefficient before assignment. This preserves the exact fixed-coefficient design argument, but relies on stability across periods.</li>
 <li><strong>Estimate the oracle combination in the experiment.</strong> Estimate a slope within each arm, say <span class="math inline">\(\widehat\beta_1\)</span> and <span class="math inline">\(\widehat\beta_0\)</span>, and combine them as <span class="math inline">\((N_0/N)\widehat\beta_1+(N_1/N)\widehat\beta_0\)</span>, mirroring the last expression for <span class="math inline">\(\theta^*\)</span>. In a balanced experiment this is the simple average. Regressing <span class="math inline">\(Y_i^{\mathrm{obs}}\)</span> on an intercept, <span class="math inline">\(Z_i\)</span>, and <span class="math inline">\(X_i-\overline X\)</span> gives a familiar pooled common slope; including <span class="math inline">\(Z_i\)</span> means that the slope is learned from within-arm outcome–covariate association rather than from the treatment/control mean difference. In a large balanced experiment it provides a convenient estimate of the same average when both arms inherit similar covariate dispersion; ordinary pooled regression need not reproduce the oracle weighting in an unbalanced experiment. Because the same outcomes choose the coefficient and estimate the effect, exact finite-sample unbiasedness is no longer automatic; inference should account for the fitted adjustment.</li>
-<li><strong>Allow treatment-specific slopes when warranted.</strong> Include <span class="math inline">\(Z_i(X_i-\overline X)\)</span>, or fit the two arm-specific slopes directly. A single common <span class="math inline">\(\theta\)</span> can leave precision unused when the prognostic relationship differs by arm <span class="citation" data-cites="lin2013">(<a href="../../references.html#ref-lin2013" role="doc-biblioref">Lin 2013</a>)</span>.</li>
+<li><strong>Allow treatment-specific slopes when warranted.</strong> Include <span class="math inline">\(Z_i(X_i-\overline X)\)</span>, or fit the two arm-specific slopes directly. A single common <span class="math inline">\(\theta\)</span> can leave precision unused when the prognostic relationship differs by arm <span class="citation" data-cites="lin2013">(<a href="../L04-positivity-partial-identification/index.html#ref-lin2013" role="doc-biblioref">Lin 2013</a>)</span>.</li>
 <li><strong>Regularize or cross-fit richer adjustments.</strong> With many baseline variables or a flexible predictor, assess predictive performance out of sample and use sample splitting or cross-fitting to limit overfitting. Cross-fitting does not by itself guarantee exact design unbiasedness, especially under fixed-total assignment. Only pretreatment variables belong in the adjustment.</li>
 </ul>
 </section>
@@ -1089,7 +1084,7 @@ w_i=d_i(1+\eta^\top g_i),
 <p><span class="math display">\[
 w_i=d_i\exp(\eta^\top g_i).
 \]</span></p>
-<p>In each case <span class="math inline">\(\eta\in\mathbb R^{K+1}\)</span> is a vector of Lagrange-multiplier parameters chosen so that <a href="#eq-l02-calibration" class="quarto-xref">Equation&nbsp;<span>21</span></a> holds. Entropy calibration becomes classical raking when the features are indicators for categorical margins <span class="citation" data-cites="deville1992 deville1993">(<a href="../../references.html#ref-deville1992" role="doc-biblioref">Deville and Särndal 1992</a>; <a href="../../references.html#ref-deville1993" role="doc-biblioref">Deville et al. 1993</a>)</span>.</p>
+<p>In each case <span class="math inline">\(\eta\in\mathbb R^{K+1}\)</span> is a vector of Lagrange-multiplier parameters chosen so that <a href="#eq-l02-calibration" class="quarto-xref">Equation&nbsp;<span>21</span></a> holds. Entropy calibration becomes classical raking when the features are indicators for categorical margins <span class="citation" data-cites="deville1992 deville1993">(<a href="../L04-positivity-partial-identification/index.html#ref-deville1992" role="doc-biblioref">Deville and Särndal 1992</a>; <a href="../L04-positivity-partial-identification/index.html#ref-deville1993" role="doc-biblioref">Deville, Särndal, and Sautory 1993</a>)</span>.</p>
 <p>The resulting treated-mean estimator is</p>
 <p><span class="math display">\[
 \widehat\mu_{1,\mathrm{cal}}
@@ -1109,7 +1104,7 @@ Y_i(1)=g_i^\top\beta+e_i.
 \tag{23}\]</span></span></p>
 <p>To obtain <a href="#eq-l02-calibration-residual" class="quarto-xref">Equation&nbsp;<span>23</span></a>, substitute <span class="math inline">\(Y_i(1)=g_i^\top\beta+e_i\)</span> into both the weighted observed total and the full-roster total. The two <span class="math inline">\(g_i^\top\beta\)</span> contributions are equal because of <a href="#eq-l02-calibration" class="quarto-xref">Equation&nbsp;<span>21</span></a>, so they cancel. The only remaining error is imbalance in the residuals.</p>
 <p>This identity gives the calibration objective its statistical meaning. If the chosen features predict outcomes well, their exact balance removes a systematic source of assignment noise. If <span class="math inline">\(Y_i(1)=g_i^\top\beta\)</span> exactly for every unit, all residuals are zero and the calibrated treated mean equals <span class="math inline">\(\overline Y(1)\)</span> exactly. With weakly predictive or overly numerous features, the benefit can be small or outweighed by unstable weights.</p>
-<p>When the calibration problem is feasible and the relevant weighted feature matrix has full rank, quadratic distance gives the calibrated estimator an exact GREG representation with a corresponding weighted least-squares coefficient. Other smooth calibration distances generally produce different finite-sample estimators, although they can share a first-order GREG approximation under regularity conditions <span class="citation" data-cites="deville1992">(<a href="../../references.html#ref-deville1992" role="doc-biblioref">Deville and Särndal 1992</a>)</span>. Unlike the generalized-difference construction with a coefficient fixed before assignment, calibrated weights depend on the realized assignment, so exact design unbiasedness is not automatic.</p>
+<p>When the calibration problem is feasible and the relevant weighted feature matrix has full rank, quadratic distance gives the calibrated estimator an exact GREG representation with a corresponding weighted least-squares coefficient. Other smooth calibration distances generally produce different finite-sample estimators, although they can share a first-order GREG approximation under regularity conditions <span class="citation" data-cites="deville1992">(<a href="../L04-positivity-partial-identification/index.html#ref-deville1992" role="doc-biblioref">Deville and Särndal 1992</a>)</span>. Unlike the generalized-difference construction with a coefficient fixed before assignment, calibrated weights depend on the realized assignment, so exact design unbiasedness is not automatic.</p>
 <p>The control arm can be calibrated separately to the same roster targets, beginning from <span class="math inline">\(d_i=1/(1-\pi_i)\)</span>. Subtracting the calibrated arm means estimates the ATE. More constraints are not always better: they can force extreme weights and inflate the residual variance. With nonnegative weights and an intercept constraint, the target covariate mean must lie in the observed arm’s convex hull. Signed quadratic weights can reach targets outside that hull only when the target remains in the affine span of the observed feature vectors.</p>
 <p>Diagnostics should therefore include residual balance, weight dispersion, and sensitivity to the feature set. For positive weights, one useful summary is the Kish effective sample size</p>
 <p><span class="math display">\[
@@ -1132,31 +1127,31 @@ N_{\mathrm{eff}}
 <h1>Advanced material</h1>
 <section id="practical-experimentation-errors-larger-than-the-standard-error" class="level2">
 <h2 class="anchored" data-anchor-id="practical-experimentation-errors-larger-than-the-standard-error">Practical experimentation: errors larger than the standard error</h2>
-<p>Large samples do not rescue a broken experiment. The practical program begins with <span class="citation" data-cites="kohavi2007">Kohavi et al. (<a href="../../references.html#ref-kohavi2007" role="doc-biblioref">2007</a>)</span>; <span class="citation" data-cites="crook2009">Crook et al. (<a href="../../references.html#ref-crook2009" role="doc-biblioref">2009</a>)</span> then documents recurring failures in online controlled experiments: incorrect variance and power calculations, misleading percent-change intervals, bot traffic, instrumentation failures, ramp-up effects, and treatment/control populations that are not actually comparable. These are failures of measurement and implementation before they are failures of asymptotic approximation.</p>
-<p>The replication evidence in <span class="citation" data-cites="kohavi2026">Kohavi et al. (<a href="../../references.html#ref-kohavi2026" role="doc-biblioref">2026</a>)</span> adds a selection lesson. Eight large-scale tests of previously reported experimentation “patterns” had median samples in the millions and small minimum detectable effects, yet only two produced significant movement in the expected direction and one moved significantly in the opposite direction. The discrepancy is consistent with underpowered discovery studies, selective reporting, and the <strong>winner’s curse</strong>: conditional on being selected for a large estimate, a noisy estimate is likely exaggerated.</p>
+<p>Large samples do not rescue a broken experiment. The practical program begins with <span class="citation" data-cites="kohavi2007">Kohavi, Henne, and Sommerfield (<a href="../L04-positivity-partial-identification/index.html#ref-kohavi2007" role="doc-biblioref">2007</a>)</span>; <span class="citation" data-cites="crook2009">Crook et al. (<a href="../L04-positivity-partial-identification/index.html#ref-crook2009" role="doc-biblioref">2009</a>)</span> then documents recurring failures in online controlled experiments: incorrect variance and power calculations, misleading percent-change intervals, bot traffic, instrumentation failures, ramp-up effects, and treatment/control populations that are not actually comparable. These are failures of measurement and implementation before they are failures of asymptotic approximation.</p>
+<p>The replication evidence in <span class="citation" data-cites="kohavi2026">Kohavi et al. (<a href="../L04-positivity-partial-identification/index.html#ref-kohavi2026" role="doc-biblioref">2026</a>)</span> adds a selection lesson. Eight large-scale tests of previously reported experimentation “patterns” had median samples in the millions and small minimum detectable effects, yet only two produced significant movement in the expected direction and one moved significantly in the opposite direction. The discrepancy is consistent with underpowered discovery studies, selective reporting, and the <strong>winner’s curse</strong>: conditional on being selected for a large estimate, a noisy estimate is likely exaggerated.</p>
 <p>Practical discipline follows: establish sample-ratio and instrumentation checks, specify the primary metric and analysis before looking, ramp cautiously, report uncertainty in interpretable units, and replicate claims that will guide many future experiments.</p>
 </section>
 <section id="the-propensity-score-paradox" class="level2">
 <h2 class="anchored" data-anchor-id="the-propensity-score-paradox">The propensity-score paradox</h2>
-<p>Why estimate an assignment probability that the experimenter already knows? The efficiency-bound analysis of <span class="citation" data-cites="hahn1998">Hahn (<a href="../../references.html#ref-hahn1998" role="doc-biblioref">1998</a>)</span> sets up the issue. In a semiparametric superpopulation setting, <span class="citation" data-cites="hirano2003">Hirano et al. (<a href="../../references.html#ref-hirano2003" role="doc-biblioref">2003</a>)</span> show that inverse-probability estimators using an estimated propensity score can be more efficient than otherwise analogous estimators using the true propensity.</p>
+<p>Why estimate an assignment probability that the experimenter already knows? The efficiency-bound analysis of <span class="citation" data-cites="hahn1998">Hahn (<a href="../L04-positivity-partial-identification/index.html#ref-hahn1998" role="doc-biblioref">1998</a>)</span> sets up the issue. In a semiparametric superpopulation setting, <span class="citation" data-cites="hirano2003">Hirano, Imbens, and Ridder (<a href="../L04-positivity-partial-identification/index.html#ref-hirano2003" role="doc-biblioref">2003</a>)</span> show that inverse-probability estimators using an estimated propensity score can be more efficient than otherwise analogous estimators using the true propensity.</p>
 <p>There is no information paradox. Common likelihood and series estimators of the propensity score satisfy empirical fitting equations that can also impose useful covariate-balance conditions. Those conditions create a projection or control-variate correction, much like <a href="#eq-l02-reg-adjust" class="quarto-xref">Equation&nbsp;<span>13</span></a> and <a href="#eq-l02-calibration" class="quarto-xref">Equation&nbsp;<span>21</span></a>; arbitrary propensity estimation need not impose the same balance. The estimated propensity is not better knowledge of the randomization device. It is a route to an estimator that exploits realized covariate balance. In a randomized experiment, it is clearer to describe the gain directly as covariate adjustment or calibration, while retaining the known design probabilities as the basis for identification and inference.</p>
 </section>
 <section id="a-short-history-of-inverse-probability-normalization" class="level2">
 <h2 class="anchored" data-anchor-id="a-short-history-of-inverse-probability-normalization">A short history of inverse-probability normalization</h2>
-<p>Horvitz and Thompson used inverse inclusion probabilities to estimate finite-population totals exactly unbiasedly <span class="citation" data-cites="horvitz1952">(<a href="../../references.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. Ratio estimation and Hájek normalization can trade finite-sample bias for stability; whether that trade is favorable depends on the design and finite population. Trotter and Tukey placed normalization on a continuum <span class="citation" data-cites="trotter1956">(<a href="../../references.html#ref-trotter1956" role="doc-biblioref">Trotter and Tukey 1956</a>)</span>, while Basu’s survey-sampling arguments exposed how formally unbiased estimators can behave poorly when they ignore structural information <span class="citation" data-cites="basu1971">(<a href="../../references.html#ref-basu1971" role="doc-biblioref">Basu 1971</a>)</span>.</p>
-<p>The same ratio appears in importance sampling: self-normalized importance sampling is stable and invariant to an unknown normalizing constant, but biased in finite samples <span class="citation" data-cites="owen2013">(<a href="../../references.html#ref-owen2013" role="doc-biblioref">Owen 2013</a>)</span>. Counterfactual learning rediscovered the same practical tradeoff when propensities are highly variable <span class="citation" data-cites="swaminathan2015">(<a href="../../references.html#ref-swaminathan2015" role="doc-biblioref">Swaminathan and Joachims 2015</a>)</span>. Adaptive normalization makes the amount of normalization estimable and connects its fixed point to regression control <span class="citation" data-cites="khan2023">(<a href="../../references.html#ref-khan2023" role="doc-biblioref">Khan and Ugander 2023</a>)</span>. The recurring problem is not domain-specific: random weights carry useful correction and avoidable noise at the same time.</p>
+<p>Horvitz and Thompson used inverse inclusion probabilities to estimate finite-population totals exactly unbiasedly <span class="citation" data-cites="horvitz1952">(<a href="../L04-positivity-partial-identification/index.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. Ratio estimation and Hájek normalization can trade finite-sample bias for stability; whether that trade is favorable depends on the design and finite population. Trotter and Tukey placed normalization on a continuum <span class="citation" data-cites="trotter1956">(<a href="../L04-positivity-partial-identification/index.html#ref-trotter1956" role="doc-biblioref">Trotter and Tukey 1956</a>)</span>, while Basu’s survey-sampling arguments exposed how formally unbiased estimators can behave poorly when they ignore structural information <span class="citation" data-cites="basu1971">(<a href="../L04-positivity-partial-identification/index.html#ref-basu1971" role="doc-biblioref">Basu 1971</a>)</span>.</p>
+<p>The same ratio appears in importance sampling: self-normalized importance sampling is stable and invariant to an unknown normalizing constant, but biased in finite samples <span class="citation" data-cites="owen2013">(<a href="../L04-positivity-partial-identification/index.html#ref-owen2013" role="doc-biblioref">Owen 2013</a>)</span>. Counterfactual learning rediscovered the same practical tradeoff when propensities are highly variable <span class="citation" data-cites="swaminathan2015">(<a href="../L04-positivity-partial-identification/index.html#ref-swaminathan2015" role="doc-biblioref">Swaminathan and Joachims 2015</a>)</span>. Adaptive normalization makes the amount of normalization estimable and connects its fixed point to regression control <span class="citation" data-cites="khan2023">(<a href="../L04-positivity-partial-identification/index.html#ref-khan2023" role="doc-biblioref">Khan and Ugander 2023</a>)</span>. The recurring problem is not domain-specific: random weights carry useful correction and avoidable noise at the same time.</p>
 </section>
 <section id="choosing-estimators-across-families-of-experiments" class="level2">
 <h2 class="anchored" data-anchor-id="choosing-estimators-across-families-of-experiments">Choosing estimators across families of experiments</h2>
-<p><span class="citation" data-cites="parikh2026">Parikh et al. (<a href="../../references.html#ref-parikh2026" role="doc-biblioref">2026</a>)</span> argue against choosing whichever estimator looks best inside a single realized trial. That practice turns estimator selection into another opportunity for overfitting. They instead use sample splitting across a <strong>family</strong> of randomized trials to compare estimators under a prespecified objective.</p>
+<p><span class="citation" data-cites="parikh2026">Parikh et al. (<a href="../L04-positivity-partial-identification/index.html#ref-parikh2026" role="doc-biblioref">2026</a>)</span> argue against choosing whichever estimator looks best inside a single realized trial. That practice turns estimator selection into another opportunity for overfitting. They instead use sample splitting across a <strong>family</strong> of randomized trials to compare estimators under a prespecified objective.</p>
 <p>Their applications make the objective dependence concrete: weighted least squares performed best for inference-oriented criteria, while difference in means performed best for decision regret in the examined settings. The point is not a new universal winner. It is that “best estimator” is incomplete without a loss function, a relevant family of experiments, and a selection procedure separated from final evaluation.</p>
 </section>
 </section>
 <section id="further-reading" class="level1">
 <h1>Further reading</h1>
-<p>For the survey-sampling foundations, begin with <span class="citation" data-cites="horvitz1952">Horvitz and Thompson (<a href="../../references.html#ref-horvitz1952" role="doc-biblioref">1952</a>)</span> and the exchange between <span class="citation" data-cites="basu1971">Basu (<a href="../../references.html#ref-basu1971" role="doc-biblioref">1971</a>)</span> and <span class="citation" data-cites="hajek1971">Hájek (<a href="../../references.html#ref-hajek1971" role="doc-biblioref">1971</a>)</span>, then use <span class="citation" data-cites="sarndal1992">Särndal et al. (<a href="../../references.html#ref-sarndal1992" role="doc-biblioref">1992</a>)</span> for the systematic development. The GREG and calibration line runs through <span class="citation" data-cites="cassel1976">Cassel et al. (<a href="../../references.html#ref-cassel1976" role="doc-biblioref">1976</a>)</span>, <span class="citation" data-cites="deville1992">Deville and Särndal (<a href="../../references.html#ref-deville1992" role="doc-biblioref">1992</a>)</span>, and <span class="citation" data-cites="deville1993">Deville et al. (<a href="../../references.html#ref-deville1993" role="doc-biblioref">1993</a>)</span>. For regression adjustment in experiments, reading <span class="citation" data-cites="freedman2008">Freedman (<a href="../../references.html#ref-freedman2008" role="doc-biblioref">2008</a>)</span> together with <span class="citation" data-cites="lin2013">Lin (<a href="../../references.html#ref-lin2013" role="doc-biblioref">2013</a>)</span> shows both the finite-sample concern and the modern interacted-regression resolution.</p>
-<p>The normalization sequence from classical conditional Monte Carlo to adaptive IPW runs through <span class="citation" data-cites="trotter1956">Trotter and Tukey (<a href="../../references.html#ref-trotter1956" role="doc-biblioref">1956</a>)</span> and <span class="citation" data-cites="khan2023">Khan and Ugander (<a href="../../references.html#ref-khan2023" role="doc-biblioref">2023</a>)</span>; <span class="citation" data-cites="owen2013">Owen (<a href="../../references.html#ref-owen2013" role="doc-biblioref">2013</a>)</span> and <span class="citation" data-cites="swaminathan2015">Swaminathan and Joachims (<a href="../../references.html#ref-swaminathan2015" role="doc-biblioref">2015</a>)</span> show the same self-normalization tradeoff in importance sampling and counterfactual learning. <span class="citation" data-cites="deng2013">Deng et al. (<a href="../../references.html#ref-deng2013" role="doc-biblioref">2013</a>)</span> gives the original CUPED presentation in online experimentation.</p>
-<p>For extensions beyond the main lecture path, read <span class="citation" data-cites="hahn1998">Hahn (<a href="../../references.html#ref-hahn1998" role="doc-biblioref">1998</a>)</span> with <span class="citation" data-cites="hirano2003">Hirano et al. (<a href="../../references.html#ref-hirano2003" role="doc-biblioref">2003</a>)</span> for the semiparametric efficiency logic behind estimated propensities. <span class="citation" data-cites="kohavi2007">Kohavi et al. (<a href="../../references.html#ref-kohavi2007" role="doc-biblioref">2007</a>)</span>, <span class="citation" data-cites="crook2009">Crook et al. (<a href="../../references.html#ref-crook2009" role="doc-biblioref">2009</a>)</span>, and <span class="citation" data-cites="kohavi2026">Kohavi et al. (<a href="../../references.html#ref-kohavi2026" role="doc-biblioref">2026</a>)</span> connect estimator validity to experimentation practice and selective replication, while <span class="citation" data-cites="parikh2026">Parikh et al. (<a href="../../references.html#ref-parikh2026" role="doc-biblioref">2026</a>)</span> treats estimator choice itself as a problem to be evaluated across a family of experiments.</p>
+<p>For the survey-sampling foundations, begin with <span class="citation" data-cites="horvitz1952">Horvitz and Thompson (<a href="../L04-positivity-partial-identification/index.html#ref-horvitz1952" role="doc-biblioref">1952</a>)</span> and the exchange between <span class="citation" data-cites="basu1971">Basu (<a href="../L04-positivity-partial-identification/index.html#ref-basu1971" role="doc-biblioref">1971</a>)</span> and <span class="citation" data-cites="hajek1971">Hájek (<a href="../L04-positivity-partial-identification/index.html#ref-hajek1971" role="doc-biblioref">1971</a>)</span>, then use <span class="citation" data-cites="sarndal1992">Särndal, Swensson, and Wretman (<a href="../L04-positivity-partial-identification/index.html#ref-sarndal1992" role="doc-biblioref">1992</a>)</span> for the systematic development. The GREG and calibration line runs through <span class="citation" data-cites="cassel1976">Cassel, Särndal, and Wretman (<a href="../L04-positivity-partial-identification/index.html#ref-cassel1976" role="doc-biblioref">1976</a>)</span>, <span class="citation" data-cites="deville1992">Deville and Särndal (<a href="../L04-positivity-partial-identification/index.html#ref-deville1992" role="doc-biblioref">1992</a>)</span>, and <span class="citation" data-cites="deville1993">Deville, Särndal, and Sautory (<a href="../L04-positivity-partial-identification/index.html#ref-deville1993" role="doc-biblioref">1993</a>)</span>. For regression adjustment in experiments, reading <span class="citation" data-cites="freedman2008">Freedman (<a href="../L04-positivity-partial-identification/index.html#ref-freedman2008" role="doc-biblioref">2008</a>)</span> together with <span class="citation" data-cites="lin2013">Lin (<a href="../L04-positivity-partial-identification/index.html#ref-lin2013" role="doc-biblioref">2013</a>)</span> shows both the finite-sample concern and the modern interacted-regression resolution.</p>
+<p>The normalization sequence from classical conditional Monte Carlo to adaptive IPW runs through <span class="citation" data-cites="trotter1956">Trotter and Tukey (<a href="../L04-positivity-partial-identification/index.html#ref-trotter1956" role="doc-biblioref">1956</a>)</span> and <span class="citation" data-cites="khan2023">Khan and Ugander (<a href="../L04-positivity-partial-identification/index.html#ref-khan2023" role="doc-biblioref">2023</a>)</span>; <span class="citation" data-cites="owen2013">Owen (<a href="../L04-positivity-partial-identification/index.html#ref-owen2013" role="doc-biblioref">2013</a>)</span> and <span class="citation" data-cites="swaminathan2015">Swaminathan and Joachims (<a href="../L04-positivity-partial-identification/index.html#ref-swaminathan2015" role="doc-biblioref">2015</a>)</span> show the same self-normalization tradeoff in importance sampling and counterfactual learning. <span class="citation" data-cites="deng2013">Deng et al. (<a href="../L04-positivity-partial-identification/index.html#ref-deng2013" role="doc-biblioref">2013</a>)</span> gives the original CUPED presentation in online experimentation.</p>
+<p>For extensions beyond the main lecture path, read <span class="citation" data-cites="hahn1998">Hahn (<a href="../L04-positivity-partial-identification/index.html#ref-hahn1998" role="doc-biblioref">1998</a>)</span> with <span class="citation" data-cites="hirano2003">Hirano, Imbens, and Ridder (<a href="../L04-positivity-partial-identification/index.html#ref-hirano2003" role="doc-biblioref">2003</a>)</span> for the semiparametric efficiency logic behind estimated propensities. <span class="citation" data-cites="kohavi2007">Kohavi, Henne, and Sommerfield (<a href="../L04-positivity-partial-identification/index.html#ref-kohavi2007" role="doc-biblioref">2007</a>)</span>, <span class="citation" data-cites="crook2009">Crook et al. (<a href="../L04-positivity-partial-identification/index.html#ref-crook2009" role="doc-biblioref">2009</a>)</span>, and <span class="citation" data-cites="kohavi2026">Kohavi et al. (<a href="../L04-positivity-partial-identification/index.html#ref-kohavi2026" role="doc-biblioref">2026</a>)</span> connect estimator validity to experimentation practice and selective replication, while <span class="citation" data-cites="parikh2026">Parikh et al. (<a href="../L04-positivity-partial-identification/index.html#ref-parikh2026" role="doc-biblioref">2026</a>)</span> treats estimator choice itself as a problem to be evaluated across a family of experiments.</p>
 <div class="lecture-provenance">
 <p><strong>Lecture brief:</strong> <a href="brief.html">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
 </div>
@@ -1165,18 +1160,18 @@ N_{\mathrm{eff}}
 <h1 class="unnumbered">References</h1>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-basu1971" class="csl-entry" role="listitem">
-Basu, D. 1971. <span>“An Essay on the Logical Foundations of Survey Sampling, Part One.”</span> In <em>Foundations of Statistical Inference</em>, edited by V. P. Godambe and D. A. Sprott. Holt, Rinehart; Winston.
+Basu, D. 1971. <span>“An Essay on the Logical Foundations of Survey Sampling, Part One.”</span> In <em>Foundations of Statistical Inference</em>, edited by V. P. Godambe and D. A. Sprott, 203–43. Toronto: Holt, Rinehart; Winston.
 </div>
 <div id="ref-cassel1976" class="csl-entry" role="listitem">
 Cassel, Claes-Magnus, Carl-Erik Särndal, and Jan H. Wretman. 1976. <span>“Some Results on Generalized Difference Estimation and Generalized Regression Estimation for Finite Populations.”</span> <em>Biometrika</em> 63 (3): 615–20. <a href="https://doi.org/10.1093/biomet/63.3.615">https://doi.org/10.1093/biomet/63.3.615</a>.
 </div>
 <div id="ref-crook2009" class="csl-entry" role="listitem">
-Crook, Thomas, Brian Frasca, Ron Kohavi, and Roger Longbotham. 2009. <span>“Seven Pitfalls to Avoid When Running Controlled Experiments on the Web.”</span> <em>Proceedings of the 15th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 1105–14. <a href="https://doi.org/10.1145/1557019.1557139">https://doi.org/10.1145/1557019.1557139</a>.
+Crook, Thomas, Brian Frasca, Ron Kohavi, and Roger Longbotham. 2009. <span>“Seven Pitfalls to Avoid When Running Controlled Experiments on the Web.”</span> In <em>Proceedings of the 15th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 1105–14. ACM. <a href="https://doi.org/10.1145/1557019.1557139">https://doi.org/10.1145/1557019.1557139</a>.
 </div>
 <div id="ref-deng2013" class="csl-entry" role="listitem">
-Deng, Alex, Ya Xu, Ron Kohavi, and Toby Walker. 2013. <span>“Improving the Sensitivity of Online Controlled Experiments by Utilizing Pre-Experiment Data.”</span> <em>Proceedings of the Sixth ACM International Conference on Web Search and Data Mining</em>, 123–32. <a href="https://doi.org/10.1145/2433396.2433413">https://doi.org/10.1145/2433396.2433413</a>.
+Deng, Alex, Ya Xu, Ron Kohavi, and Toby Walker. 2013. <span>“Improving the Sensitivity of Online Controlled Experiments by Utilizing Pre-Experiment Data.”</span> In <em>Proceedings of the Sixth ACM International Conference on Web Search and Data Mining</em>, 123–32. ACM. <a href="https://doi.org/10.1145/2433396.2433413">https://doi.org/10.1145/2433396.2433413</a>.
 </div>
 <div id="ref-deville1992" class="csl-entry" role="listitem">
 Deville, Jean-Claude, and Carl-Erik Särndal. 1992. <span>“Calibration Estimators in Survey Sampling.”</span> <em>Journal of the American Statistical Association</em> 87 (418): 376–82. <a href="https://doi.org/10.1080/01621459.1992.10475217">https://doi.org/10.1080/01621459.1992.10475217</a>.
@@ -1191,7 +1186,7 @@ Freedman, David A. 2008. <span>“On Regression Adjustments to Experimental Data
 Hahn, Jinyong. 1998. <span>“On the Role of the Propensity Score in Efficient Semiparametric Estimation of Average Treatment Effects.”</span> <em>Econometrica</em> 66 (2): 315–31. <a href="https://doi.org/10.2307/2998560">https://doi.org/10.2307/2998560</a>.
 </div>
 <div id="ref-hajek1971" class="csl-entry" role="listitem">
-Hájek, Jaroslav. 1971. <span>“Comment on <span>‘an Essay on the Logical Foundations of Survey Sampling, Part One’</span>.”</span> In <em>Foundations of Statistical Inference</em>, edited by V. P. Godambe and D. A. Sprott. Holt, Rinehart &amp; Winston of Canada.
+Hájek, Jaroslav. 1971. <span>“Comment on <span>‘an Essay on the Logical Foundations of Survey Sampling, Part One’</span>.”</span> In <em>Foundations of Statistical Inference</em>, edited by V. P. Godambe and D. A. Sprott, 236. Toronto: Holt, Rinehart &amp; Winston of Canada.
 </div>
 <div id="ref-hirano2003" class="csl-entry" role="listitem">
 Hirano, Keisuke, Guido W. Imbens, and Geert Ridder. 2003. <span>“Efficient Estimation of Average Treatment Effects Using the Estimated Propensity Score.”</span> <em>Econometrica</em> 71 (4): 1161–89. <a href="https://doi.org/10.1111/1468-0262.00442">https://doi.org/10.1111/1468-0262.00442</a>.
@@ -1203,25 +1198,25 @@ Horvitz, D. G., and D. J. Thompson. 1952. <span>“A Generalization of Sampling 
 Khan, Samir, and Johan Ugander. 2023. <span>“Adaptive Normalization for <span>IPW</span> Estimation.”</span> <em>Journal of Causal Inference</em> 11 (1): 1–33. <a href="https://doi.org/10.1515/jci-2022-0019">https://doi.org/10.1515/jci-2022-0019</a>.
 </div>
 <div id="ref-kohavi2007" class="csl-entry" role="listitem">
-Kohavi, Ron, Randal M. Henne, and Dan Sommerfield. 2007. <span>“Practical Guide to Controlled Experiments on the Web: Listen to Your Customers Not to the <span>HiPPO</span>.”</span> <em>Proceedings of the 13th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 959–67. <a href="https://doi.org/10.1145/1281192.1281295">https://doi.org/10.1145/1281192.1281295</a>.
+Kohavi, Ron, Randal M. Henne, and Dan Sommerfield. 2007. <span>“Practical Guide to Controlled Experiments on the Web: Listen to Your Customers Not to the <span>HiPPO</span>.”</span> In <em>Proceedings of the 13th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 959–67. ACM. <a href="https://doi.org/10.1145/1281192.1281295">https://doi.org/10.1145/1281192.1281295</a>.
 </div>
 <div id="ref-kohavi2026" class="csl-entry" role="listitem">
-Kohavi, Ron, Jakub Linowski, Lukas Vermeer, Andrei Andreev, Majed Dodin, and Joachim Furuseth. 2026. <span>“Trustworthy <span>A/B</span> Patterns and the Winner’s Curse: Lessons from Eight Large-Scale Replications.”</span> <em>Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining v.2</em>, 7533–44. <a href="https://doi.org/10.1145/3770855.3818498">https://doi.org/10.1145/3770855.3818498</a>.
+Kohavi, Ron, Jakub Linowski, Lukas Vermeer, Andrei Andreev, Majed Dodin, and Joachim Furuseth. 2026. <span>“Trustworthy <span>A/B</span> Patterns and the Winner’s Curse: Lessons from Eight Large-Scale Replications.”</span> In <em>Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining v.2</em>, 7533–44. ACM. <a href="https://doi.org/10.1145/3770855.3818498">https://doi.org/10.1145/3770855.3818498</a>.
 </div>
 <div id="ref-lin2013" class="csl-entry" role="listitem">
 Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experimental Data: Reexamining Freedman’s Critique.”</span> <em>The Annals of Applied Statistics</em> 7 (1): 295–318. <a href="https://doi.org/10.1214/12-AOAS583">https://doi.org/10.1214/12-AOAS583</a>.
 </div>
 <div id="ref-owen2013" class="csl-entry" role="listitem">
-Owen, Art B. 2013. <em>Monte Carlo Theory, Methods and Examples</em>. <a href="https://artowen.su.domains/mc/">https://artowen.su.domains/mc/</a>.
+Owen, Art B. 2013. <span>“Monte Carlo Theory, Methods and Examples.”</span> <a href="https://artowen.su.domains/mc/">https://artowen.su.domains/mc/</a>.
 </div>
 <div id="ref-parikh2026" class="csl-entry" role="listitem">
-Parikh, Harsh, Gabriel Levin-Konigsberg, Nilesh Tripuraneni, et al. 2026. <em>Towards Optimal Estimators for Randomized Control Trials</em>. <a href="https://doi.org/10.48550/arXiv.2607.23254">https://doi.org/10.48550/arXiv.2607.23254</a>.
+Parikh, Harsh, Gabriel Levin-Konigsberg, Nilesh Tripuraneni, Dhruv Madeka, Michael I. Jordan, Dean Foster, Dominique Perrault-Joncas, and Alexander Volfovsky. 2026. <span>“Towards Optimal Estimators for Randomized Control Trials.”</span> <a href="https://doi.org/10.48550/arXiv.2607.23254">https://doi.org/10.48550/arXiv.2607.23254</a>.
 </div>
 <div id="ref-robins1994" class="csl-entry" role="listitem">
 Robins, James M., Andrea Rotnitzky, and Lue Ping Zhao. 1994. <span>“Estimation of Regression Coefficients When Some Regressors Are Not Always Observed.”</span> <em>Journal of the American Statistical Association</em> 89 (427): 846–66. <a href="https://doi.org/10.1080/01621459.1994.10476818">https://doi.org/10.1080/01621459.1994.10476818</a>.
 </div>
 <div id="ref-sarndal1992" class="csl-entry" role="listitem">
-Särndal, Carl-Erik, Bengt Swensson, and Jan Wretman. 1992. <em>Model Assisted Survey Sampling</em>. Springer Series in Statistics. Springer. <a href="https://doi.org/10.1007/978-1-4612-4378-6">https://doi.org/10.1007/978-1-4612-4378-6</a>.
+Särndal, Carl-Erik, Bengt Swensson, and Jan Wretman. 1992. <em>Model Assisted Survey Sampling</em>. Springer Series in Statistics. New York: Springer. <a href="https://doi.org/10.1007/978-1-4612-4378-6">https://doi.org/10.1007/978-1-4612-4378-6</a>.
 </div>
 <div id="ref-sarndal1989" class="csl-entry" role="listitem">
 Särndal, Carl-Erik, Bengt Swensson, and Jan H. Wretman. 1989. <span>“The Weighted Residual Technique for Estimating the Variance of the General Regression Estimator of the Finite Population Total.”</span> <em>Biometrika</em> 76 (3): 527–37. <a href="https://doi.org/10.1093/biomet/76.3.527">https://doi.org/10.1093/biomet/76.3.527</a>.
@@ -1230,10 +1225,10 @@ Särndal, Carl-Erik, Bengt Swensson, and Jan H. Wretman. 1989. <span>“The Weig
 Splawa-Neyman, Jerzy, Dorota M. Dabrowska, and Terence P. Speed. 1990. <span>“On the Application of Probability Theory to Agricultural Experiments: Essay on Principles, Section 9.”</span> <em>Statistical Science</em> 5 (4): 465–72. <a href="https://doi.org/10.1214/ss/1177012031">https://doi.org/10.1214/ss/1177012031</a>.
 </div>
 <div id="ref-swaminathan2015" class="csl-entry" role="listitem">
-Swaminathan, Adith, and Thorsten Joachims. 2015. <span>“The Self-Normalized Estimator for Counterfactual Learning.”</span> <em>Advances in Neural Information Processing Systems</em> 28: 3231–39. <a href="https://papers.nips.cc/paper/5748-the-self-normalized-estimator-for-counterfactual-learning">https://papers.nips.cc/paper/5748-the-self-normalized-estimator-for-counterfactual-learning</a>.
+Swaminathan, Adith, and Thorsten Joachims. 2015. <span>“The Self-Normalized Estimator for Counterfactual Learning.”</span> In <em>Advances in Neural Information Processing Systems</em>, 28:3231–39. Curran Associates, Inc. <a href="https://papers.nips.cc/paper/5748-the-self-normalized-estimator-for-counterfactual-learning">https://papers.nips.cc/paper/5748-the-self-normalized-estimator-for-counterfactual-learning</a>.
 </div>
 <div id="ref-trotter1956" class="csl-entry" role="listitem">
-Trotter, Hale F., and John W. Tukey. 1956. <span>“Conditional Monte Carlo for Normal Samples.”</span> In <em>Symposium on Monte Carlo Methods</em>, edited by Herbert A. Meyer. John Wiley &amp; Sons.
+Trotter, Hale F., and John W. Tukey. 1956. <span>“Conditional Monte Carlo for Normal Samples.”</span> In <em>Symposium on Monte Carlo Methods</em>, edited by Herbert A. Meyer, 64–79. New York: John Wiley &amp; Sons.
 </div>
 </div>
 </section>
@@ -1303,14 +1298,13 @@ Trotter, Hale F., and John W. Tukey. 1956. <span>“Conditional Monte Carlo for 
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

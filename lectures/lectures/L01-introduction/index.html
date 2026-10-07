@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,16 +10,10 @@
 
 <title>L01: Introduction – Topics in Causal Inference</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -31,6 +25,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -64,14 +59,14 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b43a5d9faffcaba08472c20bb36c51d9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a2aa1419c2c06ecd7d01c1a3241c099.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-581546e9418954a1390d7be89183347a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-4ba907f2f7475452a5a17fbf1b870ebf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -101,7 +96,7 @@ div.csl-indent {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -114,7 +109,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -487,7 +482,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Lecture outline
+Lecture outline
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -593,7 +588,7 @@ Y_i^{\mathrm{obs}}
 </section>
 <section id="what-the-two-column-table-assumes" class="level1">
 <h1>What the two-column table assumes</h1>
-<p>Writing <span class="math inline">\(Y_i(z)\)</span> assumes that the single label <span class="math inline">\(z\)</span> contains all the treatment information needed to specify unit <span class="math inline">\(i\)</span>’s potential outcome. This bundles two ideas commonly called the <strong>stable unit treatment value assumption</strong> (SUTVA) <span class="citation" data-cites="rubin1980">(<a href="../../references.html#ref-rubin1980" role="doc-biblioref">Rubin 1980</a>)</span>:</p>
+<p>Writing <span class="math inline">\(Y_i(z)\)</span> assumes that the single label <span class="math inline">\(z\)</span> contains all the treatment information needed to specify unit <span class="math inline">\(i\)</span>’s potential outcome. This bundles two ideas commonly called the <strong>stable unit treatment value assumption</strong> (SUTVA) <span class="citation" data-cites="rubin1980">(<a href="../L04-positivity-partial-identification/index.html#ref-rubin1980" role="doc-biblioref">Rubin 1980</a>)</span>:</p>
 <ol type="1">
 <li><strong>No multiple versions:</strong> the treatment labeled <span class="math inline">\(z\)</span> has no causally distinct, unrecorded versions. If several fertilizer formulations or application protocols matter for yield, the binary label must be refined or the versions must be declared irrelevant to the question.</li>
 <li><strong>No interference:</strong> unit <span class="math inline">\(i\)</span>’s outcome does not depend on other units’ assignments. If fertilizer runs off from a neighboring plot, <span class="math inline">\(Y_i(z)\)</span> is generally not enough; the neighbors’ assignments also matter.</li>
@@ -604,7 +599,7 @@ Y_i^{\mathrm{obs}}
 <h1>Neyman’s move: model the assignment, not the outcomes</h1>
 <p>One response to the missing entry is to model it. We might fit a linear model, posit a distribution for outcomes, or impute each unobserved potential outcome. Such strategies can be useful, but their conclusions depend on the outcome model.</p>
 <p>The design-based alternative starts elsewhere. Hold the entire science table fixed and introduce a known random mechanism that reveals selected entries. The probability calculation then concerns which assignment vector was drawn, not how the potential outcomes were generated.</p>
-<p>Fisher made randomization central to experimental inference, while Neyman’s agricultural experiments and survey-sampling work developed the finite-population, design-based argument <span class="citation" data-cites="fisher1935 neyman1990 neyman1934">(<a href="../../references.html#ref-fisher1935" role="doc-biblioref">Fisher 1935</a>; <a href="../../references.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman et al. 1990</a>; <a href="../../references.html#ref-neyman1934" role="doc-biblioref">Neyman 1934</a>)</span>. In survey sampling, known inclusion probabilities let us learn about a fixed collection of units <span class="citation" data-cites="horvitz1952">(<a href="../../references.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. In a randomized experiment, known treatment probabilities let us learn about a fixed collection of causal contrasts. Rubin’s later formulation made the potential-outcomes language central across randomized and observational studies <span class="citation" data-cites="rubin1974 rubin2005">(<a href="../../references.html#ref-rubin1974" role="doc-biblioref">Rubin 1974</a>, <a href="../../references.html#ref-rubin2005" role="doc-biblioref">2005</a>)</span>.</p>
+<p>Fisher made randomization central to experimental inference, while Neyman’s agricultural experiments and survey-sampling work developed the finite-population, design-based argument <span class="citation" data-cites="fisher1935 neyman1990 neyman1934">(<a href="../L04-positivity-partial-identification/index.html#ref-fisher1935" role="doc-biblioref">Fisher 1935</a>; <a href="../L04-positivity-partial-identification/index.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman, Dabrowska, and Speed 1990</a>; <a href="../L04-positivity-partial-identification/index.html#ref-neyman1934" role="doc-biblioref">Neyman 1934</a>)</span>. In survey sampling, known inclusion probabilities let us learn about a fixed collection of units <span class="citation" data-cites="horvitz1952">(<a href="../L04-positivity-partial-identification/index.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. In a randomized experiment, known treatment probabilities let us learn about a fixed collection of causal contrasts. Rubin’s later formulation made the potential-outcomes language central across randomized and observational studies <span class="citation" data-cites="rubin1974 rubin2005">(<a href="../L04-positivity-partial-identification/index.html#ref-rubin1974" role="doc-biblioref">Rubin 1974</a>, <a href="../L04-positivity-partial-identification/index.html#ref-rubin2005" role="doc-biblioref">2005</a>)</span>.</p>
 <p>The contrast with an outcome model is therefore not “statistics versus no statistics.” It is a choice about what supplies the probability statement:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -671,7 +666,7 @@ Z_i\overset{\mathrm{iid}}{\sim}\operatorname{Bernoulli}(p),
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Design comes before positivity
+Design comes before positivity
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -753,7 +748,7 @@ Z_i\overset{\mathrm{iid}}{\sim}\operatorname{Bernoulli}(p),
 <h1>Advanced material</h1>
 <section id="potential-outcomes-as-missing-data" class="level2">
 <h2 class="anchored" data-anchor-id="potential-outcomes-as-missing-data">Potential outcomes as missing data</h2>
-<p>Potential outcomes invite a missing-data reading: after assignment, one entry in each row of the science table is observed and the other is missing. More explicitly, the indicator that <span class="math inline">\(Y_i(1)\)</span> is observed is <span class="math inline">\(Z_i\)</span>, while the indicator that <span class="math inline">\(Y_i(0)\)</span> is observed is <span class="math inline">\(1-Z_i\)</span>. Rubin’s missing-data framework distinguishes mechanisms according to whether missingness depends on observed or unobserved values <span class="citation" data-cites="rubin1976 seaman2013">(<a href="../../references.html#ref-rubin1976" role="doc-biblioref">Rubin 1976</a>; <a href="../../references.html#ref-seaman2013" role="doc-biblioref">Seaman et al. 2013</a>)</span>. Very roughly:</p>
+<p>Potential outcomes invite a missing-data reading: after assignment, one entry in each row of the science table is observed and the other is missing. More explicitly, the indicator that <span class="math inline">\(Y_i(1)\)</span> is observed is <span class="math inline">\(Z_i\)</span>, while the indicator that <span class="math inline">\(Y_i(0)\)</span> is observed is <span class="math inline">\(1-Z_i\)</span>. Rubin’s missing-data framework distinguishes mechanisms according to whether missingness depends on observed or unobserved values <span class="citation" data-cites="rubin1976 seaman2013">(<a href="../L04-positivity-partial-identification/index.html#ref-rubin1976" role="doc-biblioref">Rubin 1976</a>; <a href="../L04-positivity-partial-identification/index.html#ref-seaman2013" role="doc-biblioref">Seaman et al. 2013</a>)</span>. Very roughly:</p>
 <ul>
 <li><strong>MCAR</strong>: missingness is independent of observed and missing values.</li>
 <li><strong>MAR</strong>: conditional on observed information, missingness does not depend on the missing values.</li>
@@ -931,7 +926,7 @@ S_\tau^2
 &amp;=S_1^2+S_0^2-2S_{10}.
 \end{aligned}
 \]</span></p>
-<p>Substituting <span class="math inline">\(2S_{10}=S_1^2+S_0^2-S_\tau^2\)</span> into the preceding variance expression produces Neyman’s exact formula <span class="citation" data-cites="neyman1990">(<a href="../../references.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman et al. 1990</a>)</span>:</p>
+<p>Substituting <span class="math inline">\(2S_{10}=S_1^2+S_0^2-S_\tau^2\)</span> into the preceding variance expression produces Neyman’s exact formula <span class="citation" data-cites="neyman1990">(<a href="../L04-positivity-partial-identification/index.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman, Dabrowska, and Speed 1990</a>)</span>:</p>
 <p><span id="eq-l01-neyman-var"><span class="math display">\[
 \boxed{
 \operatorname{Var}_Z(\widehat\tau_{\mathrm{DM}})
@@ -961,8 +956,8 @@ S_\tau^2=\frac{113}{30}.
 </section>
 <section id="further-reading" class="level1">
 <h1>Further reading</h1>
-<p>For the foundations of randomized experiments, read Fisher’s <em>Design of Experiments</em> alongside Neyman’s agricultural-experiment analysis <span class="citation" data-cites="fisher1935 neyman1990">(<a href="../../references.html#ref-fisher1935" role="doc-biblioref">Fisher 1935</a>; <a href="../../references.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman et al. 1990</a>)</span>. Neyman’s representative-method essay and Horvitz–Thompson estimation make the survey-sampling lineage explicit <span class="citation" data-cites="neyman1934 horvitz1952">(<a href="../../references.html#ref-neyman1934" role="doc-biblioref">Neyman 1934</a>; <a href="../../references.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. Rubin developed the modern potential-outcomes and missing-data presentation <span class="citation" data-cites="rubin1974 rubin1976 rubin2005">(<a href="../../references.html#ref-rubin1974" role="doc-biblioref">Rubin 1974</a>, <a href="../../references.html#ref-rubin1976" role="doc-biblioref">1976</a>, <a href="../../references.html#ref-rubin2005" role="doc-biblioref">2005</a>)</span>, while his comment on Fisher randomization connects potential outcomes to sharp-null randomization tests <span class="citation" data-cites="rubin1980">(<a href="../../references.html#ref-rubin1980" role="doc-biblioref">Rubin 1980</a>)</span>. Holland sharpened the distinction between causal effects and statistical association <span class="citation" data-cites="holland1986">(<a href="../../references.html#ref-holland1986" role="doc-biblioref">Holland 1986</a>)</span>.</p>
-<p>Pearl’s structural approach encodes causal claims through equations and graphs rather than beginning from a randomized assignment distribution <span class="citation" data-cites="pearl1995 pearl2009">(<a href="../../references.html#ref-pearl1995" role="doc-biblioref">Pearl 1995</a>, <a href="../../references.html#ref-pearl2009" role="doc-biblioref">2009</a>)</span>. The two frameworks overlap in many applications, but this course develops the potential-outcomes, design-based route. For later examples of targets changing with the population or treatment received, see overlap-based trimming <span class="citation" data-cites="crump2009">(<a href="../../references.html#ref-crump2009" role="doc-biblioref">Crump et al. 2009</a>)</span> and the local average treatment effect <span class="citation" data-cites="angrist1996">(<a href="../../references.html#ref-angrist1996" role="doc-biblioref">Angrist et al. 1996</a>)</span>.</p>
+<p>For the foundations of randomized experiments, read Fisher’s <em>Design of Experiments</em> alongside Neyman’s agricultural-experiment analysis <span class="citation" data-cites="fisher1935 neyman1990">(<a href="../L04-positivity-partial-identification/index.html#ref-fisher1935" role="doc-biblioref">Fisher 1935</a>; <a href="../L04-positivity-partial-identification/index.html#ref-neyman1990" role="doc-biblioref">Splawa-Neyman, Dabrowska, and Speed 1990</a>)</span>. Neyman’s representative-method essay and Horvitz–Thompson estimation make the survey-sampling lineage explicit <span class="citation" data-cites="neyman1934 horvitz1952">(<a href="../L04-positivity-partial-identification/index.html#ref-neyman1934" role="doc-biblioref">Neyman 1934</a>; <a href="../L04-positivity-partial-identification/index.html#ref-horvitz1952" role="doc-biblioref">Horvitz and Thompson 1952</a>)</span>. Rubin developed the modern potential-outcomes and missing-data presentation <span class="citation" data-cites="rubin1974 rubin1976 rubin2005">(<a href="../L04-positivity-partial-identification/index.html#ref-rubin1974" role="doc-biblioref">Rubin 1974</a>, <a href="../L04-positivity-partial-identification/index.html#ref-rubin1976" role="doc-biblioref">1976</a>, <a href="../L04-positivity-partial-identification/index.html#ref-rubin2005" role="doc-biblioref">2005</a>)</span>, while his comment on Fisher randomization connects potential outcomes to sharp-null randomization tests <span class="citation" data-cites="rubin1980">(<a href="../L04-positivity-partial-identification/index.html#ref-rubin1980" role="doc-biblioref">Rubin 1980</a>)</span>. Holland sharpened the distinction between causal effects and statistical association <span class="citation" data-cites="holland1986">(<a href="../L04-positivity-partial-identification/index.html#ref-holland1986" role="doc-biblioref">Holland 1986</a>)</span>.</p>
+<p>Pearl’s structural approach encodes causal claims through equations and graphs rather than beginning from a randomized assignment distribution <span class="citation" data-cites="pearl1995 pearl2009">(<a href="../L04-positivity-partial-identification/index.html#ref-pearl1995" role="doc-biblioref">Pearl 1995</a>, <a href="../L04-positivity-partial-identification/index.html#ref-pearl2009" role="doc-biblioref">2009</a>)</span>. The two frameworks overlap in many applications, but this course develops the potential-outcomes, design-based route. For later examples of targets changing with the population or treatment received, see overlap-based trimming <span class="citation" data-cites="crump2009">(<a href="../L04-positivity-partial-identification/index.html#ref-crump2009" role="doc-biblioref">Crump et al. 2009</a>)</span> and the local average treatment effect <span class="citation" data-cites="angrist1996">(<a href="../L04-positivity-partial-identification/index.html#ref-angrist1996" role="doc-biblioref">Angrist, Imbens, and Rubin 1996</a>)</span>.</p>
 <div class="lecture-provenance">
 <p><strong>Lecture brief:</strong> <a href="brief.html">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
 </div>
@@ -971,7 +966,7 @@ S_\tau^2=\frac{113}{30}.
 <h1 class="unnumbered">References</h1>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-angrist1996" class="csl-entry" role="listitem">
 Angrist, Joshua D., Guido W. Imbens, and Donald B. Rubin. 1996. <span>“Identification of Causal Effects Using Instrumental Variables.”</span> <em>Journal of the American Statistical Association</em> 91 (434): 444–55. <a href="https://doi.org/10.1080/01621459.1996.10476902">https://doi.org/10.1080/01621459.1996.10476902</a>.
 </div>
@@ -979,7 +974,7 @@ Angrist, Joshua D., Guido W. Imbens, and Donald B. Rubin. 1996. <span>“Identif
 Crump, Richard K., V. Joseph Hotz, Guido W. Imbens, and Oscar A. Mitnik. 2009. <span>“Dealing with Limited Overlap in Estimation of Average Treatment Effects.”</span> <em>Biometrika</em> 96 (1): 187–99. <a href="https://doi.org/10.1093/biomet/asn055">https://doi.org/10.1093/biomet/asn055</a>.
 </div>
 <div id="ref-fisher1935" class="csl-entry" role="listitem">
-Fisher, Ronald A. 1935. <em>The Design of Experiments</em>. Oliver &amp; Boyd.
+Fisher, Ronald A. 1935. <em>The Design of Experiments</em>. Edinburgh: Oliver &amp; Boyd.
 </div>
 <div id="ref-holland1986" class="csl-entry" role="listitem">
 Holland, Paul W. 1986. <span>“Statistics and Causal Inference.”</span> <em>Journal of the American Statistical Association</em> 81 (396): 945–60. <a href="https://doi.org/10.1080/01621459.1986.10478354">https://doi.org/10.1080/01621459.1986.10478354</a>.
@@ -994,19 +989,19 @@ Neyman, Jerzy. 1934. <span>“On the Two Different Aspects of the Representative
 Pearl, Judea. 1995. <span>“Causal Diagrams for Empirical Research.”</span> <em>Biometrika</em> 82 (4): 669–88. <a href="https://doi.org/10.1093/biomet/82.4.669">https://doi.org/10.1093/biomet/82.4.669</a>.
 </div>
 <div id="ref-pearl2009" class="csl-entry" role="listitem">
-Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511803161">https://doi.org/10.1017/CBO9780511803161</a>.
+———. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511803161">https://doi.org/10.1017/CBO9780511803161</a>.
 </div>
 <div id="ref-rubin1974" class="csl-entry" role="listitem">
 Rubin, Donald B. 1974. <span>“Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies.”</span> <em>Journal of Educational Psychology</em> 66 (5): 688–701. <a href="https://doi.org/10.1037/h0037350">https://doi.org/10.1037/h0037350</a>.
 </div>
 <div id="ref-rubin1976" class="csl-entry" role="listitem">
-Rubin, Donald B. 1976. <span>“Inference and Missing Data.”</span> <em>Biometrika</em> 63 (3): 581–92. <a href="https://doi.org/10.1093/biomet/63.3.581">https://doi.org/10.1093/biomet/63.3.581</a>.
+———. 1976. <span>“Inference and Missing Data.”</span> <em>Biometrika</em> 63 (3): 581–92. <a href="https://doi.org/10.1093/biomet/63.3.581">https://doi.org/10.1093/biomet/63.3.581</a>.
 </div>
 <div id="ref-rubin1980" class="csl-entry" role="listitem">
-Rubin, Donald B. 1980. <span>“Randomization Analysis of Experimental Data: The Fisher Randomization Test Comment.”</span> <em>Journal of the American Statistical Association</em> 75 (371): 591–93. <a href="https://doi.org/10.2307/2287653">https://doi.org/10.2307/2287653</a>.
+———. 1980. <span>“Randomization Analysis of Experimental Data: The Fisher Randomization Test Comment.”</span> <em>Journal of the American Statistical Association</em> 75 (371): 591–93. <a href="https://doi.org/10.2307/2287653">https://doi.org/10.2307/2287653</a>.
 </div>
 <div id="ref-rubin2005" class="csl-entry" role="listitem">
-Rubin, Donald B. 2005. <span>“Causal Inference Using Potential Outcomes: Design, Modeling, Decisions.”</span> <em>Journal of the American Statistical Association</em> 100 (469): 322–31. <a href="https://doi.org/10.1198/016214504000001880">https://doi.org/10.1198/016214504000001880</a>.
+———. 2005. <span>“Causal Inference Using Potential Outcomes: Design, Modeling, Decisions.”</span> <em>Journal of the American Statistical Association</em> 100 (469): 322–31. <a href="https://doi.org/10.1198/016214504000001880">https://doi.org/10.1198/016214504000001880</a>.
 </div>
 <div id="ref-seaman2013" class="csl-entry" role="listitem">
 Seaman, Shaun, John Galati, Dan Jackson, and John Carlin. 2013. <span>“What Is Meant by <span>‘Missing at Random’</span>?”</span> <em>Statistical Science</em> 28 (2): 257–68. <a href="https://doi.org/10.1214/13-STS415">https://doi.org/10.1214/13-STS415</a>.
@@ -1082,14 +1077,13 @@ Splawa-Neyman, Jerzy, Dorota M. Dabrowska, and Terence P. Speed. 1990. <span>“
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

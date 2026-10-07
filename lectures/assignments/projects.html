@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Projects – Topics in Causal Inference</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -30,6 +24,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -62,14 +57,14 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b43a5d9faffcaba08472c20bb36c51d9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a2aa1419c2c06ecd7d01c1a3241c099.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-581546e9418954a1390d7be89183347a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-4ba907f2f7475452a5a17fbf1b870ebf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -465,16 +460,16 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="possible-papers">Possible papers</h3>
 <p>The following papers are starting points rather than a closed list. They span the material in L01–L04 and vary in theoretical, computational, and empirical emphasis. In the proposal 1-pager, identify a tractable result, simulation, or empirical analysis to replicate and a specific extension or sensitivity analysis to investigate.</p>
 <ul>
-<li><p><strong>Randomization inference beyond the sharp null (L01).</strong> Caughey, Dafoe, Li, and Miratrix <span class="citation" data-cites="caughey2023">(<a href="../references.html#ref-caughey2023" role="doc-biblioref">2023</a>)</span>, <em>Randomisation Inference beyond the Sharp Null: Bounded Null Hypotheses and Quantiles of Individual Treatment Effects</em>. Reproduce one of the proposed tests or bounds, then study its finite-sample behavior, computational demands, or sensitivity to the assignment design.</p></li>
-<li><p><strong>Estimated propensity scores and efficiency (L02).</strong> Hirano, Imbens, and Ridder <span class="citation" data-cites="hirano2003">(<a href="../references.html#ref-hirano2003" role="doc-biblioref">2003</a>)</span>, <em>Efficient Estimation of Average Treatment Effects Using the Estimated Propensity Score</em>. Reconstruct the paper’s efficiency comparison and investigate when estimating rather than inserting a known propensity score helps in finite samples.</p></li>
-<li><p><strong>Adaptive normalization of inverse-probability weights (L02).</strong> Khan and Ugander <span class="citation" data-cites="khan2023">(<a href="../references.html#ref-khan2023" role="doc-biblioref">2023</a>)</span>, <em>Adaptive Normalization for IPW Estimation</em>. Replicate the comparisons among Horvitz–Thompson, Hájek, and adaptively normalized estimators, then alter the assignment design, outcome structure, or nuisance estimation method.</p></li>
-<li><p><strong>Regression adjustment in randomized experiments (L02–L03).</strong> Lin <span class="citation" data-cites="lin2013">(<a href="../references.html#ref-lin2013" role="doc-biblioref">2013</a>)</span>, <em>Agnostic Notes on Regression Adjustments to Experimental Data: Reexamining Freedman’s Critique</em>. Reproduce a central simulation or empirical comparison and examine the role of treatment–covariate interactions, imbalance, or unequal treatment allocation.</p></li>
-<li><p><strong>Rerandomization (L03).</strong> Morgan and Rubin <span class="citation" data-cites="morgan2012">(<a href="../references.html#ref-morgan2012" role="doc-biblioref">2012</a>)</span>, <em>Rerandomization to Improve Covariate Balance in Experiments</em>. Implement the design and reproduce its balance or precision gains, then vary the acceptance rule, balance metric, covariate dimension, or analysis procedure.</p></li>
-<li><p><strong>Algorithmic covariate balancing (L03).</strong> Harshaw, Sävje, Spielman, and Zhang <span class="citation" data-cites="harshaw2024">(<a href="../references.html#ref-harshaw2024" role="doc-biblioref">2024</a>)</span>, <em>Balancing Covariates in Randomized Experiments with the Gram–Schmidt Walk Design</em>. Implement a manageable part of the design and compare its balance–randomness tradeoff with complete randomization or rerandomization.</p></li>
-<li><p><strong>Limited overlap and optimal trimming (L04).</strong> Crump, Hotz, Imbens, and Mitnik <span class="citation" data-cites="crump2009">(<a href="../references.html#ref-crump2009" role="doc-biblioref">2009</a>)</span>, <em>Dealing with Limited Overlap in Estimation of Average Treatment Effects</em>. Reproduce the trimming rule and a key simulation, then examine how trimming changes both precision and the population whose effect is being estimated.</p></li>
-<li><p><strong>Smooth trimming and post-trimming inference (L04).</strong> Yang and Ding <span class="citation" data-cites="yang2018">(<a href="../references.html#ref-yang2018" role="doc-biblioref">2018</a>)</span>, <em>Asymptotic Inference of Causal Effects with Observational Studies Trimmed by the Estimated Propensity Scores</em>. Compare hard trimming with smooth weighting and study bootstrap inference or uncertainty from the design stage.</p></li>
-<li><p><strong>Heteroscedasticity-aware trimming (L04).</strong> Khan and Ugander <span class="citation" data-cites="khan2025trimming">(<a href="../references.html#ref-khan2025trimming" role="doc-biblioref">2025</a>)</span>, <em>Doubly Robust and Heteroscedasticity-Aware Sample Trimming for Causal Inference</em>. Replicate a simulation or application, then compare propensity-only and conditional-variance-aware trimming under alternative forms of heteroscedasticity.</p></li>
-<li><p><strong>Regularizing extrapolation (L04).</strong> Arbour, Parikh, Niknam, Stuart, Rudolph, and Feller <span class="citation" data-cites="arbour2025">(<a href="../references.html#ref-arbour2025" role="doc-biblioref">2025</a>)</span>, <em>Regularizing Extrapolation in Causal Inference</em>. Implement the proposed regularization and investigate the paper’s bias–bias–variance tradeoff as overlap, dimension, or the outcome model changes.</p></li>
+<li><p><strong>Randomization inference beyond the sharp null (L01).</strong> Caughey, Dafoe, Li, and Miratrix <span class="citation" data-cites="caughey2023">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-caughey2023" role="doc-biblioref">2023</a>)</span>, <em>Randomisation Inference beyond the Sharp Null: Bounded Null Hypotheses and Quantiles of Individual Treatment Effects</em>. Reproduce one of the proposed tests or bounds, then study its finite-sample behavior, computational demands, or sensitivity to the assignment design.</p></li>
+<li><p><strong>Estimated propensity scores and efficiency (L02).</strong> Hirano, Imbens, and Ridder <span class="citation" data-cites="hirano2003">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-hirano2003" role="doc-biblioref">2003</a>)</span>, <em>Efficient Estimation of Average Treatment Effects Using the Estimated Propensity Score</em>. Reconstruct the paper’s efficiency comparison and investigate when estimating rather than inserting a known propensity score helps in finite samples.</p></li>
+<li><p><strong>Adaptive normalization of inverse-probability weights (L02).</strong> Khan and Ugander <span class="citation" data-cites="khan2023">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-khan2023" role="doc-biblioref">2023</a>)</span>, <em>Adaptive Normalization for IPW Estimation</em>. Replicate the comparisons among Horvitz–Thompson, Hájek, and adaptively normalized estimators, then alter the assignment design, outcome structure, or nuisance estimation method.</p></li>
+<li><p><strong>Regression adjustment in randomized experiments (L02–L03).</strong> Lin <span class="citation" data-cites="lin2013">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-lin2013" role="doc-biblioref">2013</a>)</span>, <em>Agnostic Notes on Regression Adjustments to Experimental Data: Reexamining Freedman’s Critique</em>. Reproduce a central simulation or empirical comparison and examine the role of treatment–covariate interactions, imbalance, or unequal treatment allocation.</p></li>
+<li><p><strong>Rerandomization (L03).</strong> Morgan and Rubin <span class="citation" data-cites="morgan2012">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-morgan2012" role="doc-biblioref">2012</a>)</span>, <em>Rerandomization to Improve Covariate Balance in Experiments</em>. Implement the design and reproduce its balance or precision gains, then vary the acceptance rule, balance metric, covariate dimension, or analysis procedure.</p></li>
+<li><p><strong>Algorithmic covariate balancing (L03).</strong> Harshaw, Sävje, Spielman, and Zhang <span class="citation" data-cites="harshaw2024">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-harshaw2024" role="doc-biblioref">2024</a>)</span>, <em>Balancing Covariates in Randomized Experiments with the Gram–Schmidt Walk Design</em>. Implement a manageable part of the design and compare its balance–randomness tradeoff with complete randomization or rerandomization.</p></li>
+<li><p><strong>Limited overlap and optimal trimming (L04).</strong> Crump, Hotz, Imbens, and Mitnik <span class="citation" data-cites="crump2009">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-crump2009" role="doc-biblioref">2009</a>)</span>, <em>Dealing with Limited Overlap in Estimation of Average Treatment Effects</em>. Reproduce the trimming rule and a key simulation, then examine how trimming changes both precision and the population whose effect is being estimated.</p></li>
+<li><p><strong>Smooth trimming and post-trimming inference (L04).</strong> Yang and Ding <span class="citation" data-cites="yang2018">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-yang2018" role="doc-biblioref">2018</a>)</span>, <em>Asymptotic Inference of Causal Effects with Observational Studies Trimmed by the Estimated Propensity Scores</em>. Compare hard trimming with smooth weighting and study bootstrap inference or uncertainty from the design stage.</p></li>
+<li><p><strong>Heteroscedasticity-aware trimming (L04).</strong> Khan and Ugander <span class="citation" data-cites="khan2025trimming">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-khan2025trimming" role="doc-biblioref">2025</a>)</span>, <em>Doubly Robust and Heteroscedasticity-Aware Sample Trimming for Causal Inference</em>. Replicate a simulation or application, then compare propensity-only and conditional-variance-aware trimming under alternative forms of heteroscedasticity.</p></li>
+<li><p><strong>Regularizing extrapolation (L04).</strong> Arbour, Parikh, Niknam, Stuart, Rudolph, and Feller <span class="citation" data-cites="arbour2025">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-arbour2025" role="doc-biblioref">2026</a>)</span>, <em>Regularizing Extrapolation in Causal Inference</em>. Implement the proposed regularization and investigate the paper’s bias–bias–variance tradeoff as overlap, dimension, or the outcome model changes.</p></li>
 </ul>
 </section>
 </section>
@@ -488,9 +483,9 @@ div.csl-indent {
 <p>Further instructions for the presentations and write-ups will be provided separately.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-arbour2025" class="csl-entry" role="listitem">
-Arbour, David, Harsh Parikh, Bijan Niknam, Elizabeth Stuart, Kara Rudolph, and Avi Feller. 2025. <em>Regularizing Extrapolation in Causal Inference</em>. <a href="https://doi.org/10.48550/arXiv.2509.17180">https://doi.org/10.48550/arXiv.2509.17180</a>.
+Arbour, David, Harsh Parikh, Bijan A. Niknam, Elizabeth Stuart, Kara E. Rudolph, and Avi Feller. 2026. <span>“Regularizing Extrapolation in Causal Inference.”</span> In <em>Proceedings of the 29th International Conference on Artificial Intelligence and Statistics</em>, 300:784–92. Proceedings of Machine Learning Research. PMLR. <a href="https://proceedings.mlr.press/v300/arbour26a.html">https://proceedings.mlr.press/v300/arbour26a.html</a>.
 </div>
 <div id="ref-caughey2023" class="csl-entry" role="listitem">
 Caughey, Devin, Allan Dafoe, Xinran Li, and Luke Miratrix. 2023. <span>“Randomisation Inference Beyond the Sharp Null: Bounded Null Hypotheses and Quantiles of Individual Treatment Effects.”</span> <em>Journal of the Royal Statistical Society Series B</em> 85 (5): 1471–91. <a href="https://doi.org/10.1093/jrsssb/qkad080">https://doi.org/10.1093/jrsssb/qkad080</a>.
@@ -508,7 +503,7 @@ Hirano, Keisuke, Guido W. Imbens, and Geert Ridder. 2003. <span>“Efficient Est
 Khan, Samir, and Johan Ugander. 2023. <span>“Adaptive Normalization for <span>IPW</span> Estimation.”</span> <em>Journal of Causal Inference</em> 11 (1): 1–33. <a href="https://doi.org/10.1515/jci-2022-0019">https://doi.org/10.1515/jci-2022-0019</a>.
 </div>
 <div id="ref-khan2025trimming" class="csl-entry" role="listitem">
-Khan, Samir, and Johan Ugander. 2025. <span>“Doubly Robust and Heteroscedasticity-Aware Sample Trimming for Causal Inference.”</span> <em>Biometrika</em> 112 (2): asae053. <a href="https://doi.org/10.1093/biomet/asae053">https://doi.org/10.1093/biomet/asae053</a>.
+———. 2025. <span>“Doubly Robust and Heteroscedasticity-Aware Sample Trimming for Causal Inference.”</span> <em>Biometrika</em> 112 (2): asae053. <a href="https://doi.org/10.1093/biomet/asae053">https://doi.org/10.1093/biomet/asae053</a>.
 </div>
 <div id="ref-lin2013" class="csl-entry" role="listitem">
 Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experimental Data: Reexamining Freedman’s Critique.”</span> <em>The Annals of Applied Statistics</em> 7 (1): 295–318. <a href="https://doi.org/10.1214/12-AOAS583">https://doi.org/10.1214/12-AOAS583</a>.
@@ -587,14 +582,13 @@ Yang, Shu, and Peng Ding. 2018. <span>“Asymptotic Inference of Causal Effects 
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

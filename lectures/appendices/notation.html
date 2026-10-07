@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Notation – Topics in Causal Inference</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -44,14 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b43a5d9faffcaba08472c20bb36c51d9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a2aa1419c2c06ecd7d01c1a3241c099.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-581546e9418954a1390d7be89183347a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-4ba907f2f7475452a5a17fbf1b870ebf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -81,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -94,7 +88,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -444,6 +438,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="units-samples-and-populations">Units, samples, and populations</h2>
 <ul>
 <li><span class="math inline">\(N\)</span> is the number of units in the finite experimental population, indexed by <span class="math inline">\(i=1,\ldots,N\)</span>.</li>
+<li><span class="math inline">\(n\)</span> is the sample size in explicitly stated i.i.d. superpopulation or observational-sampling arguments. Do not silently replace the finite experimental population indexed by <span class="math inline">\(N\)</span> with an i.i.d. sample indexed by <span class="math inline">\(n\)</span>.</li>
 <li><span class="math inline">\(X_i\)</span> is the vector of pretreatment covariates for unit <span class="math inline">\(i\)</span>; <span class="math inline">\(\mathbf X\)</span> collects these vectors.</li>
 <li>A target population beyond the experimental units is described explicitly. Do not use “ATE” without making its target population clear.</li>
 </ul>
@@ -470,6 +465,7 @@ window.Quarto = {
 <ul>
 <li><span class="math inline">\(\overline Y(z)=N^{-1}\sum_{i=1}^N Y_i(z)\)</span> is the finite-population mean potential outcome under treatment level <span class="math inline">\(z\)</span>.</li>
 <li><span class="math inline">\(\tau=N^{-1}\sum_{i=1}^N\tau_i=\overline Y(1)-\overline Y(0)\)</span> is the finite-population average treatment effect. Qualify population and conditional versions with a subscript or argument, such as <span class="math inline">\(\tau_P\)</span>, <span class="math inline">\(\tau(x)\)</span>, or <span class="math inline">\(\tau_g\)</span>.</li>
+<li>In a stated superpopulation, <span class="math inline">\(\tau_P=\mathbb E\{Y(1)-Y(0)\}\)</span> denotes the population ATE. For a measurable covariate subset <span class="math inline">\(A\)</span>, <span class="math inline">\(\tau_A=\mathbb E\{Y(1)-Y(0)\mid X\in A\}\)</span> is the ATE in the restricted target population. For a nonnegative tilting function <span class="math inline">\(h\)</span>, <span class="math inline">\(\tau_h=\mathbb E[h(X)\{Y(1)-Y(0)\}]/\mathbb E\{h(X)\}\)</span> is the ATE in the corresponding tilted target population.</li>
 <li>A hat denotes an estimator, a random function of the assignment and observed outcomes. Its value at the realized data is an estimate.</li>
 <li><span class="math inline">\(\widehat\tau_{\mathrm{DM}}\)</span> denotes the treated-minus-control difference in observed means.</li>
 <li><span class="math inline">\(\widehat\mu_{z,\mathrm{HT}}\)</span> and <span class="math inline">\(\widehat\mu_{z,\mathrm{H}}\)</span> denote, respectively, the Horvitz–Thompson and Hájek estimators of <span class="math inline">\(\overline Y(z)\)</span>. The corresponding treatment-effect estimators are <span class="math inline">\(\widehat\tau_{\mathrm{HT}}=\widehat\mu_{1,\mathrm{HT}}-
@@ -479,7 +475,7 @@ window.Quarto = {
 <li><span class="math inline">\(\overline X=N^{-1}\sum_{i=1}^N X_i\)</span> is the finite-population covariate mean. Center covariates at <span class="math inline">\(\overline X\)</span> when writing regression-adjusted treatment effects.</li>
 <li><span class="math inline">\(\widehat\tau_X=\overline X_1^{\mathrm{obs}}-
 \overline X_0^{\mathrm{obs}}\)</span> denotes realized covariate mean imbalance.</li>
-<li><span class="math inline">\(m_z(x)\)</span> denotes an outcome prediction for treatment arm <span class="math inline">\(z\)</span>; distinguish a function fixed before assignment from one fitted using realized outcomes.</li>
+<li>In superpopulation arguments, <span class="math inline">\(m_z(x)=\mathbb E\{Y(z)\mid X=x\}\)</span> denotes the conditional potential-outcome mean for arm <span class="math inline">\(z\)</span>. In design-based arguments, the same symbol may denote a working outcome prediction; distinguish the population conditional mean, a function fixed before assignment, and a function fitted using realized outcomes.</li>
 <li><span class="math inline">\(\widehat\mu_{z,\mathrm{AIPW}}\)</span> denotes the prediction-plus-IPW-correction estimator of <span class="math inline">\(\overline Y(z)\)</span>, and <span class="math inline">\(\widehat\tau_{\mathrm{AIPW}}=\widehat\mu_{1,\mathrm{AIPW}}-
 \widehat\mu_{0,\mathrm{AIPW}}\)</span>.</li>
 </ul>
@@ -491,6 +487,7 @@ window.Quarto = {
 <li><span class="math inline">\(\pi_i=\mathbb P_Z(Z_i=1)\)</span> is unit <span class="math inline">\(i\)</span>’s marginal treatment probability.</li>
 <li>When both treatment states appear symmetrically, use <span class="math inline">\(\pi_i(z)=\mathbb P_Z(Z_i=z)\)</span>, so that <span class="math inline">\(\pi_i(1)=\pi_i\)</span> and <span class="math inline">\(\pi_i(0)=1-\pi_i\)</span>.</li>
 <li>Use <span class="math inline">\(p\)</span> for a common Bernoulli assignment probability.</li>
+<li>In observational or superpopulation arguments, <span class="math inline">\(e(x)=\mathbb P(Z=1\mid X=x)\)</span> is the propensity score. Introduce the change of framework explicitly; do not use <span class="math inline">\(e(x)\)</span> as though it were the known finite-population design probability <span class="math inline">\(\pi_i\)</span>.</li>
 </ul>
 </section>
 <section id="finite-population-and-superpopulation-operators" class="level2">
@@ -587,14 +584,13 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,16 +10,10 @@
 
 <title>Positivity, Trimming, Target Populations, and Partial Identification</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -47,16 +41,12 @@ ul.task-list li input[type="checkbox"] {
 
 <h1 id="lecture-scope">Lecture scope</h1>
 <ul>
-<li>Weight clipping</li>
-<li>Trimming estimands and estimators</li>
-<li>Population in equipoise</li>
-<li>Positivity violations</li>
-<li>Manski bounds</li>
-<li>Lee bounds</li>
-<li>Inference under partial identification</li>
-<li>Lipschitz assumptions</li>
-<li>Bias-bias-variance tradeoffs</li>
+<li><p>For starters, observe the IPW-based estimators rely on positivity. Without positivity, what happens? With very weak positivity, meaning some inverse probabilities are extremely large, what happens?</p></li>
+<li><p>Have a block explaining the difference between “positivity” and “overlap”.</p></li>
+<li><p>Frame this whole lecture in terms of design-based causal inference under randomized experiments, with secondary nods to observational causal inference.</p></li>
 </ul>
+<p>Clipping and trimming - Introduce weight clipping, with citations. Winsorizing. - Trimming estimands and estimators, in the style of Crump et al.&nbsp;(2009). - Define the population in equipoise, and why the ATE for that population is sometimes a more principled estimand than the ATE for a trimmed population.</p>
+<p>Separate approach to positivity violations: boundedness or other assumptions. - Manski bounds - Lee bounds - Inference under partial identification, generally. (define “partial identification”) - Lipschitz outcomes in the style of Khan, Saveski, Ugander (2024). - Connect to Bias-bias-variance tradeoffs in the style of Arbour, Parikh, Niknam, Sutart, Rudolph, and Feller.</p>
 <h1 id="literature">Literature</h1>
 <ul>
 <li>Khan and Ugander (2024), “Doubly-robust and heteroscedasticity-aware sample trimming for causal inference,” <em>Biometrika</em></li>

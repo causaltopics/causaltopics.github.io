@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,16 +10,10 @@
 
 <title>L04: Positivity, Trimming, Target Populations, and Partial Identification – Topics in Causal Inference</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -27,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -45,14 +59,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b43a5d9faffcaba08472c20bb36c51d9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-89643b306771982f0b230fc93cfae286.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a2aa1419c2c06ecd7d01c1a3241c099.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-db9a83881f9164821878cc1a9fcfe80f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-581546e9418954a1390d7be89183347a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-0ef78cf2ddc14ffaab9c797b9513ff8d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-4ba907f2f7475452a5a17fbf1b870ebf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c80c7cc83690de33361d55cd80e2f082.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -81,6 +95,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -365,8 +408,50 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-randomized-experiment-can-still-lack-a-comparison" id="toc-a-randomized-experiment-can-still-lack-a-comparison" class="nav-link active" data-scroll-target="#a-randomized-experiment-can-still-lack-a-comparison">A randomized experiment can still lack a comparison</a></li>
+  <li><a href="#positivity-in-a-finite-randomized-design" id="toc-positivity-in-a-finite-randomized-design" class="nav-link" data-scroll-target="#positivity-in-a-finite-randomized-design">Positivity in a finite randomized design</a></li>
+  <li><a href="#what-the-inverse-probability-is-doing" id="toc-what-the-inverse-probability-is-doing" class="nav-link" data-scroll-target="#what-the-inverse-probability-is-doing">What the inverse probability is doing</a>
+  <ul class="collapse">
+  <li><a href="#weak-probabilities-enter-the-variance" id="toc-weak-probabilities-enter-the-variance" class="nav-link" data-scroll-target="#weak-probabilities-enter-the-variance">Weak probabilities enter the variance</a></li>
+  </ul></li>
+  <li><a href="#four-responses-four-different-claims" id="toc-four-responses-four-different-claims" class="nav-link" data-scroll-target="#four-responses-four-different-claims">Four responses, four different claims</a></li>
+  <li><a href="#clipping-regularize-an-estimator" id="toc-clipping-regularize-an-estimator" class="nav-link" data-scroll-target="#clipping-regularize-an-estimator">Clipping: regularize an estimator</a></li>
+  <li><a href="#trimming-change-the-target-explicitly" id="toc-trimming-change-the-target-explicitly" class="nav-link" data-scroll-target="#trimming-change-the-target-explicitly">Trimming: change the target explicitly</a>
+  <ul class="collapse">
+  <li><a href="#the-superpopulation-counterpart" id="toc-the-superpopulation-counterpart" class="nav-link" data-scroll-target="#the-superpopulation-counterpart">The superpopulation counterpart</a></li>
+  <li><a href="#a-numerical-precisionrelevance-tradeoff" id="toc-a-numerical-precisionrelevance-tradeoff" class="nav-link" data-scroll-target="#a-numerical-precisionrelevance-tradeoff">A numerical precision–relevance tradeoff</a></li>
+  </ul></li>
+  <li><a href="#equipoise-change-the-target-smoothly" id="toc-equipoise-change-the-target-smoothly" class="nav-link" data-scroll-target="#equipoise-change-the-target-smoothly">Equipoise: change the target smoothly</a>
+  <ul class="collapse">
+  <li><a href="#what-changes-in-an-observational-study" id="toc-what-changes-in-an-observational-study" class="nav-link" data-scroll-target="#what-changes-in-an-observational-study">What changes in an observational study?</a></li>
+  </ul></li>
+  <li><a href="#when-the-target-cannot-be-changed" id="toc-when-the-target-cannot-be-changed" class="nav-link" data-scroll-target="#when-the-target-cannot-be-changed">When the target cannot be changed</a></li>
+  <li><a href="#manskis-accounting-bound-what-the-design-cannot-expose" id="toc-manskis-accounting-bound-what-the-design-cannot-expose" class="nav-link" data-scroll-target="#manskis-accounting-bound-what-the-design-cannot-expose">Manski’s accounting: bound what the design cannot expose</a>
+  <ul class="collapse">
+  <li><a href="#the-familiar-observational-form" id="toc-the-familiar-observational-form" class="nav-link" data-scroll-target="#the-familiar-observational-form">The familiar observational form</a></li>
+  </ul></li>
+  <li><a href="#lee-bounds-use-randomized-selection-structure" id="toc-lee-bounds-use-randomized-selection-structure" class="nav-link" data-scroll-target="#lee-bounds-use-randomized-selection-structure">Lee bounds: use randomized selection structure</a></li>
+  <li><a href="#smoothness-controlled-borrowing-across-support" id="toc-smoothness-controlled-borrowing-across-support" class="nav-link" data-scroll-target="#smoothness-controlled-borrowing-across-support">Smoothness: controlled borrowing across support</a>
+  <ul class="collapse">
+  <li><a href="#a-one-dimensional-example" id="toc-a-one-dimensional-example" class="nav-link" data-scroll-target="#a-one-dimensional-example">A one-dimensional example</a></li>
+  </ul></li>
+  <li><a href="#identification-is-not-inference" id="toc-identification-is-not-inference" class="nav-link" data-scroll-target="#identification-is-not-inference">Identification is not inference</a></li>
+  <li><a href="#what-to-carry-forward" id="toc-what-to-carry-forward" class="nav-link" data-scroll-target="#what-to-carry-forward">What to carry forward</a></li>
+  <li><a href="#advanced-material" id="toc-advanced-material" class="nav-link" data-scroll-target="#advanced-material">Advanced material</a>
+  <ul class="collapse">
+  <li><a href="#why-a-variance-optimal-trimming-rule-has-a-threshold-form" id="toc-why-a-variance-optimal-trimming-rule-has-a-threshold-form" class="nav-link" data-scroll-target="#why-a-variance-optimal-trimming-rule-has-a-threshold-form">Why a variance-optimal trimming rule has a threshold form</a></li>
+  <li><a href="#adaptive-trimming-changes-the-inferential-problem" id="toc-adaptive-trimming-changes-the-inferential-problem" class="nav-link" data-scroll-target="#adaptive-trimming-changes-the-inferential-problem">Adaptive trimming changes the inferential problem</a></li>
+  <li><a href="#extrapolation-as-a-biasbiasvariance-tradeoff" id="toc-extrapolation-as-a-biasbiasvariance-tradeoff" class="nav-link" data-scroll-target="#extrapolation-as-a-biasbiasvariance-tradeoff">Extrapolation as a bias–bias–variance tradeoff</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -375,7 +460,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-title">L04: Positivity, Trimming, Target Populations, and Partial Identification</span></h1>
-<p class="subtitle lead">Overlap, target populations, and bounds</p>
+<p class="subtitle lead">What can a design learn when some comparisons are rare or absent?</p>
 </div>
 
 
@@ -402,22 +487,1129 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Lecture brief:</strong> <a href="brief.html">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
 </div>
 <p><strong>Download:</strong> <a href="../../pdf/lectures/L04-positivity-partial-identification.pdf">Lecture PDF</a></p>
-<!-- GENERATION: PENDING -->
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled" title="Lecture outline">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Lecture outline
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Lecture notes for this session have not yet been generated.</p>
+<ul>
+<li>Begin with randomized designs that make some treatment comparisons rare or impossible.</li>
+<li>Separate positivity, population overlap, and overlap in one realized experiment.</li>
+<li>Compare clipping with two explicit target changes: trimming and weighting toward equipoise.</li>
+<li>When the original target must remain, replace an unsupported point claim with bounds justified by boundedness, monotonicity, or smoothness.</li>
+</ul>
+</div>
+</div>
+<section id="a-randomized-experiment-can-still-lack-a-comparison" class="level1">
+<h1>A randomized experiment can still lack a comparison</h1>
+<p>Consider a randomized trial conducted in three prespecified eligibility strata. The investigator uses different treatment probabilities because the treatment is increasingly difficult to offer:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stratum</th>
+<th style="text-align: right;">Number of units</th>
+<th style="text-align: right;">Treatment probability</th>
+<th style="text-align: right;">Expected treated units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Standard eligibility</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;"><span class="math inline">\(0.50\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(40\)</span></td>
+</tr>
+<tr class="even">
+<td>Elevated risk</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;"><span class="math inline">\(0.05\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.75\)</span></td>
+</tr>
+<tr class="odd">
+<td>Logistical exclusion</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The first stratum supplies an ordinary randomized comparison. Treatment remains possible in the elevated-risk stratum, but it is rare: the probability that none of its 15 units is treated is <span class="math inline">\(0.95^{15}\approx0.46\)</span>. A logistical rule makes treatment impossible in the final stratum under the experiment as conducted.</p>
+<p>Suppose the scientific target is the finite-population average treatment effect over all 100 trial units. Two different problems arise.</p>
+<p>First, the treatment effects of the five logistically excluded units enter the target, but their treated outcomes can never be exposed by this design. This is an <strong>identification</strong> problem. Repeating the same experiment indefinitely would not reveal the missing comparison.</p>
+<p>Second, a treated elevated-risk unit can appear, but there may be only one—or none—in the realized experiment. An inverse-probability estimator asks any one such unit to represent about <span class="math inline">\(1/0.05=20\)</span> similar units. This is a <strong>precision and finite-sample stability</strong> problem. The comparison exists in the design, but the realized experiment may contain little information about it.</p>
+<p>The distinction between zero and merely small probability is the central distinction of this lecture. It also determines which remedies can be honest: no amount of weight regularization turns a structurally impossible assignment into randomized evidence.</p>
+</section>
+<section id="positivity-in-a-finite-randomized-design" class="level1">
+<h1>Positivity in a finite randomized design</h1>
+<p>Return to the finite population of <span class="math inline">\(N\)</span> units used in L01–L03. Potential outcomes <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span>, covariates <span class="math inline">\(X_i\)</span>, and the target</p>
+<p><span class="math display">\[
+\tau=\frac{1}{N}\sum_{i=1}^N\{Y_i(1)-Y_i(0)\}
+\]</span></p>
+<p>are fixed. The assignment vector <span class="math inline">\(\mathbf Z\)</span> is random under a known design. For each unit and treatment state, define the marginal design probability</p>
+<p><span class="math display">\[
+\pi_i(z)=\mathbb P_Z(Z_i=z),
+\qquad z\in\{0,1\}.
+\]</span></p>
+<p>For a binary treatment, <span class="math inline">\(\pi_i(1)=\pi_i\)</span> and <span class="math inline">\(\pi_i(0)=1-\pi_i\)</span>. Design positivity for the finite-population ATE means</p>
+<p><span id="eq-l04-design-positivity"><span class="math display">\[
+\pi_i(0)&gt;0
+\quad\text{and}\quad
+\pi_i(1)&gt;0
+\qquad\text{for every }i.
+\tag{1}\]</span></span></p>
+<p>The condition is relative to the estimand. If unit <span class="math inline">\(i\)</span> contributes both potential outcomes to <span class="math inline">\(\tau\)</span>, the design must give both outcomes a chance to be observed. If the target deliberately excludes unit <span class="math inline">\(i\)</span>, its assignment probabilities need not identify that restricted target.</p>
+<p>This is a condition on marginal exposure probabilities, not on every complete assignment vector. Under complete randomization, most of the <span class="math inline">\(2^N\)</span> binary assignment vectors have probability zero because the treated count is fixed. Nevertheless, every unit can appear in either arm, so <a href="#eq-l04-design-positivity" class="quarto-xref">Equation&nbsp;<span>1</span></a> holds whenever both arm sizes are positive.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Positivity and overlap are related, but not identical">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Positivity and overlap are related, but not identical
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Positivity</strong> is a property of a treatment or exposure mechanism relative to a target: every state needed for the target has positive probability. In a randomized experiment, this is known from the design.</p>
+<p><strong>Population overlap</strong> usually describes the same support requirement through covariates. If assignment depends on <span class="math inline">\(X\)</span>, the treated and control populations overlap at <span class="math inline">\(x\)</span> when both treatment probabilities are positive there. In an observational study this becomes <span class="math inline">\(0&lt;e(x)&lt;1\)</span>, where <span class="math inline">\(e(x)=\mathbb P(Z=1\mid X=x)\)</span>.</p>
+<p><strong>Realized covariate overlap</strong> describes the sample actually obtained. Even when the design has positivity, random assignment can leave a small stratum with only treated or only control units. That realization may make estimation unstable, but it does not retroactively change the design probabilities. Conversely, seeing nearby treated and control units in a sample does not prove that an observational assignment mechanism is unconfounded.</p>
+</div>
+</div>
+<p>In practice, “weak positivity” and “weak overlap” are often used for probabilities close to zero or one. Strictly speaking, positivity is binary: the probability is positive or it is not. The adjective <em>weak</em> signals that a formally positive design may contain so little information in some regions that its estimators behave poorly.</p>
+<p>A stronger quantitative condition is often called <strong>uniform</strong> or <strong>strong positivity</strong>: for some fixed <span class="math inline">\(\varepsilon&gt;0\)</span>,</p>
+<p><span class="math display">\[
+\varepsilon\le \pi_i\le1-\varepsilon
+\qquad\text{for every target unit }i.
+\]</span></p>
+<p>Ordinary positivity permits probabilities arbitrarily close to zero or one; strong positivity rules them out.</p>
+</section>
+<section id="what-the-inverse-probability-is-doing" class="level1">
+<h1>What the inverse probability is doing</h1>
+<p>The basic identity is already present in the Horvitz–Thompson estimator:</p>
+<p><span id="eq-l04-ht-identity"><span class="math display">\[
+\mathbb E_Z\!\left\{
+\frac{\mathbf 1\{Z_i=z\}Y_i^{\mathrm{obs}}}{\pi_i(z)}
+\right\}
+=Y_i(z),
+\tag{2}\]</span></span></p>
+<p>provided <span class="math inline">\(\pi_i(z)&gt;0\)</span>. The indicator reveals <span class="math inline">\(Y_i(z)\)</span> only with probability <span class="math inline">\(\pi_i(z)\)</span>; division by that known probability restores one full unit of that potential outcome in design expectation.</p>
+<p>L03 used the same identity to correct prediction errors rather than outcome levels. Let <span class="math inline">\(g_z(X_i)\)</span> be a prediction fixed before assignment and define the fixed residual</p>
+<p><span class="math display">\[
+r_i(z)=Y_i(z)-g_z(X_i).
+\]</span></p>
+<p>Under independent Bernoulli assignment with unit-specific probabilities <span class="math inline">\(\pi_i\)</span>, consider</p>
+<p><span id="eq-l04-design-aipw"><span class="math display">\[
+\widehat\tau(g)
+=\frac{1}{N}\sum_{i=1}^N
+\left[
+g_1(X_i)-g_0(X_i)
++\frac{Z_i r_i(1)}{\pi_i}
+-\frac{(1-Z_i)r_i(0)}{1-\pi_i}
+\right].
+\tag{3}\]</span></span></p>
+<p>The prediction supplies a treatment contrast for every unit. Randomization then corrects its errors. When <span class="math inline">\(0&lt;\pi_i&lt;1\)</span>,</p>
+<p><span class="math display">\[
+\mathbb E_Z\!\left\{\frac{Z_i r_i(1)}{\pi_i}\right\}=r_i(1),
+\qquad
+\mathbb E_Z\!\left\{\frac{(1-Z_i)r_i(0)}{1-\pi_i}\right\}=r_i(0),
+\]</span></p>
+<p>so <span class="math inline">\(\mathbb E_Z\{\widehat\tau(g)\}=\tau\)</span> for any fixed predictions. The inverse probability is not a generic penalty for unlikely observations. It undoes the probability with which the design exposes the corresponding residual.</p>
+<p>If <span class="math inline">\(\pi_i=0\)</span>, the treated identity and residual correction do not become “infinitely large.” They cease to be defined, because <span class="math inline">\(Z_iY_i(1)\)</span> is always zero and the design never reveals <span class="math inline">\(Y_i(1)\)</span>. A model can still supply <span class="math inline">\(g_1(X_i)\)</span>, but randomization cannot check or correct that model at unit <span class="math inline">\(i\)</span>. The resulting claim is an extrapolation claim rather than a design-unbiased one.</p>
+<section id="weak-probabilities-enter-the-variance" class="level2">
+<h2 class="anchored" data-anchor-id="weak-probabilities-enter-the-variance">Weak probabilities enter the variance</h2>
+<p>The same representation shows what happens before probability reaches zero. Subtracting the design expectation of the <span class="math inline">\(i\)</span>th summand in <a href="#eq-l04-design-aipw" class="quarto-xref">Equation&nbsp;<span>3</span></a> gives</p>
+<p><span id="eq-l04-centered-contribution"><span class="math display">\[
+(Z_i-\pi_i)
+\left\{
+\frac{r_i(1)}{\pi_i}
++\frac{r_i(0)}{1-\pi_i}
+\right\}.
+\tag{4}\]</span></span></p>
+<p>Under independent Bernoulli assignment, contributions from different units are independent and <span class="math inline">\(\operatorname{Var}_Z(Z_i)=\pi_i(1-\pi_i)\)</span>. Therefore</p>
+<p><span id="eq-l04-design-aipw-variance"><span class="math display">\[
+\operatorname{Var}_Z\{\widehat\tau(g)\}
+=\frac{1}{N^2}\sum_{i=1}^N
+\pi_i(1-\pi_i)
+\left\{
+\frac{r_i(1)}{\pi_i}
++\frac{r_i(0)}{1-\pi_i}
+\right\}^2.
+\tag{5}\]</span></span></p>
+<p>The formula makes two mechanisms visible.</p>
+<ol type="1">
+<li>A small <span class="math inline">\(\pi_i\)</span> magnifies the treated residual <span class="math inline">\(r_i(1)\)</span>; a value near one magnifies the control residual <span class="math inline">\(r_i(0)\)</span>.</li>
+<li>Better fixed predictions can reduce the residuals, but cannot change which assignments the design permits.</li>
+</ol>
+<p>The formula is exact for independent Bernoulli assignment. Under complete randomization, rerandomization, or another dependent design, cross-unit covariances also enter. The support conclusion is unchanged: weighting can correct unequal positive probabilities, but it cannot manufacture a treatment state with probability zero.</p>
+</section>
+</section>
+<section id="four-responses-four-different-claims" class="level1">
+<h1>Four responses, four different claims</h1>
+<p>Once support is inadequate, there is no method that simultaneously preserves the original target, relies only on the original randomized evidence, retains a point conclusion, and enjoys stable precision. Something must change.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Response</th>
+<th>What changes?</th>
+<th>What can be claimed?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clip or cap inverse weights</td>
+<td>The estimator</td>
+<td>A more stable but generally biased point estimate</td>
+</tr>
+<tr class="even">
+<td>Trim the population</td>
+<td>The target units</td>
+<td>A point estimate for an explicitly restricted population</td>
+</tr>
+<tr class="odd">
+<td>Weight toward equipoise</td>
+<td>The target weights</td>
+<td>A point estimate for a smooth, design-supported population</td>
+</tr>
+<tr class="even">
+<td>Bound unsupported outcomes</td>
+<td>The form of the conclusion and the assumptions</td>
+<td>An identified set for the original target</td>
+</tr>
+</tbody>
+</table>
+<p>A fifth response is often best: redesign the experiment, recruit different units, or collect more data in the poorly represented strata. Statistical adjustments are not automatically preferable to fixing the source of the information problem.</p>
+</section>
+<section id="clipping-regularize-an-estimator" class="level1">
+<h1>Clipping: regularize an estimator</h1>
+<p>Begin with the unaugmented Horvitz–Thompson estimator,</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{HT}}
+=\frac{1}{N}\sum_{i=1}^N
+\left\{
+\frac{Z_iY_i^{\mathrm{obs}}}{\pi_i}
+-\frac{(1-Z_i)Y_i^{\mathrm{obs}}}{1-\pi_i}
+\right\}.
+\]</span></p>
+<p>Suppose all probabilities are positive but some inverse probabilities are uncomfortably large. Choose a cap <span class="math inline">\(C&gt;1\)</span> and replace each inverse probability by</p>
+<p><span id="eq-l04-design-clipped-weights"><span class="math display">\[
+c_{i1}=\min\left(\frac{1}{\pi_i},C\right),
+\qquad
+c_{i0}=\min\left(\frac{1}{1-\pi_i},C\right).
+\tag{6}\]</span></span></p>
+<p>This operation is called weight <strong>clipping</strong>, <strong>truncation</strong>, or <strong>Winsorization</strong>. The clipped estimator is</p>
+<p><span id="eq-l04-design-clipped-estimator"><span class="math display">\[
+\widehat\tau_C
+=\frac{1}{N}\sum_{i=1}^N
+\{Z_ic_{i1}Y_i^{\mathrm{obs}}
+-(1-Z_i)c_{i0}Y_i^{\mathrm{obs}}\}.
+\tag{7}\]</span></span></p>
+<p>Clipping limits how much any rare assignment can contribute. It also breaks the cancellation that made Horvitz–Thompson unbiased. Taking the design expectation gives</p>
+<p><span id="eq-l04-design-clipped-expectation"><span class="math display">\[
+\mathbb E_Z(\widehat\tau_C)
+=\frac{1}{N}\sum_{i=1}^N
+\left[
+\min(1,C\pi_i)Y_i(1)
+-\min\{1,C(1-\pi_i)\}Y_i(0)
+\right].
+\tag{8}\]</span></span></p>
+<p>Whenever <span class="math inline">\(\pi_i&lt;1/C\)</span>, the treated potential outcome is attenuated by <span class="math inline">\(C\pi_i\)</span>; whenever <span class="math inline">\(1-\pi_i&lt;1/C\)</span>, the control potential outcome is attenuated by <span class="math inline">\(C(1-\pi_i)\)</span>. These arm-specific factors generally do not define one common target population. Thus clipping is not automatically unbiased for a neatly reweighted causal estimand.</p>
+<p>For example, if <span class="math inline">\(\pi_i=0.02\)</span> and <span class="math inline">\(C=10\)</span>, the treated contribution appears in expectation with multiplier <span class="math inline">\(C\pi_i=0.2\)</span>, not one. The cap removes 80 percent of that unit’s treated mean contribution in exchange for limiting its realized weight to ten.</p>
+<p>Normalizing the clipped treated and control weights to sum to one does not restore the original ATE. It makes each arm represent its own tilted population, and the two tilts need not agree. The practical gain is variance control; the price is design bias and increased dependence on outcome patterns in the clipped region.</p>
+<p>Clipping can still be useful as an explicit regularization or sensitivity analysis. A credible report varies <span class="math inline">\(C\)</span> and shows how the estimate, the largest weight, and an effective-sample-size diagnostic change. It should not present the clipped estimate as though the original randomization identity still held. Cole and Hernán and Lee, Lessler, and Stuart discuss this practical use of truncated inverse weights in observational analyses <span class="citation" data-cites="coleHernan2008 leeLesslerStuart2011">(<a href="index.html#ref-coleHernan2008" role="doc-biblioref">2008</a>; <a href="index.html#ref-leeLesslerStuart2011" role="doc-biblioref">2011</a>)</span>.</p>
+<p>Clipping also cannot repair a structural zero. If <span class="math inline">\(\pi_i=0\)</span>, writing down a finite substitute for <span class="math inline">\(1/\pi_i\)</span> does not create a treated observation for unit <span class="math inline">\(i\)</span>.</p>
+</section>
+<section id="trimming-change-the-target-explicitly" class="level1">
+<h1>Trimming: change the target explicitly</h1>
+<p>A more transparent response is to name the population the design can reasonably represent. Let <span class="math inline">\(A\subseteq\{1,\ldots,N\}\)</span> be a set of units defined using design probabilities and pretreatment information, before outcomes are examined, and require <span class="math inline">\(0&lt;\pi_i&lt;1\)</span> for every <span class="math inline">\(i\in A\)</span>. Write <span class="math inline">\(N_A=|A|\)</span>. The finite-population effect in this restricted target is</p>
+<p><span id="eq-l04-finite-trimmed-estimand"><span class="math display">\[
+\tau_A
+=\frac{1}{N_A}\sum_{i\in A}\{Y_i(1)-Y_i(0)\}.
+\tag{9}\]</span></span></p>
+<p>For fixed predictions <span class="math inline">\(g_z(X_i)\)</span>, a design-unbiased estimator is</p>
+<p><span id="eq-l04-finite-trimmed-estimator"><span class="math display">\[
+\widehat\tau_A(g)
+=\frac{1}{N_A}\sum_{i\in A}
+\left[
+g_1(X_i)-g_0(X_i)
++\frac{Z_ir_i(1)}{\pi_i}
+-\frac{(1-Z_i)r_i(0)}{1-\pi_i}
+\right].
+\tag{10}\]</span></span></p>
+<p>This estimator does not pretend to recover the effects of excluded units. It estimates a different, explicitly stated estimand. If the five logistically excluded units in the opening example are excluded, positivity may hold for the remaining 95 units. Excluding the elevated-risk stratum as well may produce a more stable estimate for 80 standard-eligibility units, but it changes the question again.</p>
+<p>Under Bernoulli assignment, the exact residual variance of <a href="#eq-l04-finite-trimmed-estimator" class="quarto-xref">Equation&nbsp;<span>10</span></a> is</p>
+<p><span id="eq-l04-finite-trimmed-variance"><span class="math display">\[
+\operatorname{Var}_Z\{\widehat\tau_A(g)\}
+=\frac{1}{N_A^2}\sum_{i\in A}v_i,
+\tag{11}\]</span></span></p>
+<p>where</p>
+<p><span id="eq-l04-unit-difficulty"><span class="math display">\[
+v_i
+=\pi_i(1-\pi_i)
+\left\{
+\frac{r_i(1)}{\pi_i}
++\frac{r_i(0)}{1-\pi_i}
+\right\}^2.
+\tag{12}\]</span></span></p>
+<p>Removing a unit with a large <span class="math inline">\(v_i\)</span> reduces the numerator but also reduces <span class="math inline">\(N_A\)</span>, which increases the normalization applied to every retained unit. Trimming is therefore a <strong>precision–relevance tradeoff</strong>, not a rule to delete every difficult observation.</p>
+<p>There is an important practical obstacle: <span class="math inline">\(v_i\)</span> contains both potential outcomes and is not known before assignment. A feasible rule must replace it with a prespecified proxy or an estimate based on pretreatment covariates and appropriately separated outcome information. Once the same data choose the target and estimate its effect, inference must account for that adaptivity.</p>
+<section id="the-superpopulation-counterpart" class="level2">
+<h2 class="anchored" data-anchor-id="the-superpopulation-counterpart">The superpopulation counterpart</h2>
+<p>The modern trimming literature is usually written for an i.i.d. superpopulation. Let <span class="math inline">\(X\)</span> be pretreatment covariates,</p>
+<p><span class="math display">\[
+e(x)=\mathbb P(Z=1\mid X=x),
+\qquad
+m_z(x)=\mathbb E\{Y(z)\mid X=x\},
+\]</span></p>
+<p>and let</p>
+<p><span class="math display">\[
+\sigma_z^2(x)=\operatorname{Var}\{Y(z)\mid X=x\}.
+\]</span></p>
+<p>In an observational study, interpreting these quantities causally also requires consistency and conditional exchangeability; overlap alone is not enough. In a randomized design whose probabilities depend on <span class="math inline">\(X\)</span>, the assignment probabilities are known and exchangeability follows from the design.</p>
+<p>For a covariate set <span class="math inline">\(\mathcal A\)</span> with positive population probability, the target is</p>
+<p><span id="eq-l04-superpopulation-trimmed-estimand"><span class="math display">\[
+\tau_{\mathcal A}
+=\mathbb E\{Y(1)-Y(0)\mid X\in\mathcal A\}.
+\tag{13}\]</span></span></p>
+<p>Crump, Hotz, Imbens, and Mitnik study the choice of such target populations when overlap is limited <span class="citation" data-cites="crump2009">(<a href="index.html#ref-crump2009" role="doc-biblioref">2009</a>)</span>. A central conditional residual-variance score is</p>
+<p><span id="eq-l04-crump-score"><span class="math display">\[
+k(x)
+=\frac{\sigma_1^2(x)}{e(x)}
++\frac{\sigma_0^2(x)}{1-e(x)}.
+\tag{14}\]</span></span></p>
+<p>For a retained covariate set <span class="math inline">\(\mathcal A\)</span>, the corresponding residual criterion is</p>
+<p><span id="eq-l04-crump-criterion"><span class="math display">\[
+V(\mathcal A)
+=\frac{
+\mathbb E[\mathbf 1\{X\in\mathcal A\}k(X)]
+}{
+\mathbb P(X\in\mathcal A)^2
+}.
+\tag{15}\]</span></span></p>
+<p>Its minimizer has a threshold form: retain covariate values with <span class="math inline">\(k(x)\le\gamma\)</span> for an appropriate <span class="math inline">\(\gamma\)</span>. Under equal homoskedastic conditional variances,</p>
+<p><span class="math display">\[
+k(x)=\frac{\sigma^2}{e(x)\{1-e(x)\}},
+\]</span></p>
+<p>so this rule reduces to a symmetric propensity-score region such as <span class="math inline">\(\alpha\le e(x)\le1-\alpha\)</span>. A conventional cutoff like <span class="math inline">\(0.1\)</span> is not a universal optimum; the appropriate set depends on the probability and outcome structure.</p>
+<p>Khan and Ugander extend this logic to heteroscedastic outcomes and develop doubly robust, sample-adaptive trimming procedures <span class="citation" data-cites="khan2025trimming">(<a href="index.html#ref-khan2025trimming" role="doc-biblioref">2025</a>)</span>. Trimming only on <span class="math inline">\(e(x)\)</span> can discard a rare but highly predictable region or retain a noisy region near one-half. The more refined score recognizes that weak overlap and residual uncertainty jointly determine precision.</p>
+<p>The criterion in <a href="#eq-l04-crump-criterion" class="quarto-xref">Equation&nbsp;<span>15</span></a> conditions on the covariates and focuses on residual variation. The full superpopulation variance also contains heterogeneity in <span class="math inline">\(m_1(X)-m_0(X)\)</span> within the target. One must specify the inferential regime before calling a trimming rule “optimal.”</p>
+</section>
+<section id="a-numerical-precisionrelevance-tradeoff" class="level2">
+<h2 class="anchored" data-anchor-id="a-numerical-precisionrelevance-tradeoff">A numerical precision–relevance tradeoff</h2>
+<p>Suppose 90 percent of a source population has <span class="math inline">\(e(X)=0.5\)</span> and 10 percent has <span class="math inline">\(e(X)=0.01\)</span>. Let both conditional residual variances equal one. The full-population residual criterion has numerator</p>
+<p><span class="math display">\[
+0.9(4)+0.1(101.01)\approx13.70.
+\]</span></p>
+<p>If the rare-treatment region is removed, the numerator is <span class="math inline">\(0.9(4)\)</span> and the retained mass is <span class="math inline">\(0.9\)</span>, giving</p>
+<p><span class="math display">\[
+V(\mathcal A)=\frac{0.9(4)}{0.9^2}\approx4.44.
+\]</span></p>
+<p>The precision gain is large. Yet the new estimand omits the ten percent of the population for whom treatment was rare. If those units are the policy population of greatest concern, a precise answer about the other 90 percent does not answer the original question.</p>
+</section>
+</section>
+<section id="equipoise-change-the-target-smoothly" class="level1">
+<h1>Equipoise: change the target smoothly</h1>
+<p>Hard trimming draws a boundary: a unit just inside the cutoff belongs fully to the target, while a nearly identical unit just outside does not belong at all. A smoother alternative is to give greater target weight to units for whom both treatment states were genuinely available.</p>
+<p>In the finite randomized population, let <span class="math inline">\(h_i\ge0\)</span> be a prespecified target weight and define</p>
+<p><span id="eq-l04-finite-tilted-estimand"><span class="math display">\[
+\tau_h
+=\frac{\sum_{i=1}^N h_i\{Y_i(1)-Y_i(0)\}}
+{\sum_{i=1}^N h_i}.
+\tag{16}\]</span></span></p>
+<p>Choose</p>
+<p><span id="eq-l04-design-overlap-tilt"><span class="math display">\[
+h_i=\pi_i(1-\pi_i).
+\tag{17}\]</span></span></p>
+<p>This weight is largest at <span class="math inline">\(\pi_i=1/2\)</span>, shrinks as the design makes one arm rare, and equals zero when one arm is impossible. A Horvitz–Thompson estimator for this target is</p>
+<p><span id="eq-l04-design-overlap-estimator"><span class="math display">\[
+\widehat\tau_h
+=\frac{1}{\sum_i h_i}
+\sum_{i:\,0&lt;\pi_i&lt;1} h_i
+\left\{
+\frac{Z_iY_i^{\mathrm{obs}}}{\pi_i}
+-\frac{(1-Z_i)Y_i^{\mathrm{obs}}}{1-\pi_i}
+\right\}.
+\tag{18}\]</span></span></p>
+<p>For units with positive probabilities, the observed arm weights simplify:</p>
+<p><span id="eq-l04-design-overlap-weights"><span class="math display">\[
+\frac{h_i}{\pi_i}=1-\pi_i
+\quad\text{when }Z_i=1,
+\qquad
+\frac{h_i}{1-\pi_i}=\pi_i
+\quad\text{when }Z_i=0.
+\tag{19}\]</span></span></p>
+<p>Units with <span class="math inline">\(\pi_i\in\{0,1\}\)</span> have <span class="math inline">\(h_i=0\)</span> and are omitted from the displayed sum so that no <span class="math inline">\(0/0\)</span> expression is formed. The weights on supported units are bounded. More importantly, the stabilization is not hidden clipping: both arms represent the same explicitly defined target <span class="math inline">\(\tau_h\)</span>. A structurally unsupported unit receives zero target weight rather than a fabricated inverse weight.</p>
+<p>This target is often described as the <strong>population in equipoise</strong>: units for whom either treatment is plausible under the assignment mechanism. It can be more principled than an arbitrary hard cutoff because membership changes smoothly and the estimand emphasizes the part of the population that supports the comparison.</p>
+<p>The interpretation requires care in a designed experiment. The investigator chooses <span class="math inline">\(\pi_i\)</span>, so changing randomization probabilities changes the equipoise-weighted estimand. Under ordinary equal-probability randomization, every <span class="math inline">\(h_i\)</span> is the same and <span class="math inline">\(\tau_h=\tau\)</span>. The target becomes distinctive only when treatment probabilities vary across units or strata.</p>
+<p>In a superpopulation, a nonnegative tilting function <span class="math inline">\(h(x)\)</span> defines</p>
+<p><span id="eq-l04-superpopulation-tilted-estimand"><span class="math display">\[
+\tau_h
+=\frac{\mathbb E[h(X)\{Y(1)-Y(0)\}]}
+{\mathbb E\{h(X)\}}.
+\tag{20}\]</span></span></p>
+<p>Li, Morgan, and Zaslavsky choose <span class="math inline">\(h(x)=e(x)\{1-e(x)\}\)</span>, yielding treated weights <span class="math inline">\(1-e(x)\)</span> and control weights <span class="math inline">\(e(x)\)</span> <span class="citation" data-cites="liMorganZaslavsky2018">(<a href="index.html#ref-liMorganZaslavsky2018" role="doc-biblioref">2018</a>)</span>. The target density is proportional to <span class="math inline">\(e(x)\{1-e(x)\}f_X(x)\)</span>, not to <span class="math inline">\(e(x)\{1-e(x)\}\)</span> alone. It emphasizes covariate regions with treatment uncertainty while still reflecting how common those regions are in the source population.</p>
+<section id="what-changes-in-an-observational-study" class="level2">
+<h2 class="anchored" data-anchor-id="what-changes-in-an-observational-study">What changes in an observational study?</h2>
+<p>The weighting algebra looks similar, but the source of validity is different. In a randomized experiment, assignment probabilities are selected and known, and design expectations hold without an outcome model. In an observational study:</p>
+<ul>
+<li><span class="math inline">\(e(x)\)</span> must be estimated;</li>
+<li>conditional exchangeability is a substantive assumption, not a consequence of design;</li>
+<li>unmeasured confounding can remain even when propensity distributions look well overlapped; and</li>
+<li>high-dimensional positivity is difficult to assess from one-dimensional propensity histograms.</li>
+</ul>
+<p>Thus good observed overlap is useful for estimation but does not itself make an observational comparison causal. D’Amour et al.&nbsp;explain why overlap becomes especially demanding with many covariates <span class="citation" data-cites="damour2021">(<a href="index.html#ref-damour2021" role="doc-biblioref">2021</a>)</span>.</p>
+</section>
+</section>
+<section id="when-the-target-cannot-be-changed" class="level1">
+<h1>When the target cannot be changed</h1>
+<p>Clipping regularizes a point estimator. Trimming and equipoise weighting name a different target population. Sometimes the original target is scientifically nonnegotiable. The five logistically excluded units in the opening example may be precisely the people a policy decision must address.</p>
+<p>If the design never exposes one of their potential outcomes, a point effect for the full target requires extrapolation. <strong>Partial identification</strong> offers a different response: retain the original target, state additional restrictions that are scientifically defensible, and report every effect value compatible with the design, the observed-data law, and those restrictions.</p>
+<div id="def-l04-identified-set" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1 (Identified set)</strong></span> For an estimand <span class="math inline">\(\theta\)</span> and an assumption class <span class="math inline">\(\mathcal M\)</span>, the <strong>identified set</strong> is the set of values of <span class="math inline">\(\theta\)</span> attained by full-data distributions—or finite science tables in a design-based analysis—that produce the same observed-data law and satisfy <span class="math inline">\(\mathcal M\)</span>.</p>
+</div>
+<p>A bound is <strong>sharp</strong> when every value inside it is attainable, or can be approached arbitrarily closely, by some admissible full-data world. An identified set is a population object. Its width can remain positive even with infinite repeated data; sampling uncertainty about its estimated endpoints is a separate issue.</p>
+</section>
+<section id="manskis-accounting-bound-what-the-design-cannot-expose" class="level1">
+<h1>Manski’s accounting: bound what the design cannot expose</h1>
+<p>Assume the outcomes are known to lie in</p>
+<p><span id="eq-l04-bounded-outcomes"><span class="math display">\[
+Y_i(z)\in[\ell,u]
+\qquad\text{for every }i,z.
+\tag{21}\]</span></span></p>
+<p>For arm <span class="math inline">\(z\)</span>, separate units into</p>
+<p><span class="math display">\[
+\mathcal I_z^+
+=\{i:\pi_i(z)&gt;0\},
+\qquad
+\mathcal I_z^0
+=\{i:\pi_i(z)=0\}.
+\]</span></p>
+<p>The design can expose <span class="math inline">\(Y_i(z)\)</span> for every <span class="math inline">\(i\in\mathcal I_z^+\)</span> in some assignment. It can never expose <span class="math inline">\(Y_i(z)\)</span> for <span class="math inline">\(i\in\mathcal I_z^0\)</span>. Two finite science tables that agree on all supported potential outcomes but differ on the unsupported ones generate the same observed-data distribution under the design.</p>
+<p>Let</p>
+<p><span class="math display">\[
+\mu_z=\frac{1}{N}\sum_{i=1}^N Y_i(z).
+\]</span></p>
+<p>Boundedness yields</p>
+<p><span id="eq-l04-design-arm-bounds"><span class="math display">\[
+\mu_z^-
+=\frac{1}{N}
+\left\{
+\sum_{i\in\mathcal I_z^+}Y_i(z)
++|\mathcal I_z^0|\ell
+\right\},
+\qquad
+\mu_z^+
+=\frac{1}{N}
+\left\{
+\sum_{i\in\mathcal I_z^+}Y_i(z)
++|\mathcal I_z^0|u
+\right\}.
+\tag{22}\]</span></span></p>
+<p>Combining the two arm intervals gives the ATE bounds</p>
+<p><span id="eq-l04-design-ate-bounds"><span class="math display">\[
+\tau
+\in
+\left[
+\mu_1^- - \mu_0^+,
+\mu_1^+ - \mu_0^-
+\right].
+\tag{23}\]</span></span></p>
+<p>The lower effect pairs the smallest permissible treated mean with the largest permissible control mean; the upper effect does the reverse. Under only <a href="#eq-l04-bounded-outcomes" class="quarto-xref">Equation&nbsp;<span>21</span></a>, these bounds are sharp because each unsupported potential outcome can be set independently to an endpoint of its allowable range.</p>
+<p>The supported sums in <a href="#eq-l04-design-arm-bounds" class="quarto-xref">Equation&nbsp;<span>22</span></a> are not all observed in one realization, but they are design-estimable. For example,</p>
+<p><span id="eq-l04-estimated-lower-endpoint"><span class="math display">\[
+\widehat\mu_z^-
+=\frac{1}{N}
+\left\{
+\sum_{i\in\mathcal I_z^+}
+\frac{\mathbf 1\{Z_i=z\}Y_i^{\mathrm{obs}}}{\pi_i(z)}
++|\mathcal I_z^0|\ell
+\right\}
+\tag{24}\]</span></span></p>
+<p>is design-unbiased for <span class="math inline">\(\mu_z^-\)</span>. Replacing <span class="math inline">\(\ell\)</span> by <span class="math inline">\(u\)</span> estimates the upper endpoint. This is where identification and inference separate: the population endpoints are determined by assumptions and the design, while a single randomized experiment estimates those endpoints with sampling error.</p>
+<p>In the opening example, suppose only the five logistically excluded units lack treated support, control is supported for everyone, and outcomes lie in <span class="math inline">\([0,100]\)</span>. Their unknown treated outcomes contribute between <span class="math inline">\(0\)</span> and <span class="math inline">\(5\times100/100=5\)</span> points to the population treated mean. Even perfect knowledge about the other 95 units leaves an ATE identified interval of width five. More repetitions improve estimation of the supported contribution but do not narrow this design-imposed gap.</p>
+<section id="the-familiar-observational-form" class="level2">
+<h2 class="anchored" data-anchor-id="the-familiar-observational-form">The familiar observational form</h2>
+<p>Manski’s worst-case logic applies without a randomized design as well <span class="citation" data-cites="manski1990">(<a href="index.html#ref-manski1990" role="doc-biblioref">1990</a>)</span>. Let <span class="math inline">\(\rho=\mathbb P(Z=1)\)</span> and write</p>
+<p><span class="math display">\[
+m_1^{\mathrm{obs}}=\mathbb E(Y^{\mathrm{obs}}\mid Z=1),
+\qquad
+m_0^{\mathrm{obs}}=\mathbb E(Y^{\mathrm{obs}}\mid Z=0).
+\]</span></p>
+<p>Consistency identifies the treated group’s mean of <span class="math inline">\(Y(1)\)</span> and the control group’s mean of <span class="math inline">\(Y(0)\)</span>, but not the two missing counterfactual means. Under <span class="math inline">\(Y(z)\in[\ell,u]\)</span>,</p>
+<p><span id="eq-l04-manski-mu1"><span class="math display">\[
+\mu_1
+\in
+\left[
+\rho m_1^{\mathrm{obs}}+(1-\rho)\ell,
+\rho m_1^{\mathrm{obs}}+(1-\rho)u
+\right],
+\tag{25}\]</span></span></p>
+<p>and</p>
+<p><span id="eq-l04-manski-mu0"><span class="math display">\[
+\mu_0
+\in
+\left[
+(1-\rho)m_0^{\mathrm{obs}}+\rho\ell,
+(1-\rho)m_0^{\mathrm{obs}}+\rho u
+\right].
+\tag{26}\]</span></span></p>
+<p>The ATE bounds again combine the smallest treated mean with the largest control mean, and vice versa. Their width is not a small-sample defect. More observational data estimate the same endpoints more precisely; they do not identify the missing counterfactual means without additional assumptions.</p>
+</section>
+</section>
+<section id="lee-bounds-use-randomized-selection-structure" class="level1">
+<h1>Lee bounds: use randomized selection structure</h1>
+<p>Bounded outcomes can produce wide intervals. Credible structure can narrow them. Lee’s bounds provide a particularly instructive randomized example <span class="citation" data-cites="lee2009">(<a href="index.html#ref-lee2009" role="doc-biblioref">2009</a>)</span>.</p>
+<p>Consider a randomized job-training program. Let <span class="math inline">\(S_i(z)\in\{0,1\}\)</span> indicate whether unit <span class="math inline">\(i\)</span>’s wage would be observed under assignment <span class="math inline">\(z\)</span>—for example, whether the person would be employed. Let <span class="math inline">\(Y_i(z)\)</span> be the wage defined when <span class="math inline">\(S_i(z)=1\)</span>. The observed selection indicator is</p>
+<p><span class="math display">\[
+S_i=Z_iS_i(1)+(1-Z_i)S_i(0),
+\]</span></p>
+<p>and a wage is observed only when <span class="math inline">\(S_i=1\)</span>. Although treatment is randomized, comparing wages among employed treated and employed control units need not be a causal comparison: treatment may change who becomes employed.</p>
+<p>Assume random assignment and <strong>monotone selection</strong>,</p>
+<p><span id="eq-l04-lee-monotonicity"><span class="math display">\[
+S_i(1)\ge S_i(0)
+\qquad\text{for every }i.
+\tag{27}\]</span></span></p>
+<p>Monotonicity rules out a unit who would be employed under control but not under treatment. It leaves three principal strata: always employed, employed only when treated, and never employed. The target is the effect among the always-employed stratum,</p>
+<p><span class="math display">\[
+\tau_{\mathrm{AO}}
+=\mathbb E\{Y(1)-Y(0)\mid S(1)=S(0)=1\}.
+\]</span></p>
+<p>Let</p>
+<p><span class="math display">\[
+s_z=\mathbb P(S=1\mid Z=z),
+\]</span></p>
+<p>and suppose <span class="math inline">\(0&lt;s_0\le s_1\)</span>. Randomization identifies both selection rates. Under monotonicity, every employed control unit is always employed. Among employed treated units, the fraction</p>
+<p><span id="eq-l04-lee-share"><span class="math display">\[
+q=\frac{s_0}{s_1}
+\tag{28}\]</span></span></p>
+<p>is always employed; the remaining fraction <span class="math inline">\(1-q\)</span> is employed only because of treatment. The data identify this mixture proportion but not which treated wages belong to which stratum.</p>
+<p>Let <span class="math inline">\(Q_1(v)\)</span> denote the quantile function of wages among employed treated units. The smallest possible treated mean for the always-employed group assigns that group the bottom fraction <span class="math inline">\(q\)</span> of treated wages. The largest assigns it the top fraction <span class="math inline">\(q\)</span>:</p>
+<p><span id="eq-l04-lee-treated-bounds"><span class="math display">\[
+\mu_{1,L}^{\mathrm{AO}}
+=\frac{1}{q}\int_0^q Q_1(v)\,dv,
+\qquad
+\mu_{1,U}^{\mathrm{AO}}
+=\frac{1}{q}\int_{1-q}^1 Q_1(v)\,dv.
+\tag{29}\]</span></span></p>
+<p>The employed-control mean</p>
+<p><span class="math display">\[
+\mu_0^{\mathrm{AO}}
+=\mathbb E(Y^{\mathrm{obs}}\mid Z=0,S=1)
+\]</span></p>
+<p>identifies the control mean for the always-employed stratum. Therefore</p>
+<p><span id="eq-l04-lee-effect-bounds"><span class="math display">\[
+\tau_{\mathrm{AO}}
+\in
+\left[
+\mu_{1,L}^{\mathrm{AO}}-\mu_0^{\mathrm{AO}},
+\mu_{1,U}^{\mathrm{AO}}-\mu_0^{\mathrm{AO}}
+\right].
+\tag{30}\]</span></span></p>
+<p>If <span class="math inline">\(s_1=0.8\)</span> and <span class="math inline">\(s_0=0.6\)</span>, then <span class="math inline">\(q=0.75\)</span>. The lower bound removes the top 25 percent of employed treated wages and averages the bottom 75 percent; the upper bound removes the bottom 25 percent and averages the top 75 percent. With ties at a cutoff, fractional trimming may be required.</p>
+<p>This outcome trimming has a different purpose from Crump-style covariate trimming. Crump-style trimming changes the target population to improve support and precision. Lee trimming constructs extreme allocations within a latent mixture to bound a fixed principal-stratum effect.</p>
+<p>The inequality <span class="math inline">\(s_1\ge s_0\)</span> in the observed data is necessary for the stated direction of monotonicity, but it does not prove individual-level monotonicity. That substantive assumption is what narrows the identified set. In return, the Lee construction does not require a bounded wage scale.</p>
+</section>
+<section id="smoothness-controlled-borrowing-across-support" class="level1">
+<h1>Smoothness: controlled borrowing across support</h1>
+<p>Boundedness treats a response just outside support as unrelated to a response just inside. A parametric model takes the opposite extreme: after its form and parameters are fixed, it selects one extrapolated response. A smoothness restriction can occupy the middle ground.</p>
+<p>Consider a target population with covariates <span class="math inline">\(X\)</span> and a randomized <strong>behavior policy</strong> that chooses arm <span class="math inline">\(z\)</span> with known probability <span class="math inline">\(b_z(x)\)</span>. The policy may never assign an arm in some covariate regions. Let</p>
+<p><span class="math display">\[
+\mathcal O_z=\{x:b_z(x)&gt;0\}
+\]</span></p>
+<p>be the support for arm <span class="math inline">\(z\)</span>, and define the conditional potential-outcome mean</p>
+<p><span class="math display">\[
+m_z(x)=\mathbb E\{Y(z)\mid X=x\}.
+\]</span></p>
+<p>Randomization identifies <span class="math inline">\(m_z(x)\)</span> on <span class="math inline">\(\mathcal O_z\)</span>, but not outside it. Suppose a new target policy would use arm <span class="math inline">\(z\)</span> outside <span class="math inline">\(\mathcal O_z\)</span>. Off-policy evaluation then requires information that the behavior design did not directly collect.</p>
+<p>Choose a distance <span class="math inline">\(d(x,x')\)</span> on the covariate space and a constant <span class="math inline">\(L_z\ge0\)</span>. Assume</p>
+<p><span id="eq-l04-lipschitz-assumption"><span class="math display">\[
+|m_z(x)-m_z(x')|
+\le L_zd(x,x')
+\tag{31}\]</span></span></p>
+<p>for covariate values relevant to the target. This constrains the conditional mean, not every noisy individual outcome. The identified function on <span class="math inline">\(\mathcal O_z\)</span> must itself satisfy this restriction; otherwise the assumption class is empty. Every supported point <span class="math inline">\(x'\)</span> implies</p>
+<p><span class="math display">\[
+m_z(x')-L_zd(x,x')
+\le m_z(x)
+\le m_z(x')+L_zd(x,x').
+\]</span></p>
+<p>All such restrictions must hold simultaneously. The tight pointwise envelopes outside support are</p>
+<p><span id="eq-l04-lipschitz-lower"><span class="math display">\[
+\underline m_z(x)
+=\sup_{x'\in\mathcal O_z}
+\{m_z(x')-L_zd(x,x')\},
+\tag{32}\]</span></span></p>
+<p>and</p>
+<p><span id="eq-l04-lipschitz-upper"><span class="math display">\[
+\overline m_z(x)
+=\inf_{x'\in\mathcal O_z}
+\{m_z(x')+L_zd(x,x')\}.
+\tag{33}\]</span></span></p>
+<p>If outcomes are also bounded in <span class="math inline">\([\ell,u]\)</span>, truncate the lower envelope at <span class="math inline">\(\ell\)</span> and the upper envelope at <span class="math inline">\(u\)</span>. Averaging the completed envelopes under the target policy and target covariate distribution produces bounds on its value. Khan, Saveski, and Ugander develop sharp smoothness-based bounds for off-policy evaluation beyond overlap <span class="citation" data-cites="khanSaveskiUgander2024">(<a href="index.html#ref-khanSaveskiUgander2024" role="doc-biblioref">2024</a>)</span>.</p>
+<section id="a-one-dimensional-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-one-dimensional-example">A one-dimensional example</h2>
+<p>Let <span class="math inline">\(X\)</span> be uniform on <span class="math inline">\([0,1]\)</span>. Suppose arm 1 is supported only on <span class="math inline">\([0,0.6]\)</span>, where</p>
+<p><span class="math display">\[
+m_1(x)=0.4+0.5x.
+\]</span></p>
+<p>Assume <span class="math inline">\(Y(1)\in[0,1]\)</span> and that <span class="math inline">\(m_1\)</span> is <span class="math inline">\(0.5\)</span>-Lipschitz. At the support boundary, <span class="math inline">\(m_1(0.6)=0.7\)</span>. For <span class="math inline">\(x&gt;0.6\)</span>, the sharp envelopes are</p>
+<p><span class="math display">\[
+\underline m_1(x)=1-0.5x,
+\qquad
+\overline m_1(x)=0.4+0.5x.
+\]</span></p>
+<p>At <span class="math inline">\(x=0.9\)</span>, smoothness restricts the missing mean to <span class="math inline">\([0.55,0.85]\)</span> rather than the boundedness-only interval <span class="math inline">\([0,1]\)</span>.</p>
+<p>Integration makes the gain for the population arm mean concrete. The supported contribution is</p>
+<p><span class="math display">\[
+\int_0^{0.6}(0.4+0.5x)\,dx=0.33.
+\]</span></p>
+<p>The lower and upper unsupported contributions are</p>
+<p><span class="math display">\[
+\int_{0.6}^{1}(1-0.5x)\,dx=0.24,
+\qquad
+\int_{0.6}^{1}(0.4+0.5x)\,dx=0.32.
+\]</span></p>
+<p>Thus</p>
+<p><span class="math display">\[
+\mathbb E\{Y(1)\}\in[0.57,0.65].
+\]</span></p>
+<p>Boundedness alone gives <span class="math inline">\([0.33,0.73]\)</span>. Smoothness narrows the answer without selecting one extrapolated curve.</p>
+<p>The gain is purchased with substantive choices.</p>
+<ul>
+<li>The metric <span class="math inline">\(d\)</span> declares which covariate changes make units similar. Rescaling a coordinate changes the restriction.</li>
+<li>The constant <span class="math inline">\(L_z\)</span> limits how quickly the mean may change. The unsupported data cannot verify that limit where it matters most.</li>
+<li>In high dimensions, supported points may be far away under any credible metric, so the envelopes remain wide and their estimation can be slow.</li>
+</ul>
+<p>A persuasive analysis therefore reports bounds over defensible choices of <span class="math inline">\(d\)</span> and <span class="math inline">\(L_z\)</span> rather than treating them as innocuous tuning parameters.</p>
+</section>
+</section>
+<section id="identification-is-not-inference" class="level1">
+<h1>Identification is not inference</h1>
+<p>An identified interval <span class="math inline">\([L,U]\)</span> states what the population design or observed-data law and assumptions imply. In a realized sample, both endpoints must be estimated. The plug-in interval <span class="math inline">\([\widehat L,\widehat U]\)</span> is not automatically a 95 percent confidence interval.</p>
+<p>Two inferential goals are common:</p>
+<ol type="1">
+<li>construct a confidence region that covers the <strong>entire identified set</strong> <span class="math inline">\([L,U]\)</span> with a stated probability;</li>
+<li>construct a confidence interval that covers the unknown scalar effect, knowing only that it lies somewhere in <span class="math inline">\([L,U]\)</span>.</li>
+</ol>
+<p>The first goal is stronger and generally produces a wider interval. The second can use the fact that one scalar cannot simultaneously lie near both endpoints. Either way, sampling uncertainty in the estimated endpoints—and their dependence—must be handled. Imbens and Manski give foundational results for this distinction <span class="citation" data-cites="imbensManski2004">(<a href="index.html#ref-imbensManski2004" role="doc-biblioref">2004</a>)</span>.</p>
+<p>When both endpoint estimators are regular and asymptotically normal, a Bonferroni construction can conservatively expand the lower endpoint downward and the upper endpoint upward by <span class="math inline">\(z_{1-\alpha/2}\)</span> one-sided standard errors. Their joint covariance can yield a less conservative critical value. This familiar calculation is not automatic for endpoints produced by max–min operations, moment selection, or nonregular nuisance estimates. For smoothness bounds in particular, nuisance estimation and envelope optimization can converge more slowly than <span class="math inline">\(n^{-1/2}\)</span>, so ordinary Wald reasoning needs particular care <span class="citation" data-cites="khanSaveskiUgander2024">(<a href="index.html#ref-khanSaveskiUgander2024" role="doc-biblioref">Khan, Saveski, and Ugander 2024</a>)</span>.</p>
+<p>Keep three uncertainties separate:</p>
+<ul>
+<li><strong>Identification uncertainty:</strong> <span class="math inline">\(U-L\)</span> remains positive even with infinite data under the maintained assumptions.</li>
+<li><strong>Sampling uncertainty:</strong> <span class="math inline">\(L\)</span> and <span class="math inline">\(U\)</span> are estimated from one finite experiment or sample.</li>
+<li><strong>Sensitivity uncertainty:</strong> the set changes when the outcome bounds, monotonicity direction, covariate metric, or smoothness constant changes.</li>
+</ul>
+<p>Calling all three “the confidence interval” obscures which uncertainty comes from random sampling and which comes from scientific assumptions.</p>
+</section>
+<section id="what-to-carry-forward" class="level1">
+<h1>What to carry forward</h1>
+<p>Positivity is not a ritual condition attached to a weighting formula. It says that the design can expose every comparison required by the target estimand. Overlap describes how that support appears across covariate regions; realized overlap can still be poor by chance even under a positive design.</p>
+<p>When probabilities are small but positive, inverse weighting remains centered on the design-based target, but residual noise is amplified. Clipping can reduce that amplification by accepting design bias. Trimming and equipoise weighting can yield stable, design-supported point estimates by naming a different target. Those target changes may be scientifically appropriate, but they should never be hidden as mere data cleaning.</p>
+<p>When the original target must remain and a comparison has zero probability, partial identification changes the form of the answer. Boundedness, monotonicity, or smoothness can rule out some missing science tables without pretending that the data selected one of them. Stronger assumptions narrow the set; a better design can remove the gap.</p>
+</section>
+<section id="advanced-material" class="level1">
+<h1>Advanced material</h1>
+<section id="why-a-variance-optimal-trimming-rule-has-a-threshold-form" class="level2">
+<h2 class="anchored" data-anchor-id="why-a-variance-optimal-trimming-rule-has-a-threshold-form">Why a variance-optimal trimming rule has a threshold form</h2>
+<p>The threshold structure in <a href="#eq-l04-crump-criterion" class="quarto-xref">Equation&nbsp;<span>15</span></a> follows from a local calculation. Write</p>
+<p><span class="math display">\[
+q=\mathbb P(X\in\mathcal A),
+\qquad
+K=\mathbb E[\mathbf 1\{X\in\mathcal A\}k(X)],
+\qquad
+V(\mathcal A)=\frac{K}{q^2}.
+\]</span></p>
+<p>Consider adding an infinitesimal excluded covariate cell of mass <span class="math inline">\(\varepsilon\)</span> and difficulty score <span class="math inline">\(k_0\)</span>. The new criterion is</p>
+<p><span class="math display">\[
+V_\varepsilon
+=\frac{K+\varepsilon k_0}{(q+\varepsilon)^2}.
+\]</span></p>
+<p>Differentiating at zero gives</p>
+<p><span id="eq-l04-trim-derivative"><span class="math display">\[
+\left.
+\frac{dV_\varepsilon}{d\varepsilon}
+\right|_{\varepsilon=0}
+=\frac{k_0q-2K}{q^3}.
+\tag{34}\]</span></span></p>
+<p>Adding the cell improves precision exactly when</p>
+<p><span class="math display">\[
+k_0&lt;\frac{2K}{q}
+=2\mathbb E\{k(X)\mid X\in\mathcal A\}.
+\]</span></p>
+<p>At an optimum, retained cells therefore lie below a common threshold and excluded cells lie above it, apart from ties. The threshold satisfies</p>
+<p><span class="math display">\[
+\gamma
+=2\mathbb E\{k(X)\mid k(X)\le\gamma\}.
+\]</span></p>
+<p>This argument concerns the residual, covariate-conditional criterion. For a superpopulation ATE, the full influence-function variance also contains</p>
+<p><span class="math display">\[
+\frac{
+\mathbb E[
+\mathbf 1\{X\in\mathcal A\}
+\{m_1(X)-m_0(X)-\tau_{\mathcal A}\}^2
+]
+}{
+\mathbb P(X\in\mathcal A)^2
+}.
+\]</span></p>
+<p>Treatment-effect heterogeneity can therefore alter which population is variance-optimal.</p>
+</section>
+<section id="adaptive-trimming-changes-the-inferential-problem" class="level2">
+<h2 class="anchored" data-anchor-id="adaptive-trimming-changes-the-inferential-problem">Adaptive trimming changes the inferential problem</h2>
+<p>Suppose an estimated score <span class="math inline">\(\widehat k\)</span> and threshold <span class="math inline">\(\widehat\gamma\)</span> define</p>
+<p><span class="math display">\[
+\widehat{\mathcal A}
+=\{x:\widehat k(x)\le\widehat\gamma\}.
+\]</span></p>
+<p>For sampled covariates <span class="math inline">\(X_1,\ldots,X_n\)</span>, the realized target is</p>
+<p><span class="math display">\[
+\tau_{\widehat{\mathcal A}}^{\mathrm{sample}}
+=\frac{
+\sum_{i=1}^n
+\mathbf 1\{X_i\in\widehat{\mathcal A}\}
+\{m_1(X_i)-m_0(X_i)\}
+}{
+\sum_{i=1}^n
+\mathbf 1\{X_i\in\widehat{\mathcal A}\}
+}.
+\]</span></p>
+<p>This differs from the effect for a fixed population rule <span class="math inline">\(\overline{\mathcal A}\)</span> defined by population quantities. The two are close only under conditions on boundary estimation and the probability mass near that boundary. Khan and Ugander develop cross-fitted, doubly robust inference for the realized sample-adaptive target, including simultaneous intervals over prespecified trimming procedures <span class="citation" data-cites="khan2025trimming">(<a href="index.html#ref-khan2025trimming" role="doc-biblioref">2025</a>)</span>. That result does not automatically become inference for a fixed limiting target. Data-adaptive target selection is part of the inferential question, not preprocessing to forget.</p>
+</section>
+<section id="extrapolation-as-a-biasbiasvariance-tradeoff" class="level2">
+<h2 class="anchored" data-anchor-id="extrapolation-as-a-biasbiasvariance-tradeoff">Extrapolation as a bias–bias–variance tradeoff</h2>
+<p>Partial identification is not the only way to make extrapolation assumptions visible. Many regression and weighting estimators predict at a target covariate value <span class="math inline">\(x^*\)</span> through</p>
+<p><span class="math display">\[
+\widehat m(x^*)=\sum_{i=1}^n w_iY_i.
+\]</span></p>
+<p>If the weights are nonnegative and sum to one, the weighted covariates remain in the convex hull of the observed covariates. When <span class="math inline">\(x^*\)</span> lies outside that hull, nonnegative weights cannot reproduce it exactly. Negative weights can reduce covariate imbalance, but then prediction depends on the outcome model continuing beyond the observed convex support and the weights may amplify noise.</p>
+<p>Arbour, Parikh, Niknam, Stuart, Rudolph, and Feller formalize this as a bias–bias–variance tradeoff <span class="citation" data-cites="arbour2025">(<a href="index.html#ref-arbour2025" role="doc-biblioref">2026</a>)</span>. To isolate the geometry, one affine-normalized schematic variant of their regularized objective is</p>
+<p><span id="eq-l04-bias-bias-variance"><span class="math display">\[
+\min_w
+\left\|
+\sum_{i=1}^n w_iX_i-x^*
+\right\|_2^2
++\lambda\|w\|_2^2
++\gamma\sum_{i=1}^n(-w_i)_+\|X_i\|^\alpha
+\quad\text{subject to}\quad
+\sum_{i=1}^n w_i=1.
+\tag{35}\]</span></span></p>
+<p>The first term measures imbalance: how far the weighted covariates remain from the target. The second is a variance proxy that penalizes dispersed weights. The third penalizes negative-weight extrapolation, where <span class="math inline">\((-w_i)_+=\max(-w_i,0)\)</span>. The parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span> regulate two different risks. The affine constraint shown here makes the convex-hull interpretation explicit; equivalent normalization can instead be built into the features, and the precise regularization depends on the outcome-model class and feature scaling.</p>
+<p>This framework is not partial identification: it produces a regularized point estimate rather than a sharp set. Its connection to this lecture is conceptual. Poor support forces the analyst to negotiate among target fidelity, model extrapolation, and precision. A sensitivity analysis over <span class="math inline">\(\gamma\)</span> can show how much the answer depends on permitting negative influence rather than concealing that dependence in a single fitted model.</p>
+</section>
+</section>
+<section id="further-reading" class="level1">
+<h1>Further reading</h1>
+<ul>
+<li>Crump et al. <span class="citation" data-cites="crump2009">(<a href="index.html#ref-crump2009" role="doc-biblioref">2009</a>)</span> formulate limited overlap as a target-population and optimal-trimming problem. Yang and Ding <span class="citation" data-cites="yang2018">(<a href="index.html#ref-yang2018" role="doc-biblioref">2018</a>)</span> study inference when trimming uses an estimated propensity score.</li>
+<li>Khan and Ugander <span class="citation" data-cites="khan2025trimming">(<a href="index.html#ref-khan2025trimming" role="doc-biblioref">2025</a>)</span> extend trimming to heteroscedastic outcomes and sample-adaptive, doubly robust inference. Li, Morgan, and Zaslavsky <span class="citation" data-cites="liMorganZaslavsky2018">(<a href="index.html#ref-liMorganZaslavsky2018" role="doc-biblioref">2018</a>)</span> develop balancing weights and the overlap-weighted population in equipoise.</li>
+<li>Manski <span class="citation" data-cites="manski1990">(<a href="index.html#ref-manski1990" role="doc-biblioref">1990</a>)</span> gives foundational nonparametric treatment-effect bounds. Imbens and Manski <span class="citation" data-cites="imbensManski2004">(<a href="index.html#ref-imbensManski2004" role="doc-biblioref">2004</a>)</span> distinguish confidence regions for an identified set from confidence intervals for a partially identified parameter.</li>
+<li>Lee <span class="citation" data-cites="lee2009">(<a href="index.html#ref-lee2009" role="doc-biblioref">2009</a>)</span> derives sharp treatment-effect bounds under sample selection using random assignment, monotonicity, and outcome-tail trimming.</li>
+<li>Khan, Saveski, and Ugander <span class="citation" data-cites="khanSaveskiUgander2024">(<a href="index.html#ref-khanSaveskiUgander2024" role="doc-biblioref">2024</a>)</span> obtain sharp smoothness-based bounds for off-policy evaluation beyond overlap.</li>
+<li>Cole and Hernán <span class="citation" data-cites="coleHernan2008">(<a href="index.html#ref-coleHernan2008" role="doc-biblioref">2008</a>)</span> discuss practical inverse-probability weight construction and truncation. Petersen et al. <span class="citation" data-cites="petersen2012">(<a href="index.html#ref-petersen2012" role="doc-biblioref">2012</a>)</span> organize diagnostics and responses to positivity violations, and D’Amour et al. <span class="citation" data-cites="damour2021">(<a href="index.html#ref-damour2021" role="doc-biblioref">2021</a>)</span> analyze overlap in high-dimensional covariate spaces.</li>
+<li>Arbour et al. <span class="citation" data-cites="arbour2025">(<a href="index.html#ref-arbour2025" role="doc-biblioref">2026</a>)</span> recast extrapolation as a regularized bias–bias–variance tradeoff and propose sensitivity analysis for dependence on parametric modeling assumptions.</li>
+</ul>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-angrist1996" class="csl-entry" role="listitem">
+Angrist, Joshua D., Guido W. Imbens, and Donald B. Rubin. 1996.
+<span>“Identification of Causal Effects Using Instrumental
+Variables.”</span> <em>Journal of the American Statistical
+Association</em> 91 (434): 444–55. <a href="https://doi.org/10.1080/01621459.1996.10476902">https://doi.org/10.1080/01621459.1996.10476902</a>.
+</div>
+<div id="ref-arbour2025" class="csl-entry" role="listitem">
+Arbour, David, Harsh Parikh, Bijan A. Niknam, Elizabeth Stuart, Kara E.
+Rudolph, and Avi Feller. 2026. <span>“Regularizing Extrapolation in
+Causal Inference.”</span> In <em>Proceedings of the 29th International
+Conference on Artificial Intelligence and Statistics</em>, 300:784–92.
+Proceedings of Machine Learning Research. PMLR. <a href="https://proceedings.mlr.press/v300/arbour26a.html">https://proceedings.mlr.press/v300/arbour26a.html</a>.
+</div>
+<div id="ref-bai2022optimal" class="csl-entry" role="listitem">
+Bai, Yuehao. 2022. <span>“Optimality of Matched-Pair Designs in
+Randomized Controlled Trials.”</span> <em>American Economic Review</em>
+112 (12): 3911–40. <a href="https://doi.org/10.1257/aer.20201856">https://doi.org/10.1257/aer.20201856</a>.
+</div>
+<div id="ref-bai2022inference" class="csl-entry" role="listitem">
+Bai, Yuehao, Joseph P. Romano, and Azeem M. Shaikh. 2022.
+<span>“Inference in Experiments with Matched Pairs.”</span> <em>Journal
+of the American Statistical Association</em> 117 (540): 1726–37. <a href="https://doi.org/10.1080/01621459.2021.1883437">https://doi.org/10.1080/01621459.2021.1883437</a>.
+</div>
+<div id="ref-basu1971" class="csl-entry" role="listitem">
+Basu, D. 1971. <span>“An Essay on the Logical Foundations of Survey
+Sampling, Part One.”</span> In <em>Foundations of Statistical
+Inference</em>, edited by V. P. Godambe and D. A. Sprott, 203–43.
+Toronto: Holt, Rinehart; Winston.
+</div>
+<div id="ref-bertsimas2015" class="csl-entry" role="listitem">
+Bertsimas, Dimitris, Mac Johnson, and Nathan Kallus. 2015. <span>“The
+Power of Optimization over Randomization in Designing Experiments
+Involving Small Samples.”</span> <em>Operations Research</em> 63 (4):
+868–76. <a href="https://doi.org/10.1287/opre.2015.1361">https://doi.org/10.1287/opre.2015.1361</a>.
+</div>
+<div id="ref-boyd2004" class="csl-entry" role="listitem">
+Boyd, Stephen, and Lieven Vandenberghe. 2004. <em>Convex
+Optimization</em>. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511804441">https://doi.org/10.1017/CBO9780511804441</a>.
+</div>
+<div id="ref-bruhn2009" class="csl-entry" role="listitem">
+Bruhn, Miriam, and David McKenzie. 2009. <span>“In Pursuit of Balance:
+Randomization in Practice in Development Field Experiments.”</span>
+<em>American Economic Journal: Applied Economics</em> 1 (4): 200–232. <a href="https://doi.org/10.1257/app.1.4.200">https://doi.org/10.1257/app.1.4.200</a>.
+</div>
+<div id="ref-candogan2024" class="csl-entry" role="listitem">
+Candogan, Ozan, Chen Chen, and Rad Niazadeh. 2024. <span>“Correlated
+Cluster-Based Randomized Experiments: Robust Variance
+Minimization.”</span> <em>Management Science</em> 70 (6): 4069–86. <a href="https://doi.org/10.1287/mnsc.2021.02741">https://doi.org/10.1287/mnsc.2021.02741</a>.
+</div>
+<div id="ref-cassel1976" class="csl-entry" role="listitem">
+Cassel, Claes-Magnus, Carl-Erik Särndal, and Jan H. Wretman. 1976.
+<span>“Some Results on Generalized Difference Estimation and Generalized
+Regression Estimation for Finite Populations.”</span>
+<em>Biometrika</em> 63 (3): 615–20. <a href="https://doi.org/10.1093/biomet/63.3.615">https://doi.org/10.1093/biomet/63.3.615</a>.
+</div>
+<div id="ref-caughey2023" class="csl-entry" role="listitem">
+Caughey, Devin, Allan Dafoe, Xinran Li, and Luke Miratrix. 2023.
+<span>“Randomisation Inference Beyond the Sharp Null: Bounded Null
+Hypotheses and Quantiles of Individual Treatment Effects.”</span>
+<em>Journal of the Royal Statistical Society Series B</em> 85 (5):
+1471–91. <a href="https://doi.org/10.1093/jrsssb/qkad080">https://doi.org/10.1093/jrsssb/qkad080</a>.
+</div>
+<div id="ref-coleHernan2008" class="csl-entry" role="listitem">
+Cole, Stephen R., and Miguel A. Hernán. 2008. <span>“Constructing
+Inverse Probability Weights for Marginal Structural Models.”</span>
+<em>American Journal of Epidemiology</em> 168 (6): 656–64. <a href="https://doi.org/10.1093/aje/kwn164">https://doi.org/10.1093/aje/kwn164</a>.
+</div>
+<div id="ref-crook2009" class="csl-entry" role="listitem">
+Crook, Thomas, Brian Frasca, Ron Kohavi, and Roger Longbotham. 2009.
+<span>“Seven Pitfalls to Avoid When Running Controlled Experiments on
+the Web.”</span> In <em>Proceedings of the 15th ACM SIGKDD International
+Conference on Knowledge Discovery and Data Mining</em>, 1105–14. ACM. <a href="https://doi.org/10.1145/1557019.1557139">https://doi.org/10.1145/1557019.1557139</a>.
+</div>
+<div id="ref-crump2009" class="csl-entry" role="listitem">
+Crump, Richard K., V. Joseph Hotz, Guido W. Imbens, and Oscar A. Mitnik.
+2009. <span>“Dealing with Limited Overlap in Estimation of Average
+Treatment Effects.”</span> <em>Biometrika</em> 96 (1): 187–99. <a href="https://doi.org/10.1093/biomet/asn055">https://doi.org/10.1093/biomet/asn055</a>.
+</div>
+<div id="ref-cytrynbaum2026" class="csl-entry" role="listitem">
+Cytrynbaum, Max. 2026. <span>“The Limits of Experimental Design:
+Covariate Balance Beyond Low Dimension.”</span> <a href="https://doi.org/10.48550/arXiv.2608.18057">https://doi.org/10.48550/arXiv.2608.18057</a>.
+</div>
+<div id="ref-damour2021" class="csl-entry" role="listitem">
+D’Amour, Alexander, Peng Ding, Avi Feller, Lihua Lei, and Jasjeet
+Sekhon. 2021. <span>“Overlap in Observational Studies with
+High-Dimensional Covariates.”</span> <em>Journal of Econometrics</em>
+221 (2): 644–54. <a href="https://doi.org/10.1016/j.jeconom.2019.10.014">https://doi.org/10.1016/j.jeconom.2019.10.014</a>.
+</div>
+<div id="ref-deng2013" class="csl-entry" role="listitem">
+Deng, Alex, Ya Xu, Ron Kohavi, and Toby Walker. 2013. <span>“Improving
+the Sensitivity of Online Controlled Experiments by Utilizing
+Pre-Experiment Data.”</span> In <em>Proceedings of the Sixth ACM
+International Conference on Web Search and Data Mining</em>, 123–32.
+ACM. <a href="https://doi.org/10.1145/2433396.2433413">https://doi.org/10.1145/2433396.2433413</a>.
+</div>
+<div id="ref-deville1992" class="csl-entry" role="listitem">
+Deville, Jean-Claude, and Carl-Erik Särndal. 1992. <span>“Calibration
+Estimators in Survey Sampling.”</span> <em>Journal of the American
+Statistical Association</em> 87 (418): 376–82. <a href="https://doi.org/10.1080/01621459.1992.10475217">https://doi.org/10.1080/01621459.1992.10475217</a>.
+</div>
+<div id="ref-deville1993" class="csl-entry" role="listitem">
+Deville, Jean-Claude, Carl-Erik Särndal, and Olivier Sautory. 1993.
+<span>“Generalized Raking Procedures in Survey Sampling.”</span>
+<em>Journal of the American Statistical Association</em> 88 (423):
+1013–20. <a href="https://doi.org/10.1080/01621459.1993.10476369">https://doi.org/10.1080/01621459.1993.10476369</a>.
+</div>
+<div id="ref-ding2023" class="csl-entry" role="listitem">
+Ding, Peng. 2023. <span>“A First Course in Causal Inference.”</span> <a href="https://doi.org/10.48550/arXiv.2305.18793">https://doi.org/10.48550/arXiv.2305.18793</a>.
+</div>
+<div id="ref-efron1971" class="csl-entry" role="listitem">
+Efron, Bradley. 1971. <span>“Forcing a Sequential Experiment to Be
+Balanced.”</span> <em>Biometrika</em> 58 (3): 403–17. <a href="https://doi.org/10.1093/biomet/58.3.403">https://doi.org/10.1093/biomet/58.3.403</a>.
+</div>
+<div id="ref-fisher1935" class="csl-entry" role="listitem">
+Fisher, Ronald A. 1935. <em>The Design of Experiments</em>. Edinburgh:
+Oliver &amp; Boyd.
+</div>
+<div id="ref-freedman2008" class="csl-entry" role="listitem">
+Freedman, David A. 2008. <span>“On Regression Adjustments to
+Experimental Data.”</span> <em>Advances in Applied Mathematics</em> 40
+(2): 180–93. <a href="https://doi.org/10.1016/j.aam.2006.12.003">https://doi.org/10.1016/j.aam.2006.12.003</a>.
+</div>
+<div id="ref-hahn1998" class="csl-entry" role="listitem">
+Hahn, Jinyong. 1998. <span>“On the Role of the Propensity Score in
+Efficient Semiparametric Estimation of Average Treatment
+Effects.”</span> <em>Econometrica</em> 66 (2): 315–31. <a href="https://doi.org/10.2307/2998560">https://doi.org/10.2307/2998560</a>.
+</div>
+<div id="ref-hajek1971" class="csl-entry" role="listitem">
+Hájek, Jaroslav. 1971. <span>“Comment on <span>‘an Essay on the Logical
+Foundations of Survey Sampling, Part One’</span>.”</span> In
+<em>Foundations of Statistical Inference</em>, edited by V. P. Godambe
+and D. A. Sprott, 236. Toronto: Holt, Rinehart &amp; Winston of Canada.
+</div>
+<div id="ref-harshaw2024" class="csl-entry" role="listitem">
+Harshaw, Christopher, Fredrik Sävje, Daniel A. Spielman, and Peng Zhang.
+2024. <span>“Balancing Covariates in Randomized Experiments with the
+Gram–Schmidt Walk Design.”</span> <em>Journal of the American
+Statistical Association</em> 119 (548): 2934–46. <a href="https://doi.org/10.1080/01621459.2023.2285474">https://doi.org/10.1080/01621459.2023.2285474</a>.
+</div>
+<div id="ref-hirano2003" class="csl-entry" role="listitem">
+Hirano, Keisuke, Guido W. Imbens, and Geert Ridder. 2003.
+<span>“Efficient Estimation of Average Treatment Effects Using the
+Estimated Propensity Score.”</span> <em>Econometrica</em> 71 (4):
+1161–89. <a href="https://doi.org/10.1111/1468-0262.00442">https://doi.org/10.1111/1468-0262.00442</a>.
+</div>
+<div id="ref-holland1986" class="csl-entry" role="listitem">
+Holland, Paul W. 1986. <span>“Statistics and Causal Inference.”</span>
+<em>Journal of the American Statistical Association</em> 81 (396):
+945–60. <a href="https://doi.org/10.1080/01621459.1986.10478354">https://doi.org/10.1080/01621459.1986.10478354</a>.
+</div>
+<div id="ref-horvitz1952" class="csl-entry" role="listitem">
+Horvitz, D. G., and D. J. Thompson. 1952. <span>“A Generalization of
+Sampling Without Replacement from a Finite Universe.”</span> <em>Journal
+of the American Statistical Association</em> 47 (260): 663–85. <a href="https://doi.org/10.1080/01621459.1952.10483446">https://doi.org/10.1080/01621459.1952.10483446</a>.
+</div>
+<div id="ref-hussey2007" class="csl-entry" role="listitem">
+Hussey, Michael A., and James P. Hughes. 2007. <span>“Design and
+Analysis of Stepped Wedge Cluster Randomized Trials.”</span>
+<em>Contemporary Clinical Trials</em> 28 (2): 182–91. <a href="https://doi.org/10.1016/j.cct.2006.05.007">https://doi.org/10.1016/j.cct.2006.05.007</a>.
+</div>
+<div id="ref-imai2009" class="csl-entry" role="listitem">
+Imai, Kosuke, Gary King, and Clayton Nall. 2009. <span>“The Essential
+Role of Pair Matching in Cluster-Randomized Experiments, with
+Application to the Mexican Universal Health Insurance
+Evaluation.”</span> <em>Statistical Science</em> 24 (1): 29–53. <a href="https://doi.org/10.1214/08-STS274">https://doi.org/10.1214/08-STS274</a>.
+</div>
+<div id="ref-imbensManski2004" class="csl-entry" role="listitem">
+Imbens, Guido W., and Charles F. Manski. 2004. <span>“Confidence
+Intervals for Partially Identified Parameters.”</span>
+<em>Econometrica</em> 72 (6): 1845–57. <a href="https://doi.org/10.1111/j.1468-0262.2004.00555.x">https://doi.org/10.1111/j.1468-0262.2004.00555.x</a>.
+</div>
+<div id="ref-kallus2018" class="csl-entry" role="listitem">
+Kallus, Nathan. 2018. <span>“Optimal a Priori Balance in the Design of
+Controlled Experiments.”</span> <em>Journal of the Royal Statistical
+Society: Series B</em> 80 (1): 85–112. <a href="https://doi.org/10.1111/rssb.12240">https://doi.org/10.1111/rssb.12240</a>.
+</div>
+<div id="ref-kallus2021" class="csl-entry" role="listitem">
+———. 2021. <span>“On the Optimality of Randomization in Experimental
+Design: How to Randomize for Minimax Variance and Design-Based
+Inference.”</span> <em>Journal of the Royal Statistical Society: Series
+B</em> 83 (2): 404–9. <a href="https://doi.org/10.1111/rssb.12412">https://doi.org/10.1111/rssb.12412</a>.
+</div>
+<div id="ref-khanSaveskiUgander2024" class="csl-entry" role="listitem">
+Khan, Samir, Martin Saveski, and Johan Ugander. 2024. <span>“Off-Policy
+Evaluation Beyond Overlap: Sharp Partial Identification Under
+Smoothness.”</span> In <em>Proceedings of the 41st International
+Conference on Machine Learning</em>, 235:23734–57. Proceedings of
+Machine Learning Research. PMLR. <a href="https://proceedings.mlr.press/v235/khan24b.html">https://proceedings.mlr.press/v235/khan24b.html</a>.
+</div>
+<div id="ref-khan2023" class="csl-entry" role="listitem">
+Khan, Samir, and Johan Ugander. 2023. <span>“Adaptive Normalization for
+<span>IPW</span> Estimation.”</span> <em>Journal of Causal
+Inference</em> 11 (1): 1–33. <a href="https://doi.org/10.1515/jci-2022-0019">https://doi.org/10.1515/jci-2022-0019</a>.
+</div>
+<div id="ref-khan2025trimming" class="csl-entry" role="listitem">
+———. 2025. <span>“Doubly Robust and Heteroscedasticity-Aware Sample
+Trimming for Causal Inference.”</span> <em>Biometrika</em> 112 (2):
+asae053. <a href="https://doi.org/10.1093/biomet/asae053">https://doi.org/10.1093/biomet/asae053</a>.
+</div>
+<div id="ref-kiefer1959" class="csl-entry" role="listitem">
+Kiefer, Jack. 1959. <span>“Optimum Experimental Designs.”</span>
+<em>Journal of the Royal Statistical Society: Series B</em> 21 (2):
+272–304. <a href="https://doi.org/10.1111/j.2517-6161.1959.tb00338.x">https://doi.org/10.1111/j.2517-6161.1959.tb00338.x</a>.
+</div>
+<div id="ref-kohavi2007" class="csl-entry" role="listitem">
+Kohavi, Ron, Randal M. Henne, and Dan Sommerfield. 2007.
+<span>“Practical Guide to Controlled Experiments on the Web: Listen to
+Your Customers Not to the <span>HiPPO</span>.”</span> In <em>Proceedings
+of the 13th ACM SIGKDD International Conference on Knowledge Discovery
+and Data Mining</em>, 959–67. ACM. <a href="https://doi.org/10.1145/1281192.1281295">https://doi.org/10.1145/1281192.1281295</a>.
+</div>
+<div id="ref-kohavi2026" class="csl-entry" role="listitem">
+Kohavi, Ron, Jakub Linowski, Lukas Vermeer, Andrei Andreev, Majed Dodin,
+and Joachim Furuseth. 2026. <span>“Trustworthy <span>A/B</span> Patterns
+and the Winner’s Curse: Lessons from Eight Large-Scale
+Replications.”</span> In <em>Proceedings of the 32nd ACM SIGKDD
+Conference on Knowledge Discovery and Data Mining v.2</em>, 7533–44.
+ACM. <a href="https://doi.org/10.1145/3770855.3818498">https://doi.org/10.1145/3770855.3818498</a>.
+</div>
+<div id="ref-leeLesslerStuart2011" class="csl-entry" role="listitem">
+Lee, Brian K., Justin Lessler, and Elizabeth A. Stuart. 2011.
+<span>“Weight Trimming and Propensity Score Weighting.”</span> <em>PLOS
+ONE</em> 6 (3): e18174. <a href="https://doi.org/10.1371/journal.pone.0018174">https://doi.org/10.1371/journal.pone.0018174</a>.
+</div>
+<div id="ref-lee2009" class="csl-entry" role="listitem">
+Lee, David S. 2009. <span>“Training, Wages, and Sample Selection:
+Estimating Sharp Bounds on Treatment Effects.”</span> <em>Review of
+Economic Studies</em> 76 (3): 1071–1102. <a href="https://doi.org/10.1111/j.1467-937X.2009.00536.x">https://doi.org/10.1111/j.1467-937X.2009.00536.x</a>.
+</div>
+<div id="ref-liMorganZaslavsky2018" class="csl-entry" role="listitem">
+Li, Fan, Kari Lock Morgan, and Alan M. Zaslavsky. 2018. <span>“Balancing
+Covariates via Propensity Score Weighting.”</span> <em>Journal of the
+American Statistical Association</em> 113 (521): 390–400. <a href="https://doi.org/10.1080/01621459.2016.1260466">https://doi.org/10.1080/01621459.2016.1260466</a>.
+</div>
+<div id="ref-li2020" class="csl-entry" role="listitem">
+Li, Xinran, and Peng Ding. 2020. <span>“Rerandomization and Regression
+Adjustment.”</span> <em>Journal of the Royal Statistical Society: Series
+B</em> 82 (1): 241–68. <a href="https://doi.org/10.1111/rssb.12353">https://doi.org/10.1111/rssb.12353</a>.
+</div>
+<div id="ref-li2018" class="csl-entry" role="listitem">
+Li, Xinran, Peng Ding, and Donald B. Rubin. 2018. <span>“Asymptotic
+Theory of Rerandomization in Treatment–Control Experiments.”</span>
+<em>Proceedings of the National Academy of Sciences</em> 115 (37):
+9157–62. <a href="https://doi.org/10.1073/pnas.1808191115">https://doi.org/10.1073/pnas.1808191115</a>.
+</div>
+<div id="ref-lin2013" class="csl-entry" role="listitem">
+Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to
+Experimental Data: Reexamining Freedman’s Critique.”</span> <em>The
+Annals of Applied Statistics</em> 7 (1): 295–318. <a href="https://doi.org/10.1214/12-AOAS583">https://doi.org/10.1214/12-AOAS583</a>.
+</div>
+<div id="ref-mahalanobis1936" class="csl-entry" role="listitem">
+Mahalanobis, Prasanta Chandra. 1936. <span>“On the Generalised Distance
+in Statistics.”</span> <em>Proceedings of the National Institute of
+Sciences of India</em> 2 (1): 49–55.
+</div>
+<div id="ref-manski1990" class="csl-entry" role="listitem">
+Manski, Charles F. 1990. <span>“Nonparametric Bounds on Treatment
+Effects.”</span> <em>American Economic Review: Papers and
+Proceedings</em> 80 (2): 319–23.
+</div>
+<div id="ref-middleton2015" class="csl-entry" role="listitem">
+Middleton, Joel A., and Peter M. Aronow. 2015. <span>“Unbiased
+Estimation of the Average Treatment Effect in Cluster-Randomized
+Experiments.”</span> <em>Statistics, Politics and Policy</em> 6 (1-2):
+39–75. <a href="https://doi.org/10.1515/spp-2013-0002">https://doi.org/10.1515/spp-2013-0002</a>.
+</div>
+<div id="ref-morgan2012" class="csl-entry" role="listitem">
+Morgan, Kari Lock, and Donald B. Rubin. 2012. <span>“Rerandomization to
+Improve Covariate Balance in Experiments.”</span> <em>The Annals of
+Statistics</em> 40 (2): 1263–82. <a href="https://doi.org/10.1214/12-AOS1008">https://doi.org/10.1214/12-AOS1008</a>.
+</div>
+<div id="ref-neyman1934" class="csl-entry" role="listitem">
+Neyman, Jerzy. 1934. <span>“On the Two Different Aspects of the
+Representative Method: The Method of Stratified Sampling and the Method
+of Purposive Selection.”</span> <em>Journal of the Royal Statistical
+Society</em> 97 (4): 558–606. <a href="https://doi.org/10.2307/2342192">https://doi.org/10.2307/2342192</a>.
+</div>
+<div id="ref-owen2013" class="csl-entry" role="listitem">
+Owen, Art B. 2013. <span>“Monte Carlo Theory, Methods and
+Examples.”</span> <a href="https://artowen.su.domains/mc/">https://artowen.su.domains/mc/</a>.
+</div>
+<div id="ref-parikh2026" class="csl-entry" role="listitem">
+Parikh, Harsh, Gabriel Levin-Konigsberg, Nilesh Tripuraneni, Dhruv
+Madeka, Michael I. Jordan, Dean Foster, Dominique Perrault-Joncas, and
+Alexander Volfovsky. 2026. <span>“Towards Optimal Estimators for
+Randomized Control Trials.”</span> <a href="https://doi.org/10.48550/arXiv.2607.23254">https://doi.org/10.48550/arXiv.2607.23254</a>.
+</div>
+<div id="ref-pearl1995" class="csl-entry" role="listitem">
+Pearl, Judea. 1995. <span>“Causal Diagrams for Empirical
+Research.”</span> <em>Biometrika</em> 82 (4): 669–88. <a href="https://doi.org/10.1093/biomet/82.4.669">https://doi.org/10.1093/biomet/82.4.669</a>.
+</div>
+<div id="ref-pearl2009" class="csl-entry" role="listitem">
+———. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed.
+Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511803161">https://doi.org/10.1017/CBO9780511803161</a>.
+</div>
+<div id="ref-petersen2012" class="csl-entry" role="listitem">
+Petersen, Maya L., Kristin E. Porter, Susan Gruber, Yue Wang, and Mark
+J. van der Laan. 2012. <span>“Diagnosing and Responding to Violations in
+the Positivity Assumption.”</span> <em>Statistical Methods in Medical
+Research</em> 21 (1): 31–54. <a href="https://doi.org/10.1177/0962280210386207">https://doi.org/10.1177/0962280210386207</a>.
+</div>
+<div id="ref-pocock1975" class="csl-entry" role="listitem">
+Pocock, Stuart J., and Richard Simon. 1975. <span>“Sequential Treatment
+Assignment with Balancing for Prognostic Factors in the Controlled
+Clinical Trial.”</span> <em>Biometrics</em> 31 (1): 103–15. <a href="https://doi.org/10.2307/2529712">https://doi.org/10.2307/2529712</a>.
+</div>
+<div id="ref-robins1994" class="csl-entry" role="listitem">
+Robins, James M., Andrea Rotnitzky, and Lue Ping Zhao. 1994.
+<span>“Estimation of Regression Coefficients When Some Regressors Are
+Not Always Observed.”</span> <em>Journal of the American Statistical
+Association</em> 89 (427): 846–66. <a href="https://doi.org/10.1080/01621459.1994.10476818">https://doi.org/10.1080/01621459.1994.10476818</a>.
+</div>
+<div id="ref-rubin1974" class="csl-entry" role="listitem">
+Rubin, Donald B. 1974. <span>“Estimating Causal Effects of Treatments in
+Randomized and Nonrandomized Studies.”</span> <em>Journal of Educational
+Psychology</em> 66 (5): 688–701. <a href="https://doi.org/10.1037/h0037350">https://doi.org/10.1037/h0037350</a>.
+</div>
+<div id="ref-rubin1976" class="csl-entry" role="listitem">
+———. 1976. <span>“Inference and Missing Data.”</span>
+<em>Biometrika</em> 63 (3): 581–92. <a href="https://doi.org/10.1093/biomet/63.3.581">https://doi.org/10.1093/biomet/63.3.581</a>.
+</div>
+<div id="ref-rubin1980" class="csl-entry" role="listitem">
+———. 1980. <span>“Randomization Analysis of Experimental Data: The
+Fisher Randomization Test Comment.”</span> <em>Journal of the American
+Statistical Association</em> 75 (371): 591–93. <a href="https://doi.org/10.2307/2287653">https://doi.org/10.2307/2287653</a>.
+</div>
+<div id="ref-rubin2005" class="csl-entry" role="listitem">
+———. 2005. <span>“Causal Inference Using Potential Outcomes: Design,
+Modeling, Decisions.”</span> <em>Journal of the American Statistical
+Association</em> 100 (469): 322–31. <a href="https://doi.org/10.1198/016214504000001880">https://doi.org/10.1198/016214504000001880</a>.
+</div>
+<div id="ref-rubin2008" class="csl-entry" role="listitem">
+———. 2008. <span>“For Objective Causal Inference, Design Trumps
+Analysis.”</span> <em>The Annals of Applied Statistics</em> 2 (3):
+808–40. <a href="https://doi.org/10.1214/08-AOAS187">https://doi.org/10.1214/08-AOAS187</a>.
+</div>
+<div id="ref-sarndal1992" class="csl-entry" role="listitem">
+Särndal, Carl-Erik, Bengt Swensson, and Jan Wretman. 1992. <em>Model
+Assisted Survey Sampling</em>. Springer Series in Statistics. New York:
+Springer. <a href="https://doi.org/10.1007/978-1-4612-4378-6">https://doi.org/10.1007/978-1-4612-4378-6</a>.
+</div>
+<div id="ref-sarndal1989" class="csl-entry" role="listitem">
+Särndal, Carl-Erik, Bengt Swensson, and Jan H. Wretman. 1989. <span>“The
+Weighted Residual Technique for Estimating the Variance of the General
+Regression Estimator of the Finite Population Total.”</span>
+<em>Biometrika</em> 76 (3): 527–37. <a href="https://doi.org/10.1093/biomet/76.3.527">https://doi.org/10.1093/biomet/76.3.527</a>.
+</div>
+<div id="ref-seaman2013" class="csl-entry" role="listitem">
+Seaman, Shaun, John Galati, Dan Jackson, and John Carlin. 2013.
+<span>“What Is Meant by <span>‘Missing at Random’</span>?”</span>
+<em>Statistical Science</em> 28 (2): 257–68. <a href="https://doi.org/10.1214/13-STS415">https://doi.org/10.1214/13-STS415</a>.
+</div>
+<div id="ref-neyman1990" class="csl-entry" role="listitem">
+Splawa-Neyman, Jerzy, Dorota M. Dabrowska, and Terence P. Speed. 1990.
+<span>“On the Application of Probability Theory to Agricultural
+Experiments: Essay on Principles, Section 9.”</span> <em>Statistical
+Science</em> 5 (4): 465–72. <a href="https://doi.org/10.1214/ss/1177012031">https://doi.org/10.1214/ss/1177012031</a>.
+</div>
+<div id="ref-swaminathan2015" class="csl-entry" role="listitem">
+Swaminathan, Adith, and Thorsten Joachims. 2015. <span>“The
+Self-Normalized Estimator for Counterfactual Learning.”</span> In
+<em>Advances in Neural Information Processing Systems</em>, 28:3231–39.
+Curran Associates, Inc. <a href="https://papers.nips.cc/paper/5748-the-self-normalized-estimator-for-counterfactual-learning">https://papers.nips.cc/paper/5748-the-self-normalized-estimator-for-counterfactual-learning</a>.
+</div>
+<div id="ref-trotter1956" class="csl-entry" role="listitem">
+Trotter, Hale F., and John W. Tukey. 1956. <span>“Conditional Monte
+Carlo for Normal Samples.”</span> In <em>Symposium on Monte Carlo
+Methods</em>, edited by Herbert A. Meyer, 64–79. New York: John Wiley
+&amp; Sons.
+</div>
+<div id="ref-tsiatis2008" class="csl-entry" role="listitem">
+Tsiatis, Anastasios A., Marie Davidian, Min Zhang, and Xiaomin Lu. 2008.
+<span>“Covariate Adjustment for Two-Sample Treatment Comparisons in
+Randomized Clinical Trials: A Principled yet Flexible Approach.”</span>
+<em>Statistics in Medicine</em> 27 (23): 4658–77. <a href="https://doi.org/10.1002/sim.3113">https://doi.org/10.1002/sim.3113</a>.
+</div>
+<div id="ref-yang2018" class="csl-entry" role="listitem">
+Yang, Shu, and Peng Ding. 2018. <span>“Asymptotic Inference of Causal
+Effects with Observational Studies Trimmed by the Estimated Propensity
+Scores.”</span> <em>Biometrika</em> 105 (2): 487–93. <a href="https://doi.org/10.1093/biomet/asy008">https://doi.org/10.1093/biomet/asy008</a>.
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -484,14 +1676,13 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
