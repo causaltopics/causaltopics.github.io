@@ -93,6 +93,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -386,7 +415,10 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#possible-papers" id="toc-possible-papers" class="nav-link" data-scroll-target="#possible-papers">Possible papers</a></li>
   </ul></li>
-  <li><a href="#project-2" id="toc-project-2" class="nav-link" data-scroll-target="#project-2">Project 2</a></li>
+  <li><a href="#project-2" id="toc-project-2" class="nav-link" data-scroll-target="#project-2">Project 2</a>
+  <ul class="collapse">
+  <li><a href="#possible-papers-1" id="toc-possible-papers-1" class="nav-link" data-scroll-target="#possible-papers-1">Possible papers</a></li>
+  </ul></li>
   <li><a href="#project-3-open-ended-research-question" id="toc-project-3-open-ended-research-question" class="nav-link" data-scroll-target="#project-3-open-ended-research-question">Project 3: Open-ended research question</a></li>
   </ul>
 </nav>
@@ -441,7 +473,7 @@ div.csl-indent {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Project 2</strong></td>
-<td style="text-align: left;">October 16, 2026</td>
+<td style="text-align: left;">October 23, 2026</td>
 <td style="text-align: left;">Nov 4, 2026</td>
 <td style="text-align: left;">Nov 11, 2026</td>
 </tr>
@@ -476,6 +508,21 @@ div.csl-indent {
 <section id="project-2" class="level2">
 <h2 class="anchored" data-anchor-id="project-2">Project 2</h2>
 <p>Choose a paper aligned with the material in L05–L07, study its contribution closely, replicate its analysis, and consider possible extensions. The paper choice must be approved by the instructor before the group proceeds.</p>
+<section id="possible-papers-1" class="level3">
+<h3 class="anchored" data-anchor-id="possible-papers-1">Possible papers</h3>
+<p>The following papers are starting points rather than a closed list. They span interference, structural outcome models, policy evaluation, and panel data. As in Project 1, identify a tractable result, simulation, or empirical analysis to replicate and a specific extension or sensitivity analysis to investigate. If the original application uses unavailable data, a simulation or theoretical investigation can provide the basis for the project.</p>
+<ul>
+<li><p><strong>Testing interference (L05).</strong> Athey, Eckles, and Imbens <span class="citation" data-cites="atheyEcklesImbens2018">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-atheyEcklesImbens2018" role="doc-biblioref">2018</a>)</span>, <em>Exact <span class="math inline">\(p\)</span>-Values for Network Interference</em>. Implement one conditional randomization test and reproduce its size and power under a specified interference model, then investigate how the choice of focal units, test statistic, or network structure affects its ability to detect spillovers.</p></li>
+<li><p><strong>Randomizing graph clusters (L05).</strong> Ugander and Yin <span class="citation" data-cites="uganderYin2023rgcr">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-uganderYin2023rgcr" role="doc-biblioref">2023</a>)</span>, <em>Randomized Graph Cluster Randomization</em>. Reproduce a comparison of fixed and randomized clustering, including the calculation or estimation of exposure probabilities, then investigate how graph structure, the clustering algorithm, or computational effort changes estimator variance and mean squared error.</p></li>
+<li><p><strong>Low-order interference models (L06).</strong> Cortez-Rodriguez, Eichhorn, and Yu <span class="citation" data-cites="cortezRodriguez2023">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-cortezRodriguez2023" role="doc-biblioref">2023</a>)</span>, <em>Exploiting Neighborhood Interference with Low-Order Interactions under Unit Randomized Design</em>. Implement the low-order estimator and reproduce a simulation comparison, then study the bias–variance tradeoff when the assumed interaction order is too small or unnecessarily large.</p></li>
+<li><p><strong>Combining outcome models and experimental design (L05–L06).</strong> Eichhorn, Khan, Ugander, and Yu <span class="citation" data-cites="eichhorn2026loworder">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-eichhorn2026loworder" role="doc-biblioref">2026</a>)</span>, <em>Low-order Outcomes and Clustered Designs: Combining Design and Analysis for Causal Inference under Network Interference</em>. Reproduce a pseudoinverse-estimator comparison across clusterings, then examine whether the proposed variance bounds select useful designs when the graph or outcome model changes.</p></li>
+<li><p><strong>Covariate adjustment under interference (L06).</strong> Wang and Li <span class="citation" data-cites="wangLi2026">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-wangLi2026" role="doc-biblioref">2026</a>)</span>, <em>Covariate Adjustment Cannot Hurt: Treatment Effect Estimation under Interference with Low-Order Outcome Interactions</em>. Compare the proposed adjustment with unadjusted estimation and ordinary regression adjustment, then investigate finite-sample precision and interval coverage as covariate informativeness, network density, or model misspecification changes.</p></li>
+<li><p><strong>Monotonicity and attributable effects (L06).</strong> Choi <span class="citation" data-cites="choi2017">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-choi2017" role="doc-biblioref">2017</a>)</span>, <em>Estimation of Monotone Treatment Effects in Network Experiments</em>. Implement a confidence-interval procedure for effects attributable to the realized treatment assignment, then study how its width and coverage depend on network information and the monotonicity assumption, including sensitivity to departures from that assumption.</p></li>
+<li><p><strong>Evaluating stochastic seeding policies (L07).</strong> Chin, Eckles, and Ugander <span class="citation" data-cites="chinEcklesUgander2022">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-chinEcklesUgander2022" role="doc-biblioref">2022</a>)</span>, <em>Evaluating Stochastic Seeding Strategies in Networks</em>. Reproduce a comparison of seeding strategies using the proposed policy-value estimators, then vary the diffusion model, network structure, or experimental assignment rule to study precision and overlap between policies.</p></li>
+<li><p><strong>Matrix completion for causal panels (L07).</strong> Athey, Bayati, Doudchenko, Imbens, and Khosravi <span class="citation" data-cites="athey2021matrix">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-athey2021matrix" role="doc-biblioref">2021</a>)</span>, <em>Matrix Completion Methods for Causal Panel Data Models</em>. Reproduce a counterfactual-prediction comparison, then investigate how latent rank, the pattern of treatment adoption, or the choice of regularization affects treatment-effect estimates. Distinguish prediction accuracy on observed cells from accuracy on treated cells.</p></li>
+<li><p><strong>Synthetic difference-in-differences (L07).</strong> Arkhangelsky, Athey, Hirshberg, Imbens, and Wager <span class="citation" data-cites="arkhangelsky2021">(<a href="../lectures/L04-positivity-partial-identification/index.html#ref-arkhangelsky2021" role="doc-biblioref">2021</a>)</span>, <em>Synthetic Difference-in-Differences</em>. Replicate a comparison with difference-in-differences and synthetic control, then investigate the role of unit and time weights as pretreatment history, latent trends, or the donor pool changes.</p></li>
+</ul>
+</section>
 </section>
 <section id="project-3-open-ended-research-question" class="level2">
 <h2 class="anchored" data-anchor-id="project-3-open-ended-research-question">Project 3: Open-ended research question</h2>
@@ -487,11 +534,32 @@ div.csl-indent {
 <div id="ref-arbour2025" class="csl-entry" role="listitem">
 Arbour, David, Harsh Parikh, Bijan A. Niknam, Elizabeth Stuart, Kara E. Rudolph, and Avi Feller. 2026. <span>“Regularizing Extrapolation in Causal Inference.”</span> In <em>Proceedings of the 29th International Conference on Artificial Intelligence and Statistics</em>, 300:784–92. Proceedings of Machine Learning Research. PMLR. <a href="https://proceedings.mlr.press/v300/arbour26a.html">https://proceedings.mlr.press/v300/arbour26a.html</a>.
 </div>
+<div id="ref-arkhangelsky2021" class="csl-entry" role="listitem">
+Arkhangelsky, Dmitry, Susan Athey, David A. Hirshberg, Guido W. Imbens, and Stefan Wager. 2021. <span>“Synthetic Difference-in-Differences.”</span> <em>American Economic Review</em> 111 (12): 4088–118. <a href="https://doi.org/10.1257/aer.20190159">https://doi.org/10.1257/aer.20190159</a>.
+</div>
+<div id="ref-athey2021matrix" class="csl-entry" role="listitem">
+Athey, Susan, Mohsen Bayati, Nikolay Doudchenko, Guido Imbens, and Khashayar Khosravi. 2021. <span>“Matrix Completion Methods for Causal Panel Data Models.”</span> <em>Journal of the American Statistical Association</em> 116 (536): 1716–30. <a href="https://doi.org/10.1080/01621459.2021.1891924">https://doi.org/10.1080/01621459.2021.1891924</a>.
+</div>
+<div id="ref-atheyEcklesImbens2018" class="csl-entry" role="listitem">
+Athey, Susan, Dean Eckles, and Guido W. Imbens. 2018. <span>“Exact <span><span class="math inline">\(p\)</span></span>-Values for Network Interference.”</span> <em>Journal of the American Statistical Association</em> 113 (521): 230–40. <a href="https://doi.org/10.1080/01621459.2016.1241178">https://doi.org/10.1080/01621459.2016.1241178</a>.
+</div>
 <div id="ref-caughey2023" class="csl-entry" role="listitem">
 Caughey, Devin, Allan Dafoe, Xinran Li, and Luke Miratrix. 2023. <span>“Randomisation Inference Beyond the Sharp Null: Bounded Null Hypotheses and Quantiles of Individual Treatment Effects.”</span> <em>Journal of the Royal Statistical Society Series B</em> 85 (5): 1471–91. <a href="https://doi.org/10.1093/jrsssb/qkad080">https://doi.org/10.1093/jrsssb/qkad080</a>.
 </div>
+<div id="ref-chinEcklesUgander2022" class="csl-entry" role="listitem">
+Chin, Alex, Dean Eckles, and Johan Ugander. 2022. <span>“Evaluating Stochastic Seeding Strategies in Networks.”</span> <em>Management Science</em> 68 (3): 1714–36. <a href="https://doi.org/10.1287/mnsc.2021.3963">https://doi.org/10.1287/mnsc.2021.3963</a>.
+</div>
+<div id="ref-choi2017" class="csl-entry" role="listitem">
+Choi, David. 2017. <span>“Estimation of Monotone Treatment Effects in Network Experiments.”</span> <em>Journal of the American Statistical Association</em> 112 (519): 1147–55. <a href="https://doi.org/10.1080/01621459.2016.1194845">https://doi.org/10.1080/01621459.2016.1194845</a>.
+</div>
+<div id="ref-cortezRodriguez2023" class="csl-entry" role="listitem">
+Cortez-Rodriguez, Mayleen, Matthew Eichhorn, and Christina Lee Yu. 2023. <span>“Exploiting Neighborhood Interference with Low-Order Interactions Under Unit Randomized Design.”</span> <em>Journal of Causal Inference</em> 11 (1): 20220051. <a href="https://doi.org/10.1515/jci-2022-0051">https://doi.org/10.1515/jci-2022-0051</a>.
+</div>
 <div id="ref-crump2009" class="csl-entry" role="listitem">
 Crump, Richard K., V. Joseph Hotz, Guido W. Imbens, and Oscar A. Mitnik. 2009. <span>“Dealing with Limited Overlap in Estimation of Average Treatment Effects.”</span> <em>Biometrika</em> 96 (1): 187–99. <a href="https://doi.org/10.1093/biomet/asn055">https://doi.org/10.1093/biomet/asn055</a>.
+</div>
+<div id="ref-eichhorn2026loworder" class="csl-entry" role="listitem">
+Eichhorn, Matthew, Samir Khan, Johan Ugander, and Christina Lee Yu. 2026. <span>“Low-Order Outcomes and Clustered Designs: Combining Design and Analysis for Causal Inference Under Network Interference.”</span> <a href="https://arxiv.org/abs/2405.07979v4">https://arxiv.org/abs/2405.07979v4</a>.
 </div>
 <div id="ref-harshaw2024" class="csl-entry" role="listitem">
 Harshaw, Christopher, Fredrik Sävje, Daniel A. Spielman, and Peng Zhang. 2024. <span>“Balancing Covariates in Randomized Experiments with the Gram–Schmidt Walk Design.”</span> <em>Journal of the American Statistical Association</em> 119 (548): 2934–46. <a href="https://doi.org/10.1080/01621459.2023.2285474">https://doi.org/10.1080/01621459.2023.2285474</a>.
@@ -510,6 +578,12 @@ Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experim
 </div>
 <div id="ref-morgan2012" class="csl-entry" role="listitem">
 Morgan, Kari Lock, and Donald B. Rubin. 2012. <span>“Rerandomization to Improve Covariate Balance in Experiments.”</span> <em>The Annals of Statistics</em> 40 (2): 1263–82. <a href="https://doi.org/10.1214/12-AOS1008">https://doi.org/10.1214/12-AOS1008</a>.
+</div>
+<div id="ref-uganderYin2023rgcr" class="csl-entry" role="listitem">
+Ugander, Johan, and Hao Yin. 2023. <span>“Randomized Graph Cluster Randomization.”</span> <em>Journal of Causal Inference</em> 11 (1): 20220014. <a href="https://doi.org/10.1515/jci-2022-0014">https://doi.org/10.1515/jci-2022-0014</a>.
+</div>
+<div id="ref-wangLi2026" class="csl-entry" role="listitem">
+Wang, Xinyi, and Shuangning Li. 2026. <span>“Covariate Adjustment Cannot Hurt: Treatment Effect Estimation Under Interference with Low-Order Outcome Interactions.”</span> <a href="https://arxiv.org/abs/2509.03050v2">https://arxiv.org/abs/2509.03050v2</a>.
 </div>
 <div id="ref-yang2018" class="csl-entry" role="listitem">
 Yang, Shu, and Peng Ding. 2018. <span>“Asymptotic Inference of Causal Effects with Observational Studies Trimmed by the Estimated Propensity Scores.”</span> <em>Biometrika</em> 105 (2): 487–93. <a href="https://doi.org/10.1093/biomet/asy008">https://doi.org/10.1093/biomet/asy008</a>.

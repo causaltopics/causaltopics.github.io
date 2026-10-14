@@ -40,13 +40,19 @@ ul.task-list li input[type="checkbox"] {
 
 
 <h1 id="lecture-scope">Lecture scope</h1>
-<ul>
-<li>Low-order outcome models associated with Cortez-Rodriguez et al.</li>
-<li>Monotone interference.</li>
-<li>Submodular interference.</li>
-</ul>
+<p>The main goal of this paper is to introduce the idea of low-order outcome models as introduced by Cortez-Rodriguez et al.&nbsp;This lecture is relatively speaking more of a “single paper” lecture.</p>
+<p>The idea is to step through the assumption of potential outcomes having low-order SUTVA violations, as low-order polynomials of the treatment variables. This approach then turns into a “parameter estimation problem”, of sorts, given the coefficients that parameterize the low-order polynomials. And then rolling up the parameter estimates into a GATE estimand works well.</p>
+<p>Explain the psuedoinverse estimator and how it turns everything into a least squares problem.</p>
+<p>Give a slight pointer to how the work generalizes beyond unit randomization, per Eichhorn et al., and how the approach can be adapted to handle covariate adjustment, per Wang and Li (2026).</p>
+<p>Also review citations into Cortez-Rodriguez et al.&nbsp;and note any other new work downstream of that original paper.</p>
+<p>Finally, note that causal inference under interference can also benefit from other non-parametric/structural assumptions, with Monotonoe interference as an example. See the literature list for papers that use monotonity assumptions, and give a concise review of that work.</p>
 <h1 id="literature">Literature</h1>
-<p>None specified.</p>
+<ul>
+<li>Cortez-Rodriguez et al.&nbsp;(2023) “Exploiting neighborhood interference with low-order interactions under unit randomized design”, JCI.</li>
+<li>Eichhorn et al.&nbsp;(2024) “Low-order outcomes and clustered designs: combining design and analysis for causal inference under network interference”, arXiv.</li>
+<li>Wang and Li (2026) “Covariate Adjustment Cannot Hurt: Treatment Effect Estimation under Interference with Low-Order Outcome Interactions,” arXiv.</li>
+</ul>
+<p>Monotone interference: - David Choi. Estimation of monotone treatment effects in network experiments. JASA 112(519):1147–1155, 2017. - Dean Eckles, Brian Karrer, and Johan Ugander. Design and analysis of experiments in networks: Reducing bias from interference. JCI, 5(1):20150021, 2017. - Jean Pouget-Abadie, Vahab Mirrokni, David C Parkes, and Edoardo M Airoldi. Optimizing cluster- based randomized experiments under monotonicity. KDD, pages 2090–2099, 2018. - Shunzhuang Huang, Xinran Li, and Panos Toulis. Randomization tests for monotone spillover effects. arXiv preprint arXiv:2501.02454, 2025</p>
 
 
 

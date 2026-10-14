@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -75,6 +95,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -359,8 +408,45 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-treatment-changes-an-environment" id="toc-a-treatment-changes-an-environment" class="nav-link active" data-scroll-target="#a-treatment-changes-an-environment">A treatment changes an environment</a>
+  <ul class="collapse">
+  <li><a href="#what-sutva-lets-us-leave-out" id="toc-what-sutva-lets-us-leave-out" class="nav-link" data-scroll-target="#what-sutva-lets-us-leave-out">What SUTVA lets us leave out</a></li>
+  </ul></li>
+  <li><a href="#four-mechanisms-that-create-interference" id="toc-four-mechanisms-that-create-interference" class="nav-link" data-scroll-target="#four-mechanisms-that-create-interference">Four mechanisms that create interference</a></li>
+  <li><a href="#which-treatment-effect" id="toc-which-treatment-effect" class="nav-link" data-scroll-target="#which-treatment-effect">Which treatment effect?</a>
+  <ul class="collapse">
+  <li><a href="#universal-adoption-and-individual-treatment" id="toc-universal-adoption-and-individual-treatment" class="nav-link" data-scroll-target="#universal-adoption-and-individual-treatment">Universal adoption and individual treatment</a></li>
+  <li><a href="#exposure-mappings-compress-the-science-table" id="toc-exposure-mappings-compress-the-science-table" class="nav-link" data-scroll-target="#exposure-mappings-compress-the-science-table">Exposure mappings compress the science table</a></li>
+  <li><a href="#moving-sutva-to-clusters" id="toc-moving-sutva-to-clusters" class="nav-link" data-scroll-target="#moving-sutva-to-clusters">Moving SUTVA to clusters</a></li>
+  </ul></li>
+  <li><a href="#from-observed-exposures-to-an-estimator" id="toc-from-observed-exposures-to-an-estimator" class="nav-link" data-scroll-target="#from-observed-exposures-to-an-estimator">From observed exposures to an estimator</a>
+  <ul class="collapse">
+  <li><a href="#the-inverse-probability-is-now-an-exposure-probability" id="toc-the-inverse-probability-is-now-an-exposure-probability" class="nav-link" data-scroll-target="#the-inverse-probability-is-now-an-exposure-probability">The inverse probability is now an exposure probability</a></li>
+  <li><a href="#positivity-and-joint-observability" id="toc-positivity-and-joint-observability" class="nav-link" data-scroll-target="#positivity-and-joint-observability">Positivity and joint observability</a></li>
+  </ul></li>
+  <li><a href="#testing-whether-interference-is-present" id="toc-testing-whether-interference-is-present" class="nav-link" data-scroll-target="#testing-whether-interference-is-present">Testing whether interference is present</a>
+  <ul class="collapse">
+  <li><a href="#make-the-null-sharp-on-a-conditional-experiment" id="toc-make-the-null-sharp-on-a-conditional-experiment" class="nav-link" data-scroll-target="#make-the-null-sharp-on-a-conditional-experiment">Make the null sharp on a conditional experiment</a></li>
+  <li><a href="#randomize-the-randomization-mechanism" id="toc-randomize-the-randomization-mechanism" class="nav-link" data-scroll-target="#randomize-the-randomization-mechanism">Randomize the randomization mechanism</a></li>
+  <li><a href="#use-randomized-increases-in-treatment-allocation" id="toc-use-randomized-increases-in-treatment-allocation" class="nav-link" data-scroll-target="#use-randomized-increases-in-treatment-allocation">Use randomized increases in treatment allocation</a></li>
+  </ul></li>
+  <li><a href="#designing-for-informative-exposures" id="toc-designing-for-informative-exposures" class="nav-link" data-scroll-target="#designing-for-informative-exposures">Designing for informative exposures</a>
+  <ul class="collapse">
+  <li><a href="#graph-cluster-randomization" id="toc-graph-cluster-randomization" class="nav-link" data-scroll-target="#graph-cluster-randomization">Graph cluster randomization</a></li>
+  <li><a href="#randomize-the-clustering-too" id="toc-randomize-the-clustering-too" class="nav-link" data-scroll-target="#randomize-the-clustering-too">Randomize the clustering too</a></li>
+  </ul></li>
+  <li><a href="#a-clustering-is-optimal-for-an-objective" id="toc-a-clustering-is-optimal-for-an-objective" class="nav-link" data-scroll-target="#a-clustering-is-optimal-for-an-objective">A clustering is optimal for an objective</a></li>
+  <li><a href="#advanced-material-designs-built-around-incompatible-exposures" id="toc-advanced-material-designs-built-around-incompatible-exposures" class="nav-link" data-scroll-target="#advanced-material-designs-built-around-incompatible-exposures">Advanced material: designs built around incompatible exposures</a></li>
+  <li><a href="#returning-to-the-deployment-question" id="toc-returning-to-the-deployment-question" class="nav-link" data-scroll-target="#returning-to-the-deployment-question">Returning to the deployment question</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -395,23 +481,506 @@ ul.task-list li input[type="checkbox"] {
 <div class="lecture-provenance">
 <p><strong>Lecture brief:</strong> <a href="brief.html">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
 </div>
-<p><strong>Download:</strong> <a href="../../pdf/lectures/L05-interference.pdf">Lecture PDF</a></p>
-<!-- GENERATION: PENDING -->
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled" title="Lecture outline">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Lecture outline
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Lecture notes for this session have not yet been generated.</p>
+<ul>
+<li>See why treating one person can change somebody else’s outcome, and expand the potential-outcome table accordingly.</li>
+<li>Specify which comparisons matter and which assignments reveal them.</li>
+<li>Test for interference by preserving the comparisons that a null hypothesis makes observable.</li>
+<li>Design experiments to create informative exposures, balancing their frequency against dependence and possible bias.</li>
+</ul>
+</div>
+</div>
+<p><strong>Download:</strong> <a href="../../pdf/lectures/L05-interference.pdf">Lecture PDF</a></p>
+<section id="a-treatment-changes-an-environment" class="level2">
+<h2 class="anchored" data-anchor-id="a-treatment-changes-an-environment">A treatment changes an environment</h2>
+<p>Suppose a messaging platform changes its interface to encourage users to send more messages. A treated user sees the new interface. An untreated user may nevertheless receive more messages because their friends see it. The experiment changes both a person’s own interface and the social environment in which that interface is used. Comparing treated and untreated users need not answer what would happen if the platform changed the interface for everyone.</p>
+<p>The preceding lectures treated the potential outcomes of a unit as fixed once that unit’s treatment was specified. We now retain the finite-population, design-based framework but enlarge the intervention being specified. The central difficulty is not that randomization stops working. It is that randomizing individual treatment statuses creates a distribution of social environments, and that distribution may differ substantially from the environment named by the scientific question.</p>
+<section id="what-sutva-lets-us-leave-out" class="level3">
+<h3 class="anchored" data-anchor-id="what-sutva-lets-us-leave-out">What SUTVA lets us leave out</h3>
+<p>The <strong>stable unit treatment value assumption</strong>, or SUTVA, combines two requirements. First, a unit’s outcome does not depend on other units’ treatment assignments: there is no interference. Second, each treatment label describes an intervention sufficiently well that there are no outcome-relevant, hidden versions of that treatment. The first requirement is about which units’ assignments matter; the second is about whether the assignments themselves adequately describe what is done.</p>
+<p>For a finite population of <span class="math inline">\(N\)</span> units, let <span class="math inline">\(\mathbf z=(z_1,\ldots,z_N)\in\{0,1\}^N\)</span> be a possible assignment vector. The potential outcome <span class="math inline">\(Y_i(\mathbf z)\)</span> describes unit <span class="math inline">\(i\)</span> under that entire intervention. All of these functions are fixed. The design draws the random vector <span class="math inline">\(\mathbf Z\)</span>, and consistency gives</p>
+<p><span class="math display">\[
+Y_i^{\mathrm{obs}}=Y_i(\mathbf Z).
+\]</span></p>
+<p>The no-interference restriction is</p>
+<p><span id="eq-l05-no-interference"><span class="math display">\[
+Y_i(\mathbf z)=Y_i(\mathbf z')
+\quad\text{whenever }z_i=z_i'.
+\tag{1}\]</span></span></p>
+<p>Under this restriction, the assignments to the other <span class="math inline">\(N-1\)</span> units can be suppressed and we recover the two entries <span class="math inline">\(Y_i(0)\)</span> and <span class="math inline">\(Y_i(1)\)</span>. Without it, a binary-treatment science table has <span class="math inline">\(N\)</span> rows and <span class="math inline">\(2^N\)</span> assignment columns. The table is large because the intervention is large, not because we have changed the definition of a potential outcome.</p>
+<p>Consider two users. A hypothetical science table under SUTVA could be</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Unit</th>
+<th style="text-align: right;">Own control, <span class="math inline">\(Y_i(0)\)</span></th>
+<th style="text-align: right;">Own treatment, <span class="math inline">\(Y_i(1)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">User 1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">User 2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+<p>Now allow messages from the other person to affect the outcome. For this example, specify the complete response functions as</p>
+<p><span class="math display">\[
+Y_1(z_1,z_2)=2+z_1+2z_2,
+\qquad
+Y_2(z_1,z_2)=4+3z_2+z_1.
+\]</span></p>
+<p>User 1 gains one unit from their own treatment and two from the other user’s treatment; user 2 gains three from their own treatment and one from the other user’s treatment. Transposing the expanded science table makes all four assignments easy to inspect:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Assignment <span class="math inline">\((z_1,z_2)\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Y_1(z_1,z_2)\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Y_2(z_1,z_2)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\((0,0)\)</span></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\((1,0)\)</span></td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\((0,1)\)</span></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\((1,1)\)</span></td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<p>If the realized assignment is <span class="math inline">\((1,0)\)</span>, we observe the entire second row of this transposed table: outcomes 3 and 5. We do not observe one person’s outcome from the all-treated world and the other’s from the all-control world. This is the first change in how we should read experimental data under interference.</p>
+<p>The other component of SUTVA matters too. “Use the new recommendation algorithm” is incomplete if its training data change with the experiment’s allocation. One can expand the intervention to include the training protocol and thereby obtain well-defined potential outcomes, but that expansion does not restore no interference. A precise intervention and the absence of spillovers are separate requirements.</p>
+</section>
+</section>
+<section id="four-mechanisms-that-create-interference" class="level2">
+<h2 class="anchored" data-anchor-id="four-mechanisms-that-create-interference">Four mechanisms that create interference</h2>
+<p>The mechanisms below produce different scientific questions. They also suggest different restrictions on <span class="math inline">\(Y_i(\mathbf z)\)</span>. The displayed functions are illustrative models developed for these notes, not claims that the cited applications obey an exact equation.</p>
+<p><strong>Social interaction.</strong> A reminder can affect its recipient and, through conversation, the recipient’s friends. Bond et al. <span class="citation" data-cites="bond2012social">(<a href="../L04-positivity-partial-identification/index.html#ref-bond2012social" role="doc-biblioref">2012</a>)</span> studied political mobilization through an online social network. The distinction between receiving a message and being connected to its recipients is central to this setting. Let <span class="math inline">\(A_{ij}\)</span> indicate a pretreatment social connection from <span class="math inline">\(j\)</span> to <span class="math inline">\(i\)</span>. A simple model is</p>
+<p><span id="eq-l05-additive-example"><span class="math display">\[
+Y_i(\mathbf z)
+=a_i+b_i z_i+\sum_{j\ne i}A_{ij}c_{ij}z_j.
+\tag{2}\]</span></span></p>
+<p>Here <span class="math inline">\(a_i\)</span> is the baseline outcome, <span class="math inline">\(b_i\)</span> the own-treatment contribution, and <span class="math inline">\(c_{ij}\)</span> the contribution of treating a connected person. These coefficients are fixed, and the equation is a restriction on the science table. It is not a regression fitted to the observed cross-section. Social reinforcement could also generate interactions such as <span class="math inline">\(z_jz_k\)</span>, so additivity is a substantive simplification.</p>
+<p><strong>Markets.</strong> Two sellers can compete for the same buyer even if they never communicate. A treatment that makes one listing more attractive can divert demand from another. Holtz et al. <span class="citation" data-cites="holtz2024marketplace">(<a href="../L04-positivity-partial-identification/index.html#ref-holtz2024marketplace" role="doc-biblioref">2024</a>)</span> use a pricing meta-experiment on Airbnb to study this kind of interference. For a small illustration, let two sellers divide one unit of demand, and let <span class="math inline">\(\delta&gt;0\)</span> measure the increase in a seller’s attractiveness under treatment:</p>
+<p><span class="math display">\[
+Y_1(z_1,z_2)=\frac{\exp(\delta z_1)}{\exp(\delta z_1)+\exp(\delta z_2)},
+\qquad Y_2(z_1,z_2)=1-Y_1(z_1,z_2).
+\]</span></p>
+<p>A treated seller outperforms an untreated competitor. Yet changing both sellers’ treatment leaves both market shares at one half. An individual advantage can therefore coexist with zero change in average market share under universal adoption. For revenues or welfare, total demand might also change; that would require a different response function. Calling a treatment successful requires specifying which market outcome and which policy comparison matter.</p>
+<p><strong>Spatial movement.</strong> A local restriction can shift activity across a border. Chang et al. <span class="citation" data-cites="chang2023geographic">(<a href="../L04-positivity-partial-identification/index.html#ref-chang2023geographic" role="doc-biblioref">2023</a>)</span> study spillovers in mobility under California’s county-level COVID-19 restrictions using a regression-discontinuity design. Their application is observational; it illustrates the mechanism, while our subsequent analysis concerns randomized assignments. A stylized county outcome could depend on both its own policy and neighboring policies:</p>
+<p><span class="math display">\[
+Y_i(\mathbf z)
+=a_i-b_i z_i+\sum_{j\ne i}w_{ij}z_j,
+\qquad w_{ij}\geq0.
+\]</span></p>
+<p>Own restrictions reduce local activity, whereas restrictions elsewhere can redirect activity toward county <span class="math inline">\(i\)</span>. The weights might reflect travel connections rather than geographic adjacency. Restricting one county and restricting an entire region are distinct interventions even for a resident whose own county has the same policy in both cases.</p>
+<p><strong>Shared learning and symbiosis bias.</strong> A recommendation algorithm learns from the behavior it induces. If two experimental algorithms share those data, one can benefit from exploration performed by the other. Brennan et al. <span class="citation" data-cites="brennan2025symbiosis">(<a href="../L04-positivity-partial-identification/index.html#ref-brennan2025symbiosis" role="doc-biblioref">2025</a>)</span> study the resulting discrepancy between mixed-algorithm experiments and separate deployment. Let <span class="math inline">\(D_t(\mathbf z)\)</span> denote the training data accumulated before period <span class="math inline">\(t\)</span> under allocation <span class="math inline">\(\mathbf z\)</span>, and let <span class="math inline">\(\theta_{a,t}(\mathbf z)\)</span> be the fitted state of algorithm <span class="math inline">\(a\in\{0,1\}\)</span>. A schematic representation is</p>
+<p><span class="math display">\[
+\theta_{a,t}(\mathbf z)=\mathcal A_a\{D_t(\mathbf z)\},
+\qquad
+Y_{it}(\mathbf z)=g_i\{z_i,\theta_{z_i,t}(\mathbf z)\}.
+\]</span></p>
+<p>The symbol <span class="math inline">\(\mathcal A_a\)</span> denotes the algorithm’s training procedure. Although user <span class="math inline">\(i\)</span> interacts with one algorithm, its trained state depends on other users’ assignments. Separating training data can reduce this channel, but also changes the quantity of data available to each algorithm. That intervention may itself differ from full deployment. The system being evaluated includes the learning process, not just a fixed scoring rule.</p>
+<p>These examples are not exhausted by a friendship graph. A graph used in design should represent a plausible channel of causal influence: competition, mobility, shared learning, or social interaction. A convenient data structure alone is not evidence that all interference follows its edges.</p>
+</section>
+<section id="which-treatment-effect" class="level2">
+<h2 class="anchored" data-anchor-id="which-treatment-effect">Which treatment effect?</h2>
+<section id="universal-adoption-and-individual-treatment" class="level3">
+<h3 class="anchored" data-anchor-id="universal-adoption-and-individual-treatment">Universal adoption and individual treatment</h3>
+<p>For a decision about deployment to everyone, the natural finite-population target is</p>
+<p><span id="eq-l05-gate"><span class="math display">\[
+\tau_{\mathrm G}
+=\frac1N\sum_{i=1}^N
+\{Y_i(\mathbf 1_N)-Y_i(\mathbf 0_N)\}.
+\tag{3}\]</span></span></p>
+<p>The vectors <span class="math inline">\(\mathbf 1_N\)</span> and <span class="math inline">\(\mathbf 0_N\)</span> assign everyone to treatment and control, respectively. We call <span class="math inline">\(\tau_{\mathrm G}\)</span> the <strong>global average treatment effect</strong> (GATE); “total treatment effect” is another name used for this deployment contrast. It includes the consequences of treating the unit and of changing its environment. In the two-user table, it equals <span class="math inline">\(\{(5-2)+(8-4)\}/2=3.5\)</span>.</p>
+<p>Now independently treat each unit with probability <span class="math inline">\(p\in(0,1)\)</span>. The ordinary individual-treatment HT contrast is</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{own}}
+=\frac1N\sum_i
+\left\{\frac{Z_iY_i^{\mathrm{obs}}}{p}
+-\frac{(1-Z_i)Y_i^{\mathrm{obs}}}{1-p}\right\}.
+\]</span></p>
+<p>Its expectation can still be calculated exactly. Conditioning first on the other units’ assignments, independence gives</p>
+<p><span id="eq-l05-direct-target"><span class="math display">\[
+\mathbb E_Z(\widehat\tau_{\mathrm{own}})
+=\frac1N\sum_i\mathbb E_{Z_{-i}}
+\{Y_i(1,\mathbf Z_{-i})-Y_i(0,\mathbf Z_{-i})\}
+\equiv\tau_D(p).
+\tag{4}\]</span></span></p>
+<p>Here <span class="math inline">\(\mathbf Z_{-i}\)</span> is the vector with unit <span class="math inline">\(i\)</span> removed, and <span class="math inline">\(Y_i(a,\mathbf Z_{-i})\)</span> places <span class="math inline">\(a\)</span> in position <span class="math inline">\(i\)</span>. The expectation averages over independent Bernoulli-<span class="math inline">\(p\)</span> assignments to the others. Thus <span class="math inline">\(\tau_D(p)\)</span> changes one’s own treatment while averaging over the same distribution of other people’s treatments on both sides. It is a design-specific average direct effect, not generally the universal-adoption contrast.</p>
+<p>In the two-user example, <span class="math inline">\(\tau_D(p)=(1+3)/2=2\)</span> for every <span class="math inline">\(p\)</span>. The difference from 3.5 is the average spillover contribution, 1.5. In other response functions, own-treatment effects interact with others’ treatments and <span class="math inline">\(\tau_D(p)\)</span> itself changes with <span class="math inline">\(p\)</span>. Neither randomization nor inverse-probability weighting says these two estimands must coincide.</p>
+<p>This calculation uses independent assignment. Under complete randomization, conditioning on a unit being treated leaves fewer treatments available for its peers than conditioning on it being a control. One must use the actual conditional assignment laws. The design is part of the interpretation of an individual-treatment contrast under interference.</p>
+</section>
+<section id="exposure-mappings-compress-the-science-table" class="level3">
+<h3 class="anchored" data-anchor-id="exposure-mappings-compress-the-science-table">Exposure mappings compress the science table</h3>
+<p>A messaging feature may depend on the assignments of a person’s close contacts but not on assignments elsewhere. Or only the number of treated contacts may matter, rather than their identities. These are different restrictions, and <strong>exposure mappings</strong> give a language for stating them <span class="citation" data-cites="aronowSamii2017">(<a href="../L04-positivity-partial-identification/index.html#ref-aronowSamii2017" role="doc-biblioref">Aronow and Samii 2017</a>)</span>.</p>
+<p>For each unit, an exposure mapping is a specified function</p>
+<p><span class="math display">\[
+f_i:\{0,1\}^N\longrightarrow\mathcal E_i,
+\qquad E_i=f_i(\mathbf Z),
+\]</span></p>
+<p>where <span class="math inline">\(\mathcal E_i\)</span> is the set of possible exposure labels. The substantive assumption is that assignments receiving the same label produce the same outcome:</p>
+<p><span id="eq-l05-exposure-sufficiency"><span class="math display">\[
+f_i(\mathbf z)=f_i(\mathbf z')
+\quad\Longrightarrow\quad
+Y_i(\mathbf z)=Y_i(\mathbf z').
+\tag{5}\]</span></span></p>
+<p>We can then write the common outcome as <span class="math inline">\(y_i(e)\)</span> for exposure <span class="math inline">\(e\)</span>. Lowercase <span class="math inline">\(y_i(e)\)</span> distinguishes an exposure-indexed outcome from <span class="math inline">\(Y_i(\mathbf z)\)</span>, the original assignment-indexed function. The mapping is an assumption about equality among cells of the science table. Computing it from observed assignments does not establish that the equality holds.</p>
+<p>Let <span class="math inline">\(G\)</span> be a fixed, pretreatment, undirected interference graph. Write <span class="math inline">\(\mathcal N_i\)</span> for the <strong>closed neighborhood</strong> of <span class="math inline">\(i\)</span>: the unit itself and its neighbors. Its size is <span class="math inline">\(d_i=|\mathcal N_i|\)</span>. A local-interference model says that <span class="math inline">\(Y_i(\mathbf z)\)</span> depends only on the subvector <span class="math inline">\(\mathbf z_{\mathcal N_i}\)</span>. This permits arbitrary interactions among neighbors’ assignments. A more restrictive mapping uses own treatment and the fraction of other neighbors treated:</p>
+<p><span class="math display">\[
+f_i(\mathbf z)=(z_i,q_i(\mathbf z)),
+\qquad
+q_i(\mathbf z)=\frac{1}{d_i-1}\sum_{j\in\mathcal N_i\setminus\{i\}}z_j,
+\]</span></p>
+<p>with <span class="math inline">\(q_i=0\)</span> for an isolated unit. Equal fractions now imply equal outcomes even when different neighbors are treated. A close friend and a distant acquaintance become interchangeable for this purpose. That is additional modeling, not a consequence of locality.</p>
+<p>For GATE estimation, two exposure conditions have a special role. Unit <span class="math inline">\(i\)</span> is <strong>network exposed to treatment</strong> if its observed outcome equals <span class="math inline">\(Y_i(\mathbf 1_N)\)</span>, and <strong>network exposed to control</strong> if it equals <span class="math inline">\(Y_i(\mathbf 0_N)\)</span>. Under the local-interference model, sufficient observable conditions are</p>
+<p><span id="eq-l05-extreme-exposures"><span class="math display">\[
+E_i=e_1:\ z_j=1\text{ for every }j\in\mathcal N_i,
+\qquad
+E_i=e_0:\ z_j=0\text{ for every }j\in\mathcal N_i.
+\tag{6}\]</span></span></p>
+<p>These are full-neighborhood exposures <span class="citation" data-cites="ugander2013gcr">(<a href="../L04-positivity-partial-identification/index.html#ref-ugander2013gcr" role="doc-biblioref">Ugander et al. 2013</a>)</span>. They allow a local part of a mixed experiment to reveal an outcome from a global counterfactual. The outcome may vary arbitrarily among mixed neighborhoods; we need not pool all mixed assignments into one outcome-equivalent category. Threshold or fractional exposure rules can make the extreme labels more common, but identifying them with global outcomes then requires stronger substantive assumptions.</p>
+<p>There are other ways to restrict the science table. An exposure model equates outcomes under different assignments. A low-order response model instead restricts how treatment indicators combine algebraically, potentially allowing every assignment to have a distinct outcome. L06 develops that alternative. Neither approach obtains its assumptions from randomization alone.</p>
+</section>
+<section id="moving-sutva-to-clusters" class="level3">
+<h3 class="anchored" data-anchor-id="moving-sutva-to-clusters">Moving SUTVA to clusters</h3>
+<p>Sometimes a plausible grouping is available before specifying a network: households, schools, or geographically isolated villages. Let <span class="math inline">\(\mathcal C=\{C_1,\ldots,C_K\}\)</span> be a partition and <span class="math inline">\(c(i)\in\{1,\ldots,K\}\)</span> the index of the cluster containing unit <span class="math inline">\(i\)</span>. <strong>Partial interference</strong> assumes that</p>
+<p><span id="eq-l05-partial-interference"><span class="math display">\[
+\mathbf z_{C_{c(i)}}=\mathbf z'_{C_{c(i)}}
+\quad\Longrightarrow\quad
+Y_i(\mathbf z)=Y_i(\mathbf z').
+\tag{7}\]</span></span></p>
+<p>Assignments within the cluster can interact arbitrarily; assignments outside it do not affect <span class="math inline">\(i\)</span>. Hudgens and Halloran <span class="citation" data-cites="hudgensHalloran2008">(<a href="../L04-positivity-partial-identification/index.html#ref-hudgensHalloran2008" role="doc-biblioref">2008</a>)</span> develop effects and designs in this setting. Karrer et al.’s network-experimentation paper, first circulated in 2020, calls this SUTVA for clusters <span class="citation" data-cites="karrer2021scale">(<a href="../L04-positivity-partial-identification/index.html#ref-karrer2021scale" role="doc-biblioref">Karrer et al. 2021</a>)</span>. It is a restriction on the interference structure, not an automatic consequence of assigning treatments by cluster. Candogan, Chen, and Niazadeh <span class="citation" data-cites="candogan2024">(<a href="../L04-positivity-partial-identification/index.html#ref-candogan2024" role="doc-biblioref">2024</a>)</span> also use no interference across clusters when optimizing correlations among cluster assignments. This connects cluster SUTVA to an established literature on partial interference and to subsequent work on experimental design.</p>
+<p>If each cluster receives a single treatment <span class="math inline">\(W_k\)</span>, the allowed unit assignments satisfy <span class="math inline">\(Z_i=W_{c(i)}\)</span>. On this restricted set of assignments, partial interference implies that the outcome depends only on <span class="math inline">\(W_{c(i)}\)</span>. Cluster totals can then be analyzed as potential outcomes indexed by one cluster treatment, with size weighting if the target averages over individuals.</p>
+<p>There is a useful distinction between requiring partial interference for every conceivable assignment and requiring this invariance only on the design’s cluster-constant assignments. For example, suppose units 3 and 4 form another cluster and <span class="math inline">\(Y_1(\mathbf z)=z_1+z_3-z_4\)</span>. Cross-cluster interference exists when units 3 and 4 receive different treatments. Under a design that always assigns them together, their effects cancel. The restricted experiment therefore has a cluster-level invariance that the unrestricted science table lacks. This example illustrates a distinction between assumption domains; it is not a new definition attributed to Karrer et al.</p>
+<p>Cluster SUTVA can be operationally useful without committing to a detailed exposure mapping within each cluster. Mathematically, however, it can itself be expressed as a mapping that retains the cluster’s treatment vector. Exposure mappings and cluster SUTVA are therefore overlapping ways to express restrictions, not mutually exclusive causal frameworks.</p>
+</section>
+</section>
+<section id="from-observed-exposures-to-an-estimator" class="level2">
+<h2 class="anchored" data-anchor-id="from-observed-exposures-to-an-estimator">From observed exposures to an estimator</h2>
+<section id="the-inverse-probability-is-now-an-exposure-probability" class="level3">
+<h3 class="anchored" data-anchor-id="the-inverse-probability-is-now-an-exposure-probability">The inverse probability is now an exposure probability</h3>
+<p>Suppose the mapping is adequate for exposures <span class="math inline">\(e_1\)</span> and <span class="math inline">\(e_0\)</span>, so that <span class="math inline">\(y_i(e_a)=Y_i(a\mathbf 1_N)\)</span> for <span class="math inline">\(a\in\{0,1\}\)</span>. Define the marginal and joint exposure probabilities under the chosen design by</p>
+<p><span class="math display">\[
+\pi_i(e)=\mathbb P_Z(E_i=e),
+\qquad
+\pi_{ij}(e,e')=\mathbb P_Z(E_i=e,E_j=e').
+\]</span></p>
+<p>These probabilities average over assignments, holding the graph and potential outcomes fixed. They are not estimated observational propensity scores. A unit can have treatment probability one half and an exceedingly small probability of experiencing an all-treated neighborhood.</p>
+<p>If both required exposures have positive probability for every unit, define</p>
+<p><span id="eq-l05-exposure-ht"><span class="math display">\[
+\widehat\mu_{\mathrm{HT}}(e)
+=\frac1N\sum_i\frac{\mathbf 1\{E_i=e\}Y_i^{\mathrm{obs}}}{\pi_i(e)},
+\qquad
+\widehat\tau_{\mathrm{G,HT}}
+=\widehat\mu_{\mathrm{HT}}(e_1)-\widehat\mu_{\mathrm{HT}}(e_0).
+\tag{8}\]</span></span></p>
+<div id="prp-l05-ht-unbiased" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 1 (Design unbiasedness under an adequate exposure model)</strong></span> If exposure <span class="math inline">\(e_a\)</span> reveals <span class="math inline">\(Y_i(a\mathbf 1_N)\)</span> and <span class="math inline">\(\pi_i(e_a)&gt;0\)</span> for every <span class="math inline">\(i\)</span> and <span class="math inline">\(a\in\{0,1\}\)</span>, then <span class="math inline">\(\mathbb E_Z(\widehat\tau_{\mathrm{G,HT}})=\tau_{\mathrm G}\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>On the event <span class="math inline">\(E_i=e_a\)</span>, consistency and the exposure assumption replace the observed outcome by the fixed number <span class="math inline">\(Y_i(a\mathbf 1_N)\)</span>. Consequently,</p>
+<p><span class="math display">\[
+\mathbb E_Z\left\{
+\frac{\mathbf 1\{E_i=e_a\}Y_i^{\mathrm{obs}}}{\pi_i(e_a)}
+\right\}
+=\frac{\pi_i(e_a)Y_i(a\mathbf 1_N)}{\pi_i(e_a)}
+=Y_i(a\mathbf 1_N).
+\]</span></p>
+<p>Average over units and subtract the control expression. No independence among exposures is used.</p>
+</div>
+<p>The familiar HT cancellation survives interference. What changes is the event that makes a particular potential outcome observable. Weighting cannot repair a misspecified exposure model: if different assignments with label <span class="math inline">\(e_1\)</span> produce different outcomes, the weighted average targets their design-weighted mean, which need not equal the all-treated outcome.</p>
+<p>A Hájek version divides the weighted outcome sum by the weighted count of units in that exposure. As in L02, this can improve stability, but exact design unbiasedness is generally lost and a zero denominator must be handled. Choosing normalization does not resolve an incorrect mapping or zero exposure probability.</p>
+</section>
+<section id="positivity-and-joint-observability" class="level3">
+<h3 class="anchored" data-anchor-id="positivity-and-joint-observability">Positivity and joint observability</h3>
+<p>Under independent Bernoulli-<span class="math inline">\(p\)</span> unit assignment and full-neighborhood exposure,</p>
+<p><span id="eq-l05-bernoulli-exposure"><span class="math display">\[
+\pi_i(e_1)=p^{d_i},
+\qquad
+\pi_i(e_0)=(1-p)^{d_i}.
+\tag{9}\]</span></span></p>
+<p>Each of the <span class="math inline">\(d_i\)</span> assignments must agree. At <span class="math inline">\(p=1/2\)</span>, a closed neighborhood of size 11 receives either particular extreme exposure with probability <span class="math inline">\(1/2048\)</span>. A large experiment can contain many treated units but very few observations of the outcomes needed for its deployment target. This is L04’s weak-positivity problem created by the combination of network structure, estimand, and design.</p>
+<p>The pairwise probabilities matter for inference. Write <span class="math inline">\(s_{e_1}=1\)</span> and <span class="math inline">\(s_{e_0}=-1\)</span>. Expanding the variance of <a href="#eq-l05-exposure-ht" class="quarto-xref">Equation&nbsp;<span>8</span></a> gives</p>
+<p><span id="eq-l05-exposure-variance"><span class="math display">\[
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{G,HT}})
+=\frac1{N^2}\sum_{i,j}\sum_{e,e'\in\{e_1,e_0\}}
+s_es_{e'}
+\frac{\pi_{ij}(e,e')-\pi_i(e)\pi_j(e')}
+{\pi_i(e)\pi_j(e')}
+y_i(e)y_j(e').
+\tag{10}\]</span></span></p>
+<p>For <span class="math inline">\(i=j\)</span>, interpret the joint probability in the usual way: it equals <span class="math inline">\(\pi_i(e)\)</span> if <span class="math inline">\(e=e'\)</span> and zero otherwise. The formula follows by writing the estimator as a sum of weighted indicators and using the covariance of each pair. It displays both rare-exposure weights and dependence among exposures.</p>
+<p>Even when each marginal probability is positive, some joint probabilities are zero. If two closed neighborhoods overlap, one cannot simultaneously be all treated and the other all control. The corresponding product of potential outcomes is never jointly observed. It cannot be estimated by dividing an observed product by its joint probability. Conservative variance procedures handle these unidentified terms with bounds; normal approximations additionally require an appropriate sequence of growing experiments and restrictions on dependence <span class="citation" data-cites="aronowSamii2017">(<a href="../L04-positivity-partial-identification/index.html#ref-aronowSamii2017" role="doc-biblioref">Aronow and Samii 2017</a>)</span>. An ordinary independent-observation standard error ignores precisely the structure that made interference relevant.</p>
+</section>
+</section>
+<section id="testing-whether-interference-is-present" class="level2">
+<h2 class="anchored" data-anchor-id="testing-whether-interference-is-present">Testing whether interference is present</h2>
+<p>An assumption can be useful without being beyond scrutiny. Testing interference requires care because “no interference” still permits each unit to have an unknown direct treatment effect. We must preserve that uncertainty while finding assignments under which the relevant outcomes can be imputed.</p>
+<section id="make-the-null-sharp-on-a-conditional-experiment" class="level3">
+<h3 class="anchored" data-anchor-id="make-the-null-sharp-on-a-conditional-experiment">Make the null sharp on a conditional experiment</h3>
+<p>The global sharp null <span class="math inline">\(Y_i(\mathbf z)=Y_i(\mathbf z')\)</span> for every <span class="math inline">\(i,\mathbf z,\mathbf z'\)</span> rules out all treatment effects. Rejecting it does not specifically establish interference: ordinary direct effects suffice. The no-interference null in <a href="#eq-l05-no-interference" class="quarto-xref">Equation&nbsp;<span>1</span></a> is weaker. It supplies no value for a treated person’s outcome under their own control assignment.</p>
+<p>The conditional-testing approach of Athey, Eckles, and Imbens <span class="citation" data-cites="atheyEcklesImbens2018">(<a href="../L04-positivity-partial-identification/index.html#ref-atheyEcklesImbens2018" role="doc-biblioref">2018</a>)</span> makes the null sharp for selected <strong>focal units</strong> by restricting the assignments considered. Choose a set <span class="math inline">\(F\)</span> of focal units before seeing treatment or outcomes, for example using only the pretreatment graph. Condition on their realized own assignments <span class="math inline">\(\mathbf Z_F\)</span>. Under no interference, their outcomes are then fixed for every reassignment of the remaining, auxiliary units.</p>
+<p>To see a statistic one could use, let <span class="math inline">\(q_i(\mathbf z)\)</span> be the treated-neighbor fraction defined earlier, and let <span class="math inline">\(\overline Y_F^{\mathrm{obs}}\)</span> be the mean focal outcome. Consider</p>
+<p><span class="math display">\[
+T(\mathbf z)
+=\sum_{i\in F}(Y_i^{\mathrm{obs}}-\overline Y_F^{\mathrm{obs}})
+\left[q_i(\mathbf z)-
+\mathbb E_Z\{q_i(\mathbf Z)\mid\mathbf Z_F\}\right].
+\]</span></p>
+<p>The outcome factors stay fixed. The exposure factors vary as auxiliary treatments are reassigned. Positive values indicate that focal outcomes tend to be larger where randomized neighbor exposure is larger. A two-sided test could use <span class="math inline">\(|T|\)</span>.</p>
+<p>The reference distribution must be the actual conditional design, <span class="math inline">\(\mathbb P_Z(\mathbf Z_{-F}\mid\mathbf Z_F)\)</span>. Under independent Bernoulli assignment, auxiliary assignments remain independent with probability <span class="math inline">\(p\)</span>. Under complete randomization, the number of auxiliary treatments is fixed by the original treatment budget and the observed focal assignments. Simply flipping independent coins would analyze the wrong experiment in the latter case.</p>
+<p>Conditional on <span class="math inline">\(\mathbf Z_F\)</span>, the observed assignment and a fresh draw from this conditional law have the same distribution under the null, while every outcome entering the statistic is known. Ranking the observed statistic in this distribution therefore gives a valid randomization <span class="math inline">\(p\)</span>-value, with discreteness handled conservatively. For Monte Carlo sampling, including the observed allocation in the usual plus-one construction avoids zero estimated <span class="math inline">\(p\)</span>-values.</p>
+<p>This argument does not require the chosen neighbor statistic to describe the actual interference correctly. Under the null there is no interference to describe. A poor graph or statistic reduces power, whereas an incorrect conditional assignment law can invalidate the test. Choosing focal units after observing assignments is possible, but requires conditioning on the selection mechanism as well; selecting favorable focal units and then pretending they were fixed is not justified.</p>
+</section>
+<section id="randomize-the-randomization-mechanism" class="level3">
+<h3 class="anchored" data-anchor-id="randomize-the-randomization-mechanism">Randomize the randomization mechanism</h3>
+<p>A different strategy deliberately creates different local environments at the same marginal treatment probability. Saveski et al. <span class="citation" data-cites="saveski2017network">(<a href="../L04-positivity-partial-identification/index.html#ref-saveski2017network" role="doc-biblioref">2017</a>)</span> compare individual and cluster randomization within a randomized meta-experiment. The outer randomization allocates groups to the two experimental strategies; the inner randomization assigns treatment according to each strategy. Under no interference, both strategies target the same average direct effect. Their discrepancy can reveal interference without requiring an exact spillover model.</p>
+<p>For a concrete design-based version, let <span class="math inline">\(R_i\in\{0,1\}\)</span> record the strategy to which unit <span class="math inline">\(i\)</span> is assigned, with known probability <span class="math inline">\(\rho_i(r)=\mathbb P(R_i=r)\)</span>. Suppose each strategy gives that unit conditional treatment probability <span class="math inline">\(p\)</span>. An HT contrast for strategy <span class="math inline">\(r\)</span> is</p>
+<p><span class="math display">\[
+\widehat\tau_r
+=\frac1N\sum_i\frac{\mathbf 1\{R_i=r\}}{\rho_i(r)}
+\left\{\frac{Z_iY_i^{\mathrm{obs}}}{p}
+-\frac{(1-Z_i)Y_i^{\mathrm{obs}}}{1-p}\right\}.
+\]</span></p>
+<p>Under no interference, iterated expectation over the outer and inner assignments gives <span class="math inline">\(\mathbb E(\widehat\tau_r)=N^{-1}\sum_i\{Y_i(1)-Y_i(0)\}\)</span> for both strategies. Hence <span class="math inline">\(\widehat\tau_1-\widehat\tau_0\)</span> is centered at zero. This calculation explains the role of randomizing strategy membership: the comparison is not confounded by choosing different populations for the two designs. Its variance must incorporate both randomizations and their covariances.</p>
+<p>Under interference, cluster assignment makes own treatment more correlated with neighbors’ treatments. In the two-user example, assigning both users together produces the global contrast 3.5, whereas independent assignment produces the direct-effect contrast 2. A strategy comparison can detect this discrepancy. For a real network with edges crossing clusters, neither strategy need identify GATE. The test compares the effects revealed by the two designs; it does not certify one as unbiased for universal deployment. Nonrejection likewise does not establish no interference, because the designs can miss relevant channels or have little power.</p>
+</section>
+<section id="use-randomized-increases-in-treatment-allocation" class="level3">
+<h3 class="anchored" data-anchor-id="use-randomized-increases-in-treatment-allocation">Use randomized increases in treatment allocation</h3>
+<p>Platforms often expand a treatment gradually. A control unit that remains untreated can experience an increasingly treated environment. Han, Li, Mao, and Wu <span class="citation" data-cites="han2023increasing">(<a href="../L04-positivity-partial-identification/index.html#ref-han2023increasing" role="doc-biblioref">2023</a>)</span> use increasing-allocation experiments to test for cross-unit interference. The useful variation is in other units’ randomized treatment histories, rather than a raw comparison of outcomes at different dates.</p>
+<p>Consider two periods with marginal treatment probabilities <span class="math inline">\(p_1&lt;p_2\)</span>. Draw independent <span class="math inline">\(U_i\sim\operatorname{Uniform}(0,1)\)</span> and set <span class="math inline">\(Z_{it}=\mathbf 1\{U_i\leq p_t\}\)</span>. Each unit’s treatment history is one of <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((0,1)\)</span>, or <span class="math inline">\((1,1)\)</span>, with probabilities <span class="math inline">\(1-p_2\)</span>, <span class="math inline">\(p_2-p_1\)</span>, and <span class="math inline">\(p_1\)</span>. The history <span class="math inline">\((1,0)\)</span> is impossible. Write <span class="math inline">\(Y_{it}(\mathbf z_{1:2})\)</span> for the potential outcome when the full two-period assignment matrix is specified. The no-cross-unit-interference null says that this outcome depends only on unit <span class="math inline">\(i\)</span>’s own treatment history. It can still depend on time and on that own history.</p>
+<p>A conditional experiment can hold focal units’ entire treatment histories fixed and randomize the auxiliary histories. For example, preselect a focal set <span class="math inline">\(F\)</span> using the graph and condition on the histories of <strong>every unit in this original set</strong>. Within the statistic, use only focal units whose own assignment is unchanged, and form <span class="math inline">\(\Delta Y_i=Y_{i2}^{\mathrm{obs}}-Y_{i1}^{\mathrm{obs}}\)</span>. These differences are fixed under the null after conditioning on focal histories. A statistic can associate <span class="math inline">\(\Delta Y_i\)</span> with the change in treated-neighbor fraction, <span class="math inline">\(q_i(\mathbf Z_2)-q_i(\mathbf Z_1)\)</span>. Focal units that switch treatment remain conditioned upon even though their outcomes do not enter this statistic; they do not move into the auxiliary pool.</p>
+<p>Conditional on the counts of histories among units outside the original <span class="math inline">\(F\)</span>, iid rollout assignment makes those auxiliary histories exchangeable. Permuting <strong>whole histories only among units outside <span class="math inline">\(F\)</span></strong> preserves both the rollout and this conditional law. Recompute neighbor exposures after each permutation and compare the observed statistic with the resulting distribution. Separately permuting the two treatment columns could create forbidden <span class="math inline">\((1,0)\)</span> histories and would not reproduce the design.</p>
+<p>Differencing can help remove persistent unit differences from the statistic; its validity here does not require all time trends to be common because focal outcomes are held fixed under the null. Tests that instead exchange periods, or interpret a changing treatment-control contrast as evidence by itself, require additional restrictions. The paper also develops a more powerful procedure under a time-fixed-effect model. That additional model is consequential: seasonality, changing treatment effects, or carryover can otherwise resemble an allocation effect.</p>
+<p>The three strategies use distinct sources of variation. Conditional tests hold own treatment fixed while varying others’ assignments. Meta-experiments vary the mechanism assigning treatment. Rollouts vary treatment histories across time. In each case, valid inference follows from an explicit assignment or invariance argument; the visual appearance of spillovers is only a starting point.</p>
+</section>
+</section>
+<section id="designing-for-informative-exposures" class="level2">
+<h2 class="anchored" data-anchor-id="designing-for-informative-exposures">Designing for informative exposures</h2>
+<p>Testing can reveal that individual randomization answers an incomplete policy question. The next design question is how to make the desired exposures occur more often while retaining enough independent comparisons.</p>
+<section id="graph-cluster-randomization" class="level3">
+<h3 class="anchored" data-anchor-id="graph-cluster-randomization">Graph cluster randomization</h3>
+<p>For a fixed partition <span class="math inline">\(\mathcal C\)</span>, assign cluster treatments <span class="math inline">\(W_1,\ldots,W_K\)</span> independently as Bernoulli-<span class="math inline">\(p\)</span>, and set <span class="math inline">\(Z_i=W_{c(i)}\)</span>. Let <span class="math inline">\(k_i(\mathcal C)\)</span> be the number of distinct clusters intersecting the closed neighborhood <span class="math inline">\(\mathcal N_i\)</span>. Then full-neighborhood exposure probabilities are</p>
+<p><span id="eq-l05-gcr-probabilities"><span class="math display">\[
+\pi_i(e_1\mid\mathcal C)=p^{k_i(\mathcal C)},
+\qquad
+\pi_i(e_0\mid\mathcal C)=(1-p)^{k_i(\mathcal C)}.
+\tag{11}\]</span></span></p>
+<p>Only the assignments of these clusters must agree. The number of independent choices in the exponent can be much smaller than the number of units. This is the central mechanism of graph cluster randomization (GCR) <span class="citation" data-cites="ugander2013gcr">(<a href="../L04-positivity-partial-identification/index.html#ref-ugander2013gcr" role="doc-biblioref">Ugander et al. 2013</a>)</span>. It does not require there to be no edges across clusters: an exposure estimator can account for those edges when calculating the events and their probabilities.</p>
+<p>Take a path of six units, <span class="math inline">\(1-2-3-4-5-6\)</span>, and <span class="math inline">\(p=1/2\)</span>. Under individual randomization, each endpoint has closed-neighborhood size two and each interior unit size three. Group the path into clusters <span class="math inline">\(\{1,2,3\}\)</span> and <span class="math inline">\(\{4,5,6\}\)</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Unit</th>
+<th style="text-align: right;">Closed-neighborhood size <span class="math inline">\(d_i\)</span></th>
+<th style="text-align: right;">Individual <span class="math inline">\(\pi_i(e_1)\)</span></th>
+<th style="text-align: right;">Clusters touched <span class="math inline">\(k_i\)</span></th>
+<th style="text-align: right;">Cluster <span class="math inline">\(\pi_i(e_1)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1 and 6</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"><span class="math inline">\(1/4\)</span></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"><span class="math inline">\(1/2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2 and 5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"><span class="math inline">\(1/8\)</span></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"><span class="math inline">\(1/2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3 and 4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"><span class="math inline">\(1/8\)</span></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"><span class="math inline">\(1/4\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Interior units away from the cut benefit most. Units 3 and 4 remain near a cluster boundary and require both clusters to agree. The calculation makes clear why counting the number of cut edges alone need not describe every unit’s statistical difficulty.</p>
+<p>Larger clusters can increase these marginal probabilities but also increase dependence. With one cluster containing the entire graph, every unit receives an extreme exposure, yet there is only one randomized treatment coin. The observed data are either the whole all-treated population or the whole all-control population. HT remains unbiased across repeated experiments, but the two worlds are never observed together. Exposure frequency and precision are different objectives.</p>
+<p>For unequal clusters, one must also distinguish averaging people from averaging clusters. The unweighted mean of cluster means targets an average cluster, giving a person in a small cluster more weight. An estimator of <a href="#eq-l05-gate" class="quarto-xref">Equation&nbsp;<span>3</span></a> must preserve the intended individual weights.</p>
+</section>
+<section id="randomize-the-clustering-too" class="level3">
+<h3 class="anchored" data-anchor-id="randomize-the-clustering-too">Randomize the clustering too</h3>
+<p>In a fixed clustering, some units repeatedly occupy favorable interiors and others unfavorable boundaries. Randomized graph cluster randomization (RGCR) draws a partition from a specified distribution <span class="math inline">\(Q\)</span>, then randomizes cluster treatments. Ugander and Yin <span class="citation" data-cites="uganderYin2023rgcr">(<a href="../L04-positivity-partial-identification/index.html#ref-uganderYin2023rgcr" role="doc-biblioref">2023</a>)</span> study this design and randomized graph-decomposition algorithms, with variance guarantees under graph-structure assumptions.</p>
+<p>The two-stage exposure probability is</p>
+<p><span id="eq-l05-rgcr-probabilities"><span class="math display">\[
+\pi_i(e_1)=\mathbb E_{\mathcal C\sim Q}
+\{p^{k_i(\mathcal C)}\},
+\qquad
+\pi_i(e_0)=\mathbb E_{\mathcal C\sim Q}
+\{(1-p)^{k_i(\mathcal C)}\}.
+\tag{12}\]</span></span></p>
+<p>The expectation is over the random partition. For example, if a unit’s neighborhood touches one cluster half the time and three clusters half the time, its treatment-exposure probability at <span class="math inline">\(p=1/2\)</span> is <span class="math inline">\((1/2)(1/2)+(1/2)(1/8)=5/16\)</span>. It is not permanently assigned the unfavorable probability <span class="math inline">\(1/8\)</span>.</p>
+<p>One simple partition construction gives units independent continuous random priorities and assigns each unit to the highest-priority vertex in its closed neighborhood; equal chosen vertices define a cluster. This is the 1-hop-max construction. Its purpose is to make cluster membership vary through local random choices while remaining tied to graph proximity. The resulting clusters are then independently treated or controlled.</p>
+<p>An exposure estimator using the marginal probabilities in <a href="#eq-l05-rgcr-probabilities" class="quarto-xref">Equation&nbsp;<span>12</span></a> is unbiased over <strong>both</strong> randomizations. It need not be unbiased conditional on the realized partition. Using conditional probabilities instead defines another estimator, with conditional unbiasedness when those probabilities are positive. The analyst must match the probability in the denominator to the randomization distribution used for the claimed result.</p>
+<p>Monte Carlo computation can approximate the marginal probabilities by repeatedly drawing partitions. This is design simulation and does not require outcomes. However, replacing a probability by a noisy estimate inside its reciprocal does not preserve exact unbiasedness. Rare exposures require accurate probability calculations and enough simulations; increasing the number of outcome units does not automatically eliminate probability-computation error.</p>
+</section>
+</section>
+<section id="a-clustering-is-optimal-for-an-objective" class="level2">
+<h2 class="anchored" data-anchor-id="a-clustering-is-optimal-for-an-objective">A clustering is optimal for an objective</h2>
+<p>Community detection seeks a descriptive partition of a network. Experimental design asks which partition makes an estimator accurate for a specified causal target. These problems can overlap, but their objectives need not agree.</p>
+<p>Viviano et al. <span class="citation" data-cites="viviano2026clustering">(<a href="../L04-positivity-partial-identification/index.html#ref-viviano2026clustering" role="doc-biblioref">2026</a>)</span> study clustering for the particular assignment-weighted contrast</p>
+<p><span id="eq-l05-causal-clustering-estimator"><span class="math display">\[
+\widehat\tau_{\mathcal C}
+=\frac{2}{N}\sum_i(2Z_i-1)Y_i^{\mathrm{obs}},
+\tag{13}\]</span></span></p>
+<p>under independent fair cluster assignment. The fixed denominator is <span class="math inline">\(N\)</span>, not a realized treatment-arm count. This estimator weights own treatment, rather than requiring full-neighborhood exposure, and can be biased for GATE when clusters exchange spillovers. Their framework chooses clusters by a worst-case bias-variance criterion over a restricted class of potential outcomes, leading to a penalized graph-cut optimization. The result is therefore about an estimator, target, design class, and response class together. It is not a claim that a single partition is optimal for all analyses.</p>
+<p>An additive calculation shows why this criterion has a different form from maximizing exposure probabilities. Use <a href="#eq-l05-additive-example" class="quarto-xref">Equation&nbsp;<span>2</span></a>, and abbreviate <span class="math inline">\(\gamma_{ij}=A_{ij}c_{ij}\)</span>. Then</p>
+<p><span class="math display">\[
+\tau_{\mathrm G}=\frac1N\sum_i\left(b_i+\sum_{j\ne i}\gamma_{ij}\right).
+\]</span></p>
+<p>Under fair cluster assignment, <span class="math inline">\(\mathbb E_Z(2Z_i-1)=0\)</span>. Also,</p>
+<p><span class="math display">\[
+2\mathbb E_Z\{(2Z_i-1)Z_j\}
+=\begin{cases}
+1,&amp;c(j)=c(i),\\
+0,&amp;c(j)\ne c(i).
+\end{cases}
+\]</span></p>
+<p>For a same-cluster unit, <span class="math inline">\(Z_j=Z_i\)</span>; for a different-cluster unit, the two fair assignments are independent. Substituting into the estimator gives</p>
+<p><span id="eq-l05-cut-bias"><span class="math display">\[
+\mathbb E_Z(\widehat\tau_{\mathcal C})-\tau_{\mathrm G}
+=-\frac1N\sum_i\sum_{j:c(j)\ne c(i)}\gamma_{ij}.
+\tag{14}\]</span></span></p>
+<p>The estimator captures within-cluster contributions because they move with own treatment. Across-cluster contributions cancel from its expected treatment-control comparison. For nonnegative spillovers it underestimates GATE by the omitted contribution. With mixed signs, cancellation can make bias smaller or reverse its direction.</p>
+<p>Variance pushes the partition in the opposite direction. Even in the simple case <span class="math inline">\(Y_i(\mathbf z)=a_i\)</span> with no effects, the estimator is random. Writing <span class="math inline">\(A_k=\sum_{i\in C_k}a_i\)</span>,</p>
+<p><span class="math display">\[
+\operatorname{Var}_Z(\widehat\tau_{\mathcal C})
+=\frac4{N^2}\sum_{k=1}^K A_k^2.
+\]</span></p>
+<p>If all baseline outcomes equal a constant <span class="math inline">\(a\)</span>, this is <span class="math inline">\(4a^2N^{-2}\sum_k|C_k|^2\)</span>. Combining two clusters of sizes <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> increases the sum of squared sizes by <span class="math inline">\(2uv\)</span>, even if it eliminates a cut. A design criterion must weigh the expected importance of spillovers against this loss of independent variation. Covariate adjustment can change the variance calculation by replacing predictable baseline components with residuals.</p>
+<p>The preceding calculations are a pedagogical special case. In the causal-clustering analysis, bounds on spillover strength and outcome magnitudes, along with local asymptotic restrictions, justify a corresponding worst-case optimization. Tuning the relative bias and variance penalty encodes how large relevant spillovers could be. Pilot evidence or subject knowledge can inform it, and sensitivity across plausible penalties is more informative than treating the choice as a purely graph-theoretic constant.</p>
+<p>Changing to the exposure HT estimator changes the problem. Under a correct mapping, its bias is zero and the design concern becomes its joint exposure probabilities and variance. A partition that is attractive for <a href="#eq-l05-causal-clustering-estimator" class="quarto-xref">Equation&nbsp;<span>13</span></a> need not be attractive for <a href="#eq-l05-exposure-ht" class="quarto-xref">Equation&nbsp;<span>8</span></a>. This is a concrete instance of designing an experiment and its analysis together.</p>
+</section>
+<section id="advanced-material-designs-built-around-incompatible-exposures" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-material-designs-built-around-incompatible-exposures">Advanced material: designs built around incompatible exposures</h2>
+<p>Clustering begins by asking which units should share an assignment. Another starting point is to ask which outcomes needed for the estimand cannot be observed together. This makes the estimand itself part of the design’s combinatorial structure.</p>
+<p>Fix two desired neighborhood configurations for each unit, indexed by <span class="math inline">\(a=0,1\)</span>, and let their potential outcomes be <span class="math inline">\(y_i(e_{ia})\)</span>. The target is <span class="math inline">\(N^{-1}\sum_i\{y_i(e_{i1})-y_i(e_{i0})\}\)</span>. For GATE these configurations are all treated and all control. For a direct effect at untreated neighbors, they differ only in the focal unit’s own assignment.</p>
+<p>Two units conflict if <strong>some</strong> pair of their desired configurations cannot be realized by a single assignment vector. The conflict graph places an edge between such units, including a self-loop because one unit cannot receive both distinct configurations simultaneously. Kandiros, Pipis, Daskalakis, and Harshaw <span class="citation" data-cites="kandiros2026conflict">(<a href="../L04-positivity-partial-identification/index.html#ref-kandiros2026conflict" role="doc-biblioref">2026</a>)</span> use this graph to construct a design matched to the contrast.</p>
+<p>On the path <span class="math inline">\(1-2-3-4\)</span>, units 1 and 3 are not adjacent. Their closed neighborhoods nevertheless overlap at unit 2. Giving unit 1 its all-treated exposure requires <span class="math inline">\(Z_2=1\)</span>, while giving unit 3 its all-control exposure requires <span class="math inline">\(Z_2=0\)</span>. They conflict for GATE. In general, the GATE conflict graph connects vertices at graph distance at most two. For the direct-effect contrast that holds all neighbors untreated, units 1 and 3 can receive either desired configuration together: both require unit 2 to be untreated. For this contrast, only neighbors in the original graph conflict. The same physical network creates different observability constraints for different estimands.</p>
+<p>The conflict-graph design first generates sparse requests for desired exposures, then resolves conflicting requests using a suitable priority ordering. Accepted requests force the necessary local treatment assignments. Its estimator uses the event that a request is accepted, not every accidental occurrence of the same exposure. If <span class="math inline">\(B_{ia}\)</span> is that recorded event and <span class="math inline">\(q_{ia}=\mathbb P_Z(B_{ia})&gt;0\)</span>, the form is</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{CG}}
+=\frac1N\sum_i
+\left\{\frac{\mathbf 1\{B_{i1}\}Y_i^{\mathrm{obs}}}{q_{i1}}
+-\frac{\mathbf 1\{B_{i0}\}Y_i^{\mathrm{obs}}}{q_{i0}}\right\}.
+\]</span></p>
+<p>Accepted request <span class="math inline">\(B_{ia}\)</span> guarantees the desired outcome, so the same HT cancellation proves unbiasedness. Restricting the counted events makes their dependence more tractable. Under bounded average squared target outcomes, the paper obtains a variance bound of order <span class="math inline">\(\lambda(H)/N\)</span>, where <span class="math inline">\(\lambda(H)\)</span> is the largest eigenvalue of the conflict graph’s adjacency matrix, including its self-loops. This guarantee belongs to the proposed design and modified estimator together; arbitrary prioritization or the ordinary exposure HT estimator does not inherit it automatically.</p>
+<p>For intuition about the rate, a bounded-size set of conflicts around each unit allows <span class="math inline">\(\lambda(H)\)</span> to remain bounded and hence permits a <span class="math inline">\(1/N\)</span> variance bound. A complete conflict graph has <span class="math inline">\(\lambda(H)=N\)</span>, so this bound no longer tends to zero. Merely increasing the number of outcomes does not create independent counterfactual comparisons when all desired exposures compete with one another.</p>
+</section>
+<section id="returning-to-the-deployment-question" class="level2">
+<h2 class="anchored" data-anchor-id="returning-to-the-deployment-question">Returning to the deployment question</h2>
+<p>Interference changes the relationship between what is assigned, what is observed, and what is wanted. The two-user science table already contained the essential issue: a person observed in a mixed assignment need not reveal their outcome under universal treatment or universal control.</p>
+<p>An exposure assumption states when a local assignment reveals a global counterfactual. Exposure probabilities then turn this statement into an estimator, and joint probabilities govern its uncertainty. Tests can probe aspects of the assumption by designing conditional comparisons with imputable outcomes. Finally, experimental designs can make informative exposures more common, reduce the bias of a simpler estimator, or coordinate otherwise incompatible comparisons. Those are distinct statistical objectives, even when all three lead us to use a graph.</p>
+<p>For a new application, the order of reasoning is therefore consequential: describe the mechanism and the deployment decision; state the target contrast; decide which restrictions on the science table are defensible; and choose an estimator and design that exploit those restrictions. L06 continues with restrictions on the form of the response function, where mixed assignments may be informative even without exact exposure equivalence.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<p>Hudgens and Halloran <span class="citation" data-cites="hudgensHalloran2008">(<a href="../L04-positivity-partial-identification/index.html#ref-hudgensHalloran2008" role="doc-biblioref">2008</a>)</span> develop direct, indirect, total, and overall effects under partial interference, emphasizing that an allocation policy is itself an intervention. Aronow and Samii <span class="citation" data-cites="aronowSamii2017">(<a href="../L04-positivity-partial-identification/index.html#ref-aronowSamii2017" role="doc-biblioref">2017</a>)</span> provide the design-exposure-estimand framework and the associated issues in variance estimation.</p>
+<p>Athey, Eckles, and Imbens <span class="citation" data-cites="atheyEcklesImbens2018">(<a href="../L04-positivity-partial-identification/index.html#ref-atheyEcklesImbens2018" role="doc-biblioref">2018</a>)</span>, Saveski et al. <span class="citation" data-cites="saveski2017network">(<a href="../L04-positivity-partial-identification/index.html#ref-saveski2017network" role="doc-biblioref">2017</a>)</span>, and Han et al. <span class="citation" data-cites="han2023increasing">(<a href="../L04-positivity-partial-identification/index.html#ref-han2023increasing" role="doc-biblioref">2023</a>)</span> give complementary routes to testing. Reading them together clarifies the distinction between sharpening a null by conditioning and changing the experiment to make its implications easier to detect.</p>
+<p>Ugander et al. <span class="citation" data-cites="ugander2013gcr">(<a href="../L04-positivity-partial-identification/index.html#ref-ugander2013gcr" role="doc-biblioref">2013</a>)</span> and Ugander and Yin <span class="citation" data-cites="uganderYin2023rgcr">(<a href="../L04-positivity-partial-identification/index.html#ref-uganderYin2023rgcr" role="doc-biblioref">2023</a>)</span> develop fixed and randomized graph cluster designs. Eckles, Karrer, and Ugander <span class="citation" data-cites="ecklesKarrerUgander2017">(<a href="../L04-positivity-partial-identification/index.html#ref-ecklesKarrerUgander2017" role="doc-biblioref">2017</a>)</span> analyze design and estimation as tools for reducing interference bias under response structures that need not satisfy a simple local exposure model. Karrer et al. <span class="citation" data-cites="karrer2021scale">(<a href="../L04-positivity-partial-identification/index.html#ref-karrer2021scale" role="doc-biblioref">2021</a>)</span> discuss the practical interplay of clustering, regression adjustment, and experimentation at scale.</p>
+<p>Viviano et al. <span class="citation" data-cites="viviano2026clustering">(<a href="../L04-positivity-partial-identification/index.html#ref-viviano2026clustering" role="doc-biblioref">2026</a>)</span> and Kandiros et al. <span class="citation" data-cites="kandiros2026conflict">(<a href="../L04-positivity-partial-identification/index.html#ref-kandiros2026conflict" role="doc-biblioref">2026</a>)</span> illustrate two different ways to turn a causal objective into a design problem: optimize a bias-variance criterion for a specified estimator, or coordinate estimand-specific observability constraints. Their guarantees should be compared with their estimator and response assumptions kept in view.</p>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-aronowSamii2017" class="csl-entry" role="listitem">
+Aronow, Peter M., and Cyrus Samii. 2017. <span>“Estimating Average Causal Effects Under General Interference, with Application to a Social Network Experiment.”</span> <em>The Annals of Applied Statistics</em> 11 (4): 1912–47. <a href="https://doi.org/10.1214/16-AOAS1005">https://doi.org/10.1214/16-AOAS1005</a>.
+</div>
+<div id="ref-atheyEcklesImbens2018" class="csl-entry" role="listitem">
+Athey, Susan, Dean Eckles, and Guido W. Imbens. 2018. <span>“Exact <span><span class="math inline">\(p\)</span></span>-Values for Network Interference.”</span> <em>Journal of the American Statistical Association</em> 113 (521): 230–40. <a href="https://doi.org/10.1080/01621459.2016.1241178">https://doi.org/10.1080/01621459.2016.1241178</a>.
+</div>
+<div id="ref-bond2012social" class="csl-entry" role="listitem">
+Bond, Robert M., Christopher J. Fariss, Jason J. Jones, Adam D. I. Kramer, Cameron Marlow, Jaime E. Settle, and James H. Fowler. 2012. <span>“A 61-Million-Person Experiment in Social Influence and Political Mobilization.”</span> <em>Nature</em> 489: 295–98. <a href="https://doi.org/10.1038/nature11421">https://doi.org/10.1038/nature11421</a>.
+</div>
+<div id="ref-brennan2025symbiosis" class="csl-entry" role="listitem">
+Brennan, Jennifer, Yahu Cong, Yiwei Yu, Lina Lin, Yajun Peng, Changping Meng, Ningren Han, Jean Pouget-Abadie, and David M. Holtz. 2025. <span>“Reducing Symbiosis Bias Through Better <span>A/B</span> Tests of Recommendation Algorithms.”</span> In <em>Proceedings of the ACM Web Conference 2025</em>, 3702–15. <a href="https://doi.org/10.1145/3696410.3714738">https://doi.org/10.1145/3696410.3714738</a>.
+</div>
+<div id="ref-candogan2024" class="csl-entry" role="listitem">
+Candogan, Ozan, Chen Chen, and Rad Niazadeh. 2024. <span>“Correlated Cluster-Based Randomized Experiments: Robust Variance Minimization.”</span> <em>Management Science</em> 70 (6): 4069–86. <a href="https://doi.org/10.1287/mnsc.2021.02741">https://doi.org/10.1287/mnsc.2021.02741</a>.
+</div>
+<div id="ref-chang2023geographic" class="csl-entry" role="listitem">
+Chang, Serina, Damir Vrabac, Jure Leskovec, and Johan Ugander. 2023. <span>“Estimating Geographic Spillover Effects of <span>COVID-19</span> Policies from Large-Scale Mobility Networks.”</span> <em>Proceedings of the AAAI Conference on Artificial Intelligence</em> 37 (12): 14161–69. <a href="https://doi.org/10.1609/aaai.v37i12.26657">https://doi.org/10.1609/aaai.v37i12.26657</a>.
+</div>
+<div id="ref-ecklesKarrerUgander2017" class="csl-entry" role="listitem">
+Eckles, Dean, Brian Karrer, and Johan Ugander. 2017. <span>“Design and Analysis of Experiments in Networks: Reducing Bias from Interference.”</span> <em>Journal of Causal Inference</em> 5 (1): 20150021. <a href="https://doi.org/10.1515/jci-2015-0021">https://doi.org/10.1515/jci-2015-0021</a>.
+</div>
+<div id="ref-han2023increasing" class="csl-entry" role="listitem">
+Han, Kevin, Shuangning Li, Jialiang Mao, and Han Wu. 2023. <span>“Detecting Interference in <span>A/B</span> Testing with Increasing Allocation.”</span> <a href="https://arxiv.org/abs/2211.03262v2">https://arxiv.org/abs/2211.03262v2</a>.
+</div>
+<div id="ref-holtz2024marketplace" class="csl-entry" role="listitem">
+Holtz, David, Felipe Lobel, Ruben Lobel, Inessa Liskovich, and Sinan Aral. 2024. <span>“Reducing Interference Bias in Online Marketplace Experiments Using Cluster Randomization: Evidence from a Pricing Meta-Experiment on <span>Airbnb</span>.”</span> <em>Management Science</em>. <a href="https://doi.org/10.1287/mnsc.2020.01157">https://doi.org/10.1287/mnsc.2020.01157</a>.
+</div>
+<div id="ref-hudgensHalloran2008" class="csl-entry" role="listitem">
+Hudgens, Michael G., and M. Elizabeth Halloran. 2008. <span>“Toward Causal Inference with Interference.”</span> <em>Journal of the American Statistical Association</em> 103 (482): 832–42. <a href="https://doi.org/10.1198/016214508000000292">https://doi.org/10.1198/016214508000000292</a>.
+</div>
+<div id="ref-kandiros2026conflict" class="csl-entry" role="listitem">
+Kandiros, Vardis, Charilaos Pipis, Constantinos Daskalakis, and Christopher Harshaw. 2026. <span>“The Conflict Graph Design: Estimating Causal Effects Under Arbitrary Neighborhood Interference.”</span> <a href="https://arxiv.org/abs/2411.10908v3">https://arxiv.org/abs/2411.10908v3</a>.
+</div>
+<div id="ref-karrer2021scale" class="csl-entry" role="listitem">
+Karrer, Brian, Liang Shi, Monica Bhole, Matt Goldman, Tyrone Palmer, Charlie Gelman, Mikael Konutgan, and Feng Sun. 2021. <span>“Network Experimentation at Scale.”</span> In <em>Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery and Data Mining</em>, 3106–16. <a href="https://doi.org/10.1145/3447548.3467091">https://doi.org/10.1145/3447548.3467091</a>.
+</div>
+<div id="ref-saveski2017network" class="csl-entry" role="listitem">
+Saveski, Martin, Jean Pouget-Abadie, Guillaume Saint-Jacques, Weitao Duan, Souvik Ghosh, Ya Xu, and Edoardo M. Airoldi. 2017. <span>“Detecting Network Effects: Randomizing over Randomized Experiments.”</span> In <em>Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>. <a href="https://www.kdd.org/kdd2017/papers/view/detecting-network-effects-randomizing-over-randomized-experiments">https://www.kdd.org/kdd2017/papers/view/detecting-network-effects-randomizing-over-randomized-experiments</a>.
+</div>
+<div id="ref-ugander2013gcr" class="csl-entry" role="listitem">
+Ugander, Johan, Brian Karrer, Lars Backstrom, and Jon Kleinberg. 2013. <span>“Graph Cluster Randomization: Network Exposure to Multiple Universes.”</span> In <em>Proceedings of the 19th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>. <a href="https://doi.org/10.1145/2487575.2487695">https://doi.org/10.1145/2487575.2487695</a>.
+</div>
+<div id="ref-uganderYin2023rgcr" class="csl-entry" role="listitem">
+Ugander, Johan, and Hao Yin. 2023. <span>“Randomized Graph Cluster Randomization.”</span> <em>Journal of Causal Inference</em> 11 (1): 20220014. <a href="https://doi.org/10.1515/jci-2022-0014">https://doi.org/10.1515/jci-2022-0014</a>.
+</div>
+<div id="ref-viviano2026clustering" class="csl-entry" role="listitem">
+Viviano, Davide, Lihua Lei, Guido Imbens, Brian Karrer, Okke Schrijvers, and Liang Shi. 2026. <span>“Causal Clustering: Design of Cluster Experiments Under Network Interference.”</span> <a href="https://arxiv.org/abs/2310.14983v4">https://arxiv.org/abs/2310.14983v4</a>.
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

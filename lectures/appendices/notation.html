@@ -401,6 +401,7 @@ window.Quarto = {
   <li><a href="#assignment-and-sampling-probabilities" id="toc-assignment-and-sampling-probabilities" class="nav-link" data-scroll-target="#assignment-and-sampling-probabilities">Assignment and sampling probabilities</a></li>
   <li><a href="#finite-population-and-superpopulation-operators" id="toc-finite-population-and-superpopulation-operators" class="nav-link" data-scroll-target="#finite-population-and-superpopulation-operators">Finite-population and superpopulation operators</a></li>
   <li><a href="#networks-and-interference" id="toc-networks-and-interference" class="nav-link" data-scroll-target="#networks-and-interference">Networks and interference</a></li>
+  <li><a href="#stochastic-policy-evaluation" id="toc-stochastic-policy-evaluation" class="nav-link" data-scroll-target="#stochastic-policy-evaluation">Stochastic policy evaluation</a></li>
   <li><a href="#panel-data-and-matrices" id="toc-panel-data-and-matrices" class="nav-link" data-scroll-target="#panel-data-and-matrices">Panel data and matrices</a></li>
   <li><a href="#probability-convergence-and-norms" id="toc-probability-convergence-and-norms" class="nav-link" data-scroll-target="#probability-convergence-and-norms">Probability, convergence, and norms</a></li>
   </ul></li>
@@ -502,11 +503,37 @@ window.Quarto = {
 </section>
 <section id="networks-and-interference" class="level2">
 <h2 class="anchored" data-anchor-id="networks-and-interference">Networks and interference</h2>
-<!-- Placeholder. -->
+<ul>
+<li>Under interference, <span class="math inline">\(Y_i(\mathbf z)\)</span> is unit <span class="math inline">\(i\)</span>’s potential outcome under the full assignment vector <span class="math inline">\(\mathbf z\in\{0,1\}^N\)</span>, and <span class="math inline">\(Y_i^{\mathrm{obs}}=Y_i(\mathbf Z)\)</span>. The two-outcome notation <span class="math inline">\(Y_i(z)\)</span> applies when other units’ assignments do not affect unit <span class="math inline">\(i\)</span>.</li>
+<li><span class="math inline">\(\mathcal N_i\)</span> is the known interference neighborhood of unit <span class="math inline">\(i\)</span>, including <span class="math inline">\(i\)</span> unless explicitly stated otherwise; <span class="math inline">\(d_i=|\mathcal N_i|\)</span>. For a directed interference network, <span class="math inline">\(j\in\mathcal N_i\)</span> means that treatment of <span class="math inline">\(j\)</span> may affect the outcome of <span class="math inline">\(i\)</span>.</li>
+<li><span class="math inline">\(\tau_{\mathrm G}=N^{-1}\sum_i\{Y_i(\mathbf 1_N)-Y_i(\mathbf 0_N)\}\)</span> is the global average treatment effect (GATE), also called the total treatment effect (TTE) in the interference literature. It is an average over units even when called a total effect.</li>
+<li><span class="math inline">\(E_i=f_i(\mathbf Z)\)</span> is the exposure induced by a prespecified mapping. When the mapping is sufficient, <span class="math inline">\(y_i(e)\)</span> denotes the common potential outcome under assignments with exposure label <span class="math inline">\(e\)</span>. When used for exposure probabilities, <span class="math inline">\(\pi_i(e)=\mathbb P_Z(E_i=e)\)</span> and <span class="math inline">\(\pi_{ij}(e,e')=\mathbb P_Z(E_i=e,E_j=e')\)</span>; the argument denotes an exposure label rather than a unit’s own treatment state.</li>
+<li><span class="math inline">\(\mathcal C=\{C_1,\ldots,C_K\}\)</span> is a partition into clusters, <span class="math inline">\(c(i)\)</span> is the index of unit <span class="math inline">\(i\)</span>’s cluster, and <span class="math inline">\(W_k\)</span> is cluster <span class="math inline">\(k\)</span>’s treatment. Cluster-constant assignment means <span class="math inline">\(Z_i=W_{c(i)}\)</span>. <span class="math inline">\(k_i(\mathcal C)\)</span> counts the clusters intersecting <span class="math inline">\(\mathcal N_i\)</span>.</li>
+<li>A low-order outcome model has maximum interaction order <span class="math inline">\(\beta\)</span> and subset collection <span class="math inline">\(\mathcal S_i^\beta
+=\{S\subseteq\mathcal N_i:|S|\le\beta\}\)</span>, including the empty set. The feature vector <span class="math inline">\(\mathbf v_i(\mathbf z)\)</span> contains the monomials <span class="math inline">\(\prod_{j\in S}z_j\)</span> for these subsets, with the empty product equal to one.</li>
+<li><span class="math inline">\(\mathbf c_i\)</span> collects the coefficients in <span class="math inline">\(Y_i(\mathbf z)=\mathbf v_i(\mathbf z)^\top\mathbf c_i\)</span>. <span class="math inline">\(\mathbf a_i=\mathbf v_i(\mathbf 1_N)-\mathbf v_i(\mathbf 0_N)\)</span> selects unit <span class="math inline">\(i\)</span>’s contribution to the global contrast.</li>
+<li><span class="math inline">\(\mathbf M_i=\mathbb E_Z[
+\mathbf v_i(\mathbf Z)\mathbf v_i(\mathbf Z)^\top]\)</span> is the design second-moment matrix, and <span class="math inline">\(\mathbf M_i^\dagger\)</span> is its Moore–Penrose pseudoinverse. Define any fitted or empirical matrix separately.</li>
+</ul>
+</section>
+<section id="stochastic-policy-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="stochastic-policy-evaluation">Stochastic policy evaluation</h2>
+<ul>
+<li>In network seeding examples, <span class="math inline">\(M\)</span> is the number of villages or independent networks, indexed by <span class="math inline">\(g\)</span>. <span class="math inline">\(S_g\)</span> is the selected seed set, and <span class="math inline">\(Y_g(s)\)</span> is the village-level potential outcome under seed set <span class="math inline">\(s\)</span>.</li>
+<li><span class="math inline">\(p_g^a(s)\)</span> is the seed-set probability under target policy <span class="math inline">\(a\)</span>; <span class="math inline">\(q_g(s)\)</span> is its probability under the actual experimental design. <span class="math inline">\(\mathbb E_q\)</span> and <span class="math inline">\(\operatorname{Var}_q\)</span> hold the villages, graphs, and potential outcomes fixed and average over this design.</li>
+<li><span class="math inline">\(V_M(p)=M^{-1}\sum_g\sum_s p_g(s)Y_g(s)\)</span> is a policy’s value averaged over the fixed villages. <span class="math inline">\(\Delta_M(A,B)=V_M(p^A)-V_M(p^B)\)</span> is the policy-value contrast. State any alternative village or resident weights.</li>
+</ul>
 </section>
 <section id="panel-data-and-matrices" class="level2">
 <h2 class="anchored" data-anchor-id="panel-data-and-matrices">Panel data and matrices</h2>
-<!-- Placeholder. -->
+<ul>
+<li>Panel units are indexed by <span class="math inline">\(i=1,\ldots,N\)</span> and periods by <span class="math inline">\(t=1,\ldots,T\)</span>. <span class="math inline">\(Z_{it}\)</span> denotes treatment. The notation <span class="math inline">\(Y_{it}(z)\)</span> presumes that a contemporaneous treatment indicator adequately describes the intervention; introduce treatment-history notation when anticipation or carryover matters.</li>
+<li><span class="math inline">\(\mathcal O=\{(i,t):Z_{it}=0\}\)</span> is the set of observed untreated cells, and <span class="math inline">\(\mathcal T=\{(i,t):Z_{it}=1\}\)</span> is the treated set. The complete matrix of observed outcomes is not the matrix of untreated potential outcomes: entries of the latter are missing on <span class="math inline">\(\mathcal T\)</span>.</li>
+<li><span class="math inline">\(\tau_{\mathcal T}=|\mathcal T|^{-1}\sum_{(i,t)\in\mathcal T}
+\{Y_{it}(1)-Y_{it}(0)\}\)</span> averages effects over the specified treated cells.</li>
+<li><span class="math inline">\(M_{it}^0\)</span> is the systematic untreated outcome in <span class="math inline">\(Y_{it}(0)=M_{it}^0+\varepsilon_{it}\)</span>. In a factor model, <span class="math inline">\(M_{it}^0=\alpha_i+\delta_t+L_{it}\)</span> with <span class="math inline">\(\mathbf L=\mathbf U\mathbf F^\top\)</span> and <span class="math inline">\(L_{it}=\mathbf u_i^\top\mathbf f_t\)</span>. <span class="math inline">\(r\)</span> denotes the rank bound on <span class="math inline">\(\mathbf L\)</span>, not necessarily on the full mean matrix after adding fixed effects.</li>
+<li><span class="math inline">\(\|\mathbf L\|_*=\sum_j\sigma_j(\mathbf L)\)</span> is the nuclear norm, the sum of the singular values. Distinguish this penalty from a hard constraint on the number of nonzero singular values.</li>
+</ul>
 </section>
 <section id="probability-convergence-and-norms" class="level2">
 <h2 class="anchored" data-anchor-id="probability-convergence-and-norms">Probability, convergence, and norms</h2>

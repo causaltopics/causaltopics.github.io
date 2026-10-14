@@ -113,11 +113,77 @@ example in that lecture.
 
 ## Networks and interference
 
-<!-- Placeholder. -->
+- Under interference, $Y_i(\mathbf z)$ is unit $i$'s potential outcome under
+  the full assignment vector $\mathbf z\in\{0,1\}^N$, and
+  $Y_i^{\mathrm{obs}}=Y_i(\mathbf Z)$. The two-outcome notation $Y_i(z)$
+  applies when other units' assignments do not affect unit $i$.
+- $\mathcal N_i$ is the known interference neighborhood of unit $i$,
+  including $i$ unless explicitly stated otherwise; $d_i=|\mathcal N_i|$.
+  For a directed interference network, $j\in\mathcal N_i$ means that
+  treatment of $j$ may affect the outcome of $i$.
+- $\tau_{\mathrm G}=N^{-1}\sum_i\{Y_i(\mathbf 1_N)-Y_i(\mathbf 0_N)\}$
+  is the global average treatment effect (GATE), also called the total
+  treatment effect (TTE) in the interference literature. It is an average
+  over units even when called a total effect.
+- $E_i=f_i(\mathbf Z)$ is the exposure induced by a prespecified mapping.
+  When the mapping is sufficient, $y_i(e)$ denotes the common potential
+  outcome under assignments with exposure label $e$.
+  When used for exposure probabilities, $\pi_i(e)=\mathbb P_Z(E_i=e)$ and
+  $\pi_{ij}(e,e')=\mathbb P_Z(E_i=e,E_j=e')$; the argument denotes an
+  exposure label rather than a unit's own treatment state.
+- $\mathcal C=\{C_1,\ldots,C_K\}$ is a partition into clusters, $c(i)$ is
+  the index of unit $i$'s cluster, and $W_k$ is cluster $k$'s treatment.
+  Cluster-constant assignment means $Z_i=W_{c(i)}$.
+  $k_i(\mathcal C)$ counts the clusters intersecting $\mathcal N_i$.
+- A low-order outcome model has maximum interaction order $\beta$ and
+  subset collection $\mathcal S_i^\beta
+  =\{S\subseteq\mathcal N_i:|S|\le\beta\}$, including the empty set.
+  The feature vector $\mathbf v_i(\mathbf z)$ contains the monomials
+  $\prod_{j\in S}z_j$ for these subsets, with the empty product equal to one.
+- $\mathbf c_i$ collects the coefficients in
+  $Y_i(\mathbf z)=\mathbf v_i(\mathbf z)^\top\mathbf c_i$.
+  $\mathbf a_i=\mathbf v_i(\mathbf 1_N)-\mathbf v_i(\mathbf 0_N)$
+  selects unit $i$'s contribution to the global contrast.
+- $\mathbf M_i=\mathbb E_Z[
+  \mathbf v_i(\mathbf Z)\mathbf v_i(\mathbf Z)^\top]$ is the design
+  second-moment matrix, and $\mathbf M_i^\dagger$ is its Moore--Penrose
+  pseudoinverse. Define any fitted or empirical matrix separately.
+
+## Stochastic policy evaluation
+
+- In network seeding examples, $M$ is the number of villages or independent
+  networks, indexed by $g$. $S_g$ is the selected seed set, and $Y_g(s)$ is
+  the village-level potential outcome under seed set $s$.
+- $p_g^a(s)$ is the seed-set probability under target policy $a$;
+  $q_g(s)$ is its probability under the actual experimental design.
+  $\mathbb E_q$ and $\operatorname{Var}_q$ hold the villages, graphs, and
+  potential outcomes fixed and average over this design.
+- $V_M(p)=M^{-1}\sum_g\sum_s p_g(s)Y_g(s)$ is a policy's value averaged
+  over the fixed villages. $\Delta_M(A,B)=V_M(p^A)-V_M(p^B)$ is the
+  policy-value contrast. State any alternative village or resident weights.
 
 ## Panel data and matrices
 
-<!-- Placeholder. -->
+- Panel units are indexed by $i=1,\ldots,N$ and periods by $t=1,\ldots,T$.
+  $Z_{it}$ denotes treatment. The notation $Y_{it}(z)$ presumes that a
+  contemporaneous treatment indicator adequately describes the intervention;
+  introduce treatment-history notation when anticipation or carryover matters.
+- $\mathcal O=\{(i,t):Z_{it}=0\}$ is the set of observed untreated cells,
+  and $\mathcal T=\{(i,t):Z_{it}=1\}$ is the treated set. The complete
+  matrix of observed outcomes is not the matrix of untreated potential
+  outcomes: entries of the latter are missing on $\mathcal T$.
+- $\tau_{\mathcal T}=|\mathcal T|^{-1}\sum_{(i,t)\in\mathcal T}
+  \{Y_{it}(1)-Y_{it}(0)\}$ averages effects over the specified treated cells.
+- $M_{it}^0$ is the systematic untreated outcome in
+  $Y_{it}(0)=M_{it}^0+\varepsilon_{it}$. In a factor model,
+  $M_{it}^0=\alpha_i+\delta_t+L_{it}$ with
+  $\mathbf L=\mathbf U\mathbf F^\top$ and
+  $L_{it}=\mathbf u_i^\top\mathbf f_t$.
+  $r$ denotes the rank bound on $\mathbf L$, not necessarily on the full
+  mean matrix after adding fixed effects.
+- $\|\mathbf L\|_*=\sum_j\sigma_j(\mathbf L)$ is the nuclear norm,
+  the sum of the singular values. Distinguish this penalty from a hard
+  constraint on the number of nonzero singular values.
 
 ## Probability, convergence, and norms
 

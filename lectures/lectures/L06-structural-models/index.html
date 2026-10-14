@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -75,6 +95,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -359,8 +408,57 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-about-a-rollout-before-everyone-is-treated" id="toc-learning-about-a-rollout-before-everyone-is-treated" class="nav-link active" data-scroll-target="#learning-about-a-rollout-before-everyone-is-treated">Learning about a rollout before everyone is treated</a></li>
+  <li><a href="#a-model-of-interactions-rather-than-a-model-of-identical-units" id="toc-a-model-of-interactions-rather-than-a-model-of-identical-units" class="nav-link" data-scroll-target="#a-model-of-interactions-rather-than-a-model-of-identical-units">A model of interactions, rather than a model of identical units</a>
+  <ul class="collapse">
+  <li><a href="#setup-and-target" id="toc-setup-and-target" class="nav-link" data-scroll-target="#setup-and-target">Setup and target</a></li>
+  <li><a href="#every-binary-response-surface-has-a-polynomial-representation" id="toc-every-binary-response-surface-has-a-polynomial-representation" class="nav-link" data-scroll-target="#every-binary-response-surface-has-a-polynomial-representation">Every binary response surface has a polynomial representation</a></li>
+  <li><a href="#low-order-is-the-substantive-restriction" id="toc-low-order-is-the-substantive-restriction" class="nav-link" data-scroll-target="#low-order-is-the-substantive-restriction">Low order is the substantive restriction</a></li>
+  <li><a href="#the-global-effect-is-a-sum-of-coefficients" id="toc-the-global-effect-is-a-sum-of-coefficients" class="nav-link" data-scroll-target="#the-global-effect-is-a-sum-of-coefficients">The global effect is a sum of coefficients</a></li>
+  </ul></li>
+  <li><a href="#start-with-additive-spillovers" id="toc-start-with-additive-spillovers" class="nav-link" data-scroll-target="#start-with-additive-spillovers">Start with additive spillovers</a>
+  <ul class="collapse">
+  <li><a href="#randomization-isolates-a-neighbors-contribution" id="toc-randomization-isolates-a-neighbors-contribution" class="nav-link" data-scroll-target="#randomization-isolates-a-neighbors-contribution">Randomization isolates a neighbor’s contribution</a></li>
+  <li><a href="#an-explicit-four-assignment-calculation" id="toc-an-explicit-four-assignment-calculation" class="nav-link" data-scroll-target="#an-explicit-four-assignment-calculation">An explicit four-assignment calculation</a></li>
+  </ul></li>
+  <li><a href="#from-coefficient-estimation-to-the-pseudoinverse" id="toc-from-coefficient-estimation-to-the-pseudoinverse" class="nav-link" data-scroll-target="#from-coefficient-estimation-to-the-pseudoinverse">From coefficient estimation to the pseudoinverse</a>
+  <ul class="collapse">
+  <li><a href="#the-known-design-replaces-a-missing-regression-sample" id="toc-the-known-design-replaces-a-missing-regression-sample" class="nav-link" data-scroll-target="#the-known-design-replaces-a-missing-regression-sample">The known design replaces a missing regression sample</a></li>
+  <li><a href="#what-singularity-means" id="toc-what-singularity-means" class="nav-link" data-scroll-target="#what-singularity-means">What singularity means</a></li>
+  <li><a href="#the-geometry-behind-the-weights" id="toc-the-geometry-behind-the-weights" class="nav-link" data-scroll-target="#the-geometry-behind-the-weights">The geometry behind the weights</a></li>
+  </ul></li>
+  <li><a href="#higher-order-interactions-under-independent-assignment" id="toc-higher-order-interactions-under-independent-assignment" class="nav-link" data-scroll-target="#higher-order-interactions-under-independent-assignment">Higher-order interactions under independent assignment</a>
+  <ul class="collapse">
+  <li><a href="#centering-provides-an-orthogonal-basis" id="toc-centering-provides-an-orthogonal-basis" class="nav-link" data-scroll-target="#centering-provides-an-orthogonal-basis">Centering provides an orthogonal basis</a></li>
+  <li><a href="#a-pair-interaction-and-a-revealing-cancellation" id="toc-a-pair-interaction-and-a-revealing-cancellation" class="nav-link" data-scroll-target="#a-pair-interaction-and-a-revealing-cancellation">A pair interaction and a revealing cancellation</a></li>
+  </ul></li>
+  <li><a href="#precision-requires-information-about-shared-assignments" id="toc-precision-requires-information-about-shared-assignments" class="nav-link" data-scroll-target="#precision-requires-information-about-shared-assignments">Precision requires information about shared assignments</a>
+  <ul class="collapse">
+  <li><a href="#interaction-order-controls-a-local-difficulty" id="toc-interaction-order-controls-a-local-difficulty" class="nav-link" data-scroll-target="#interaction-order-controls-a-local-difficulty">Interaction order controls a local difficulty</a></li>
+  <li><a href="#shared-neighbors-generate-covariance" id="toc-shared-neighbors-generate-covariance" class="nav-link" data-scroll-target="#shared-neighbors-generate-covariance">Shared neighbors generate covariance</a></li>
+  <li><a href="#inference-is-a-further-problem" id="toc-inference-is-a-further-problem" class="nav-link" data-scroll-target="#inference-is-a-further-problem">Inference is a further problem</a></li>
+  </ul></li>
+  <li><a href="#changing-the-design-while-retaining-the-model" id="toc-changing-the-design-while-retaining-the-model" class="nav-link" data-scroll-target="#changing-the-design-while-retaining-the-model">Changing the design while retaining the model</a></li>
+  <li><a href="#covariate-adjustment-should-target-the-estimators-variance" id="toc-covariate-adjustment-should-target-the-estimators-variance" class="nav-link" data-scroll-target="#covariate-adjustment-should-target-the-estimators-variance">Covariate adjustment should target the estimator’s variance</a></li>
+  <li><a href="#other-structural-information-monotone-interference" id="toc-other-structural-information-monotone-interference" class="nav-link" data-scroll-target="#other-structural-information-monotone-interference">Other structural information: monotone interference</a>
+  <ul class="collapse">
+  <li><a href="#restricting-directions-instead-of-interaction-order" id="toc-restricting-directions-instead-of-interaction-order" class="nav-link" data-scroll-target="#restricting-directions-instead-of-interaction-order">Restricting directions instead of interaction order</a></li>
+  <li><a href="#what-monotonicity-can-provide" id="toc-what-monotonicity-can-provide" class="nav-link" data-scroll-target="#what-monotonicity-can-provide">What monotonicity can provide</a></li>
+  </ul></li>
+  <li><a href="#advanced-material-model-error-and-the-cost-of-extrapolation" id="toc-advanced-material-model-error-and-the-cost-of-extrapolation" class="nav-link" data-scroll-target="#advanced-material-model-error-and-the-cost-of-extrapolation">Advanced material: model error and the cost of extrapolation</a>
+  <ul class="collapse">
+  <li><a href="#an-exact-bias-decomposition" id="toc-an-exact-bias-decomposition" class="nav-link" data-scroll-target="#an-exact-bias-decomposition">An exact bias decomposition</a></li>
+  <li><a href="#choosing-an-order-and-extending-the-experiment" id="toc-choosing-an-order-and-extending-the-experiment" class="nav-link" data-scroll-target="#choosing-an-order-and-extending-the-experiment">Choosing an order and extending the experiment</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -369,7 +467,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-title">L06: Estimation with Structural Models</span></h1>
-<p class="subtitle lead">Low-order structure, monotonicity, and submodularity under interference</p>
+<p class="subtitle lead">Learning a global treatment effect from low-order interactions</p>
 </div>
 
 
@@ -395,23 +493,495 @@ ul.task-list li input[type="checkbox"] {
 <div class="lecture-provenance">
 <p><strong>Lecture brief:</strong> <a href="brief.html">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
 </div>
-<p><strong>Download:</strong> <a href="../../pdf/lectures/L06-structural-models.pdf">Lecture PDF</a></p>
-<!-- GENERATION: PENDING -->
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled" title="Lecture outline">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Lecture outline
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Lecture notes for this session have not yet been generated.</p>
+<ul>
+<li>Use a restriction on how treatments interact to learn about a full rollout from a partially treated network.</li>
+<li>Derive an estimator first for additive spillovers, then for low-order interactions, using the experiment’s known assignment probabilities.</li>
+<li>Connect this construction to least squares and explain which treatment contrasts the design can recover.</li>
+<li>Examine precision, model error, clustered designs, and covariate adjustment.</li>
+<li>Contrast low-order assumptions with monotonicity, which restricts the direction of spillovers rather than their interaction order.</li>
+</ul>
+</div>
+</div>
+<p><strong>Download:</strong> <a href="../../pdf/lectures/L06-structural-models.pdf">Lecture PDF</a></p>
+<section id="learning-about-a-rollout-before-everyone-is-treated" class="level2">
+<h2 class="anchored" data-anchor-id="learning-about-a-rollout-before-everyone-is-treated">Learning about a rollout before everyone is treated</h2>
+<p>Suppose a platform is testing a feature that makes it easier for users to send messages. A user’s activity may increase because they receive the feature, because their friends receive it, or because a particular combination of friends receives it. The policy question concerns a full rollout: how would average activity change if everyone received the feature? The experiment, however, treats only a random subset of users.</p>
+<p>L05 approached this problem by describing which assignments give a unit the same outcome as the all-treated or all-control assignment. Under neighborhood interference, observing every member of a unit’s neighborhood in treatment provides its all-treated outcome. With independent treatment probability <span class="math inline">\(p\)</span>, this happens with probability <span class="math inline">\(p^{d_i}\)</span>, where <span class="math inline">\(d_i\)</span> is the number of units in that neighborhood. These observations can be scarce even when each unit has a reasonable chance of treatment.</p>
+<p>There is another source of information. If each friend’s contribution is additive, a neighborhood containing a mixture of treated and untreated users still reveals something about the full rollout. We need not wait until all friends receive treatment simultaneously to learn their combined contribution. If interactions occur only among pairs of friends, we need information about pairs, but not an unrestricted description of every possible neighborhood assignment.</p>
+<p>This lecture develops that idea through the low-order outcome framework of Cortez-Rodriguez, Eichhorn, and Yu <span class="citation" data-cites="cortezRodriguez2023">(<a href="../L04-positivity-partial-identification/index.html#ref-cortezRodriguez2023" role="doc-biblioref">2023</a>)</span>. Its central move is to restrict how many treatment indicators can interact in an outcome. That restriction makes a global treatment effect a linear function of a manageable collection of coefficients. The assignment design then supplies the equations needed to estimate that linear function.</p>
+<p>The reasoning remains design-based. The network, potential outcomes, and coefficients are fixed. Treatment assignment is random. A structural model is used to restrict the fixed potential-outcome schedule; it does not introduce random regression errors or a population of interchangeable units.</p>
+</section>
+<section id="a-model-of-interactions-rather-than-a-model-of-identical-units" class="level2">
+<h2 class="anchored" data-anchor-id="a-model-of-interactions-rather-than-a-model-of-identical-units">A model of interactions, rather than a model of identical units</h2>
+<section id="setup-and-target" class="level3">
+<h3 class="anchored" data-anchor-id="setup-and-target">Setup and target</h3>
+<p>There are <span class="math inline">\(N\)</span> experimental units. Write <span class="math inline">\(\mathbf z=(z_1,\ldots,z_N)\in\{0,1\}^N\)</span> for a possible assignment and <span class="math inline">\(\mathbf Z\)</span> for the random assignment. Unit <span class="math inline">\(i\)</span> has potential outcome <span class="math inline">\(Y_i(\mathbf z)\)</span> and observed outcome <span class="math inline">\(Y_i^{\mathrm{obs}}=Y_i(\mathbf Z)\)</span>.</p>
+<p>Let <span class="math inline">\(\mathcal N_i\)</span> be the known set of units whose assignments can affect unit <span class="math inline">\(i\)</span>’s outcome, including <span class="math inline">\(i\)</span> itself. We call it a closed interference neighborhood and set <span class="math inline">\(d_i=|\mathcal N_i|\)</span>. For a directed network, membership <span class="math inline">\(j\in\mathcal N_i\)</span> means that <span class="math inline">\(j\)</span> can influence <span class="math inline">\(i\)</span>; the reverse need not hold. Neighborhood interference means that assignments outside <span class="math inline">\(\mathcal N_i\)</span> do not affect <span class="math inline">\(Y_i\)</span>. A neighborhood may be a conservative superset of the actual influencing units. Missing an influencing unit is a different matter: that can invalidate the model.</p>
+<p>The target is the <strong>global average treatment effect</strong> (GATE), also called the total treatment effect (TTE):</p>
+<p><span id="eq-l06-gate"><span class="math display">\[
+\tau_{\mathrm G}=\frac1N\sum_{i=1}^N
+\{Y_i(\mathbf 1_N)-Y_i(\mathbf 0_N)\}.
+\tag{1}\]</span></span></p>
+<p>Here <span class="math inline">\(\mathbf 1_N\)</span> and <span class="math inline">\(\mathbf 0_N\)</span> assign everyone to treatment and control, respectively. This effect combines direct and spillover effects. It does not hold neighbors’ treatments fixed while changing only a unit’s own treatment.</p>
+<p>Initially, assignments are independent, with <span class="math inline">\(Z_j\sim\operatorname{Bernoulli}(\pi_j)\)</span> and known <span class="math inline">\(0&lt;\pi_j&lt;1\)</span>. We use <span class="math inline">\(\mathbb E_Z\)</span> and <span class="math inline">\(\operatorname{Var}_Z\)</span> for expectation and variance under this design, keeping the entire potential-outcome schedule fixed. Common-probability assignment is the special case <span class="math inline">\(\pi_j=p\)</span>.</p>
+</section>
+<section id="every-binary-response-surface-has-a-polynomial-representation" class="level3">
+<h3 class="anchored" data-anchor-id="every-binary-response-surface-has-a-polynomial-representation">Every binary response surface has a polynomial representation</h3>
+<p>For a two-person neighborhood <span class="math inline">\(\mathcal N_i=\{j,k\}\)</span>, where one of <span class="math inline">\(j,k\)</span> is <span class="math inline">\(i\)</span> itself, the outcome has four possible values. They can always be written as</p>
+<p><span id="eq-l06-two-person-polynomial"><span class="math display">\[
+Y_i(z_j,z_k)
+=c_{i,\varnothing}+c_{i,\{j\}}z_j
++c_{i,\{k\}}z_k+c_{i,\{j,k\}}z_jz_k.
+\tag{2}\]</span></span></p>
+<p>The intercept is the outcome when neither person is treated. The first-order coefficient <span class="math inline">\(c_{i,\{j\}}\)</span> is the effect of treating <span class="math inline">\(j\)</span> when <span class="math inline">\(k\)</span> is untreated. The pair coefficient is the additional effect of treating both people beyond the sum of their effects when treated separately. Explicitly,</p>
+<p><span class="math display">\[
+\begin{aligned}
+c_{i,\varnothing}&amp;=Y_i(0,0),\\
+c_{i,\{j\}}&amp;=Y_i(1,0)-Y_i(0,0),\\
+c_{i,\{k\}}&amp;=Y_i(0,1)-Y_i(0,0),\\
+c_{i,\{j,k\}}&amp;=Y_i(1,1)-Y_i(1,0)-Y_i(0,1)+Y_i(0,0).
+\end{aligned}
+\]</span></p>
+<p>The interaction coefficient is a difference in the effect of <span class="math inline">\(j\)</span> between the two treatment states of <span class="math inline">\(k\)</span>. It can be positive, negative, or zero. Thus a polynomial here is not an approximation to a smooth curve on a continuous domain. With binary inputs, it is an exact way to organize the entries of the science table.</p>
+<p>More generally, every function on a binary neighborhood has a unique multilinear representation</p>
+<p><span id="eq-l06-full-polynomial"><span class="math display">\[
+Y_i(\mathbf z)
+=\sum_{S\subseteq\mathcal N_i}c_{i,S}\prod_{j\in S}z_j.
+\tag{3}\]</span></span></p>
+<p>The product over the empty set is defined to equal one. Multilinear means that no indicator appears with a power greater than one: for binary treatment, <span class="math inline">\(z_j^2=z_j\)</span>, so higher powers add no information. There are <span class="math inline">\(2^{d_i}\)</span> coefficients, matching the number of possible local assignments. The representation itself therefore imposes no restriction beyond neighborhood interference.</p>
+<p>To see uniqueness, evaluate the function at the assignment treating exactly the members of some subset <span class="math inline">\(T\subseteq\mathcal N_i\)</span>. Its value is <span class="math inline">\(\sum_{S\subseteq T}c_{i,S}\)</span>. Starting with <span class="math inline">\(T=\varnothing\)</span>, then the singletons, pairs, and successively larger sets, each new equation identifies one new coefficient after subtracting the coefficients already determined.</p>
+</section>
+<section id="low-order-is-the-substantive-restriction" class="level3">
+<h3 class="anchored" data-anchor-id="low-order-is-the-substantive-restriction">Low order is the substantive restriction</h3>
+<p>The <strong>order-<span class="math inline">\(\beta\)</span> model</strong> imposes</p>
+<p><span id="eq-l06-low-order-assumption"><span class="math display">\[
+c_{i,S}=0\quad\text{whenever }|S|&gt;\beta.
+\tag{4}\]</span></span></p>
+<p>Define <span class="math inline">\(\mathcal S_i^\beta=\{S\subseteq\mathcal N_i:|S|\leq\beta\}\)</span>, including the empty set. The model becomes</p>
+<p><span id="eq-l06-low-order-model"><span class="math display">\[
+Y_i(\mathbf z)
+=\sum_{S\in\mathcal S_i^\beta}c_{i,S}\prod_{j\in S}z_j.
+\tag{5}\]</span></span></p>
+<p>For <span class="math inline">\(\beta=1\)</span>, all influences are additive. A unit can have many influencing neighbors, and their effects can all differ. For <span class="math inline">\(\beta=2\)</span>, any pair of assignments can interact, but the contribution of that pair cannot depend on a third assignment. Neither specification requires common coefficients across units. The effect of <span class="math inline">\(j\)</span> on <span class="math inline">\(i\)</span> may differ from its effect on <span class="math inline">\(k\)</span>, and direct effects may differ throughout the network.</p>
+<p>Low order consequently differs from low degree in the network. A user with hundreds of friends can satisfy an additive model. Conversely, an outcome that changes only when all three members of a small neighborhood receive treatment requires a third-order term. It also differs from assuming that only the fraction of treated neighbors matters: the polynomial allows different friends to matter differently.</p>
+<p>The number of retained coefficients for unit <span class="math inline">\(i\)</span> is <span class="math inline">\(K_i=\sum_{r=0}^{\min(\beta,d_i)}\binom{d_i}{r}\)</span>. For fixed small <span class="math inline">\(\beta\)</span>, this grows polynomially with neighborhood size, rather than as <span class="math inline">\(2^{d_i}\)</span>. But choosing a small order is a scientific assumption, not merely a way to reduce computation. A threshold or saturation response need not have small degree just because its verbal description is simple.</p>
+</section>
+<section id="the-global-effect-is-a-sum-of-coefficients" class="level3">
+<h3 class="anchored" data-anchor-id="the-global-effect-is-a-sum-of-coefficients">The global effect is a sum of coefficients</h3>
+<p>At the all-treated assignment, every product in <a href="#eq-l06-low-order-model" class="quarto-xref">Equation&nbsp;<span>5</span></a> equals one. At the all-control assignment, only the empty-set term remains. Therefore,</p>
+<p><span id="eq-l06-gate-coefficients"><span class="math display">\[
+Y_i(\mathbf 1_N)-Y_i(\mathbf 0_N)
+=\sum_{\substack{S\in\mathcal S_i^\beta\\S\ne\varnothing}}c_{i,S},
+\qquad
+\tau_{\mathrm G}=\frac1N\sum_i\sum_{\substack{S\in\mathcal S_i^\beta\\S\ne\varnothing}}c_{i,S}.
+\tag{6}\]</span></span></p>
+<p>The intercept cancels, but every nonempty interaction enters the global contrast. We have converted the causal target into a linear function of the coefficients. We next ask whether the experiment can estimate that function without learning each response surface accurately.</p>
+</section>
+</section>
+<section id="start-with-additive-spillovers" class="level2">
+<h2 class="anchored" data-anchor-id="start-with-additive-spillovers">Start with additive spillovers</h2>
+<section id="randomization-isolates-a-neighbors-contribution" class="level3">
+<h3 class="anchored" data-anchor-id="randomization-isolates-a-neighbors-contribution">Randomization isolates a neighbor’s contribution</h3>
+<p>Under <span class="math inline">\(\beta=1\)</span>, write the response as</p>
+<p><span class="math display">\[
+Y_i(\mathbf Z)=c_{i,\varnothing}
++\sum_{k\in\mathcal N_i}c_{i,\{k\}}Z_k.
+\]</span></p>
+<p>To learn the contribution of a particular neighbor <span class="math inline">\(j\)</span>, multiply the observed outcome by the centered treatment indicator <span class="math inline">\(Z_j-\pi_j\)</span>. Independence makes this indicator uncorrelated with the intercept and with every other neighbor’s assignment. The one surviving term is</p>
+<p><span id="eq-l06-isolate-additive"><span class="math display">\[
+\begin{aligned}
+\mathbb E_Z[Y_i^{\mathrm{obs}}(Z_j-\pi_j)]
+&amp;=c_{i,\varnothing}\mathbb E_Z[Z_j-\pi_j]
++\sum_{k\in\mathcal N_i}c_{i,\{k\}}
+  \mathbb E_Z[Z_k(Z_j-\pi_j)]\\
+&amp;=c_{i,\{j\}}\pi_j(1-\pi_j).
+\end{aligned}
+\tag{7}\]</span></span></p>
+<p>Dividing by the treatment variance gives an unbiased estimator of <span class="math inline">\(c_{i,\{j\}}\)</span>. Summing these estimates over <span class="math inline">\(j\)</span> and then averaging over outcome units yields</p>
+<p><span id="eq-l06-snipe-one"><span class="math display">\[
+\widehat\tau_{\mathrm{SNIPE}(1)}
+=\frac1N\sum_iY_i^{\mathrm{obs}}
+\sum_{j\in\mathcal N_i}\frac{Z_j-\pi_j}{\pi_j(1-\pi_j)}.
+\tag{8}\]</span></span></p>
+<p>SNIPE stands for Structured Neighborhood Interference Polynomial Estimator <span class="citation" data-cites="cortezRodriguez2023">(<a href="../L04-positivity-partial-identification/index.html#ref-cortezRodriguez2023" role="doc-biblioref">Cortez-Rodriguez, Eichhorn, and Yu 2023</a>)</span>. Each outcome receives a weight determined by the assignments of all units that can influence it. For additive interference, the weight accumulates the evidence supplied by each neighbor’s randomized assignment.</p>
+<p>This expression has the familiar Horvitz–Thompson estimator as a special case. If <span class="math inline">\(\mathcal N_i=\{i\}\)</span>, then</p>
+<p><span class="math display">\[
+\frac{Z_i-\pi_i}{\pi_i(1-\pi_i)}
+=\frac{Z_i}{\pi_i}-\frac{1-Z_i}{1-\pi_i}.
+\]</span></p>
+<p>Under interference, observing <span class="math inline">\(Y_i\)</span> gives information about effects associated with several assignments, not just <span class="math inline">\(Z_i\)</span>. The extra terms use that information under the additive restriction.</p>
+</section>
+<section id="an-explicit-four-assignment-calculation" class="level3">
+<h3 class="anchored" data-anchor-id="an-explicit-four-assignment-calculation">An explicit four-assignment calculation</h3>
+<p>Consider one outcome with neighborhood <span class="math inline">\(\{1,2\}\)</span> and response <span class="math inline">\(Y_i(z_1,z_2)=10+2z_1+3z_2\)</span>. The global contrast for this unit is <span class="math inline">\(5\)</span>. Under independent fair coins, each of the four assignments occurs with probability <span class="math inline">\(1/4\)</span>. Let <span class="math inline">\(\ell_i\)</span> denote the inner sum of weights in <a href="#eq-l06-snipe-one" class="quarto-xref">Equation&nbsp;<span>8</span></a>. The contribution from this outcome is <span class="math inline">\(Y_i^{\mathrm{obs}}\ell_i\)</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\((Z_1,Z_2)\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Y_i^{\mathrm{obs}}\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\ell_i=4(Z_1-1/2)+4(Z_2-1/2)\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Y_i^{\mathrm{obs}}\ell_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((0,0)\)</span></td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;"><span class="math inline">\(-4\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-40\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((1,0)\)</span></td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((0,1)\)</span></td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((1,1)\)</span></td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;"><span class="math inline">\(4\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(60\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The average of the last column is <span class="math inline">\(5\)</span>. A single contribution can nevertheless be far from <span class="math inline">\(5\)</span>. Unbiasedness does not mean that one observed outcome estimates all of its coefficients precisely. Precision, if available, comes from averaging contributions across many units while controlling their dependence.</p>
+<p>The intercept of 10 contributes random noise although it cancels from the target. Subtracting a known baseline would leave the expectation unchanged and could improve precision. We return to this observation when introducing covariate adjustment.</p>
+<p>With two neighbors and fair coins, the mixed assignments happen to receive zero weight. This cancellation is special. With three neighbors and fair coins, the weight is <span class="math inline">\(4\sum_{j\in\mathcal N_i}Z_j-6\)</span>, which equals <span class="math inline">\(-2\)</span> or <span class="math inline">\(2\)</span> for mixed assignments containing one or two treated units. Those assignments directly contribute to the estimator.</p>
+</section>
+</section>
+<section id="from-coefficient-estimation-to-the-pseudoinverse" class="level2">
+<h2 class="anchored" data-anchor-id="from-coefficient-estimation-to-the-pseudoinverse">From coefficient estimation to the pseudoinverse</h2>
+<section id="the-known-design-replaces-a-missing-regression-sample" class="level3">
+<h3 class="anchored" data-anchor-id="the-known-design-replaces-a-missing-regression-sample">The known design replaces a missing regression sample</h3>
+<p>The additive calculation used independence to isolate one coefficient. A matrix formulation will handle interactions and more general designs with the same underlying logic.</p>
+<p>Choose an ordering of <span class="math inline">\(\mathcal S_i^\beta\)</span>, putting the empty set first. Let <span class="math inline">\(\mathbf v_i(\mathbf z)\)</span> be the <span class="math inline">\(K_i\)</span>-dimensional column vector whose entry indexed by <span class="math inline">\(S\)</span> is <span class="math inline">\(\prod_{j\in S}z_j\)</span>. Let <span class="math inline">\(\mathbf c_i\)</span> collect the coefficients in the same order. For example, with two neighbors and <span class="math inline">\(\beta=2\)</span>,</p>
+<p><span class="math display">\[
+\mathbf v_i(\mathbf z)=(1,z_1,z_2,z_1z_2)^\top,
+\qquad
+Y_i(\mathbf z)=\mathbf v_i(\mathbf z)^\top\mathbf c_i.
+\]</span></p>
+<p>The vector <span class="math inline">\(\mathbf a_i=\mathbf v_i(\mathbf 1_N)-\mathbf v_i(\mathbf 0_N)\)</span> has first entry zero and all remaining entries one. It specifies the desired coefficient sum: the unit’s global contrast is <span class="math inline">\(\mathbf a_i^\top\mathbf c_i\)</span>.</p>
+<p>Now imagine, only as a thought experiment, repeating the assignment many times for the same unit with its response function unchanged. With enough repeated assignments, ordinary least squares would regress the repeated outcomes on the corresponding feature vectors. The population normal equations would be</p>
+<p><span id="eq-l06-normal-equations"><span class="math display">\[
+\underbrace{\mathbb E_Z[
+\mathbf v_i(\mathbf Z)\mathbf v_i(\mathbf Z)^\top]}_{\mathbf M_i}
+\mathbf c_i
+=\mathbb E_Z[\mathbf v_i(\mathbf Z)Y_i^{\mathrm{obs}}].
+\tag{9}\]</span></span></p>
+<p>The <span class="math inline">\(K_i\times K_i\)</span> matrix <span class="math inline">\(\mathbf M_i\)</span> is the <strong>design moment matrix</strong>. Its entries depend on assignment probabilities, not unknown outcome coefficients. For Bernoulli assignment,</p>
+<p><span id="eq-l06-bernoulli-moment-matrix"><span class="math display">\[
+(\mathbf M_i)_{S,T}
+=\mathbb E_Z\left[\prod_{j\in S\cup T}Z_j\right]
+=\prod_{j\in S\cup T}\pi_j.
+\tag{10}\]</span></span></p>
+<p>The union appears because an indicator present in both products still equals itself when squared. The first entry, indexed by two empty sets, equals one.</p>
+<p>In the actual experiment we have one outcome per unit, not a sample of repeated outcomes for each unit. We therefore cannot run a separate ordinary regression and identify all of its coefficients from that one row. Nor can we silently pool units: their coefficient vectors are allowed to differ.</p>
+<p>What we can do is use the known left-hand matrix in <a href="#eq-l06-normal-equations" class="quarto-xref">Equation&nbsp;<span>9</span></a> and an unbiased, one-observation estimate of its right-hand side. When <span class="math inline">\(\mathbf M_i\)</span> is invertible,</p>
+<p><span id="eq-l06-coefficient-estimator"><span class="math display">\[
+\widehat{\mathbf c}_i
+=\mathbf M_i^{-1}\mathbf v_i(\mathbf Z)Y_i^{\mathrm{obs}},
+\qquad
+\mathbb E_Z[\widehat{\mathbf c}_i]=\mathbf c_i.
+\tag{11}\]</span></span></p>
+<p>The apparent abundance of unbiased coefficient estimates is not an abundance of information in one realized assignment. All entries of <span class="math inline">\(\widehat{\mathbf c}_i\)</span> use the same outcome and can be very noisy and strongly dependent. Their expectations recover the coefficients across assignments.</p>
+</section>
+<section id="what-singularity-means" class="level3">
+<h3 class="anchored" data-anchor-id="what-singularity-means">What singularity means</h3>
+<p>Independent Bernoulli assignment with every probability strictly between zero and one gives positive probability to every local assignment. The distinct multilinear features are linearly independent on that support, so <span class="math inline">\(\mathbf M_i\)</span> is positive definite. Other designs can make it singular. For example, always assigning two neighbors together makes their two treatment indicators identical in every experiment.</p>
+<p>The Moore–Penrose pseudoinverse, written <span class="math inline">\(\mathbf M_i^\dagger\)</span>, inverts the nonzero eigenvalues of this symmetric matrix and leaves its zero eigenvalues at zero. The associated estimator is</p>
+<p><span id="eq-l06-pseudoinverse-estimator"><span class="math display">\[
+\widehat\tau_{\mathrm{PI}}
+=\frac1N\sum_iY_i^{\mathrm{obs}}\ell_i(\mathbf Z),
+\qquad
+\ell_i(\mathbf Z)
+=\mathbf a_i^\top\mathbf M_i^\dagger\mathbf v_i(\mathbf Z).
+\tag{12}\]</span></span></p>
+<p>PI denotes pseudoinverse. This is the pseudoinverse of an expectation under the design, not the pseudoinverse of the single realized outer product <span class="math inline">\(\mathbf v_i(\mathbf Z)\mathbf v_i(\mathbf Z)^\top\)</span>.</p>
+<div id="prp-l06-estimability" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 1 (When the pseudoinverse estimates the desired contrast)</strong></span> Suppose the order-<span class="math inline">\(\beta\)</span> response model holds. If <span class="math inline">\(\mathbf a_i\)</span> lies in the column space of <span class="math inline">\(\mathbf M_i\)</span> for every <span class="math inline">\(i\)</span>, then <span class="math inline">\(\mathbb E_Z[\widehat\tau_{\mathrm{PI}}]=\tau_{\mathrm G}\)</span>. Because <span class="math inline">\(\mathbf M_i\)</span> is symmetric, its column and row spaces coincide.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>For each unit, substitute <span class="math inline">\(Y_i^{\mathrm{obs}}=\mathbf v_i(\mathbf Z)^\top\mathbf c_i\)</span> to obtain</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb E_Z[Y_i^{\mathrm{obs}}\ell_i(\mathbf Z)]
+&amp;=\mathbf a_i^\top\mathbf M_i^\dagger
+\mathbb E_Z[\mathbf v_i(\mathbf Z)\mathbf v_i(\mathbf Z)^\top]
+\mathbf c_i\\
+&amp;=\mathbf a_i^\top\mathbf M_i^\dagger\mathbf M_i\mathbf c_i.
+\end{aligned}
+\]</span></p>
+<p>The matrix <span class="math inline">\(\mathbf P_i=\mathbf M_i^\dagger\mathbf M_i\)</span> is the orthogonal projection onto the column space of <span class="math inline">\(\mathbf M_i\)</span>. The stated condition gives <span class="math inline">\(\mathbf a_i^\top\mathbf P_i=\mathbf a_i^\top\)</span>, so the expectation is <span class="math inline">\(\mathbf a_i^\top\mathbf c_i\)</span>. Average these equalities over units.</p>
+</div>
+<p>Singularity can thus prevent estimation of individual coefficients without preventing estimation of their sum. If two neighbors always move together, their separate additive effects cannot be distinguished, but their combined effect may remain estimable. The target contrast, not the full coefficient vector, determines the required support condition.</p>
+<p>The condition is also necessary for unbiased estimation of every possible coefficient vector in this unrestricted unit-specific model. If it fails, there is a vector <span class="math inline">\(\mathbf b_i\)</span> in the null space of <span class="math inline">\(\mathbf M_i\)</span> for which <span class="math inline">\(\mathbf a_i^\top\mathbf b_i\ne0\)</span>. Since</p>
+<p><span class="math display">\[
+0=\mathbf b_i^\top\mathbf M_i\mathbf b_i
+=\mathbb E_Z[(\mathbf v_i(\mathbf Z)^\top\mathbf b_i)^2],
+\]</span></p>
+<p>adding <span class="math inline">\(\mathbf b_i\)</span> to the coefficients changes no outcome on the design’s support. It does change the desired global contrast. The experiment cannot distinguish these two response schedules. Applying a pseudoinverse does not resolve this identification failure; it selects the projection that is visible under the design.</p>
+</section>
+<section id="the-geometry-behind-the-weights" class="level3">
+<h3 class="anchored" data-anchor-id="the-geometry-behind-the-weights">The geometry behind the weights</h3>
+<p>The estimation problem can also be expressed without estimating coefficients. We want a random weight <span class="math inline">\(w_i(\mathbf Z)\)</span> that reproduces the global contrast for every allowed polynomial response. That requires the coordinatewise moment equations</p>
+<p><span id="eq-l06-weight-moments"><span class="math display">\[
+\mathbb E_Z[w_i(\mathbf Z)\mathbf v_i(\mathbf Z)]
+=\mathbf a_i.
+\tag{13}\]</span></span></p>
+<p>The first equation says the weight has mean zero, so a constant outcome makes no contribution in expectation. Every other equation says that a permitted treatment product receives the correct coefficient of one in the target.</p>
+<p>When the estimability condition holds, these equations are feasible. Among weights satisfying them, <span class="math inline">\(\ell_i\)</span> in <a href="#eq-l06-pseudoinverse-estimator" class="quarto-xref">Equation&nbsp;<span>12</span></a> has minimum <span class="math inline">\(\mathbb E_Z[w_i^2]\)</span>. Indeed, if <span class="math inline">\(w_i=\ell_i+r_i\)</span>, the moment equations give <span class="math inline">\(\mathbb E_Z[r_i\mathbf v_i]=0\)</span>. Since <span class="math inline">\(\ell_i\)</span> is a linear combination of these features, <span class="math inline">\(\mathbb E_Z[r_i\ell_i]=0\)</span>, and</p>
+<p><span class="math display">\[
+\mathbb E_Z[w_i^2]
+=\mathbb E_Z[\ell_i^2]+\mathbb E_Z[r_i^2].
+\]</span></p>
+<p>This is a least-squares projection argument: the additional component of a weight orthogonal to the allowed response features cannot help reproduce their contrast. Minimum squared weight is useful for controlling noise, but it is not a universal minimum-variance claim for the whole estimator. Outcomes differ across assignments, and contributions from different units can covary.</p>
+</section>
+</section>
+<section id="higher-order-interactions-under-independent-assignment" class="level2">
+<h2 class="anchored" data-anchor-id="higher-order-interactions-under-independent-assignment">Higher-order interactions under independent assignment</h2>
+<section id="centering-provides-an-orthogonal-basis" class="level3">
+<h3 class="anchored" data-anchor-id="centering-provides-an-orthogonal-basis">Centering provides an orthogonal basis</h3>
+<p>The raw monomial matrix can be large. Independent assignment gives a more transparent route to the same estimator. For a subset <span class="math inline">\(S\)</span> of the neighborhood, define the centered product</p>
+<p><span class="math display">\[
+u_S(\mathbf Z)=\prod_{j\in S}(Z_j-\pi_j),
+\qquad u_\varnothing(\mathbf Z)=1.
+\]</span></p>
+<p>If <span class="math inline">\(S\ne T\)</span>, some indicator occurs in exactly one of the products. Its mean-zero factor and independence imply <span class="math inline">\(\mathbb E_Z[u_Su_T]=0\)</span>. Moreover, <span class="math inline">\(\mathbb E_Z[u_S^2]=\prod_{j\in S}\pi_j(1-\pi_j)\)</span>. These centered products span the same order-<span class="math inline">\(\beta\)</span> polynomial space as the raw products. Subtracting constants from the inputs changes coefficients, but not the maximum degree.</p>
+<p>We can therefore write <span class="math inline">\(Y_i(\mathbf z)=\sum_{S\in\mathcal S_i^\beta}b_{i,S}u_S(\mathbf z)\)</span>, where the <span class="math inline">\(b_{i,S}\)</span> are coefficients in this centered basis. Orthogonality gives</p>
+<p><span class="math display">\[
+\mathbb E_Z\left[
+Y_i^{\mathrm{obs}}
+\frac{u_S(\mathbf Z)}{\prod_{j\in S}\pi_j(1-\pi_j)}
+\right]=b_{i,S}.
+\]</span></p>
+<p>The global contrast of the basis function <span class="math inline">\(u_S\)</span> is</p>
+<p><span class="math display">\[
+\Delta_S=u_S(\mathbf 1_N)-u_S(\mathbf 0_N)
+=\prod_{j\in S}(1-\pi_j)-\prod_{j\in S}(-\pi_j).
+\]</span></p>
+<p>For the empty set this difference is zero. Combining the unbiased estimates of the centered coefficients with their global contrasts gives</p>
+<p><span id="eq-l06-snipe-general"><span class="math display">\[
+\widehat\tau_{\mathrm{SNIPE}(\beta)}
+=\frac1N\sum_iY_i^{\mathrm{obs}}
+\sum_{\substack{S\in\mathcal S_i^\beta\\S\ne\varnothing}}
+\Delta_S\prod_{j\in S}
+\frac{Z_j-\pi_j}{\pi_j(1-\pi_j)}.
+\tag{14}\]</span></span></p>
+<p>This explicit formula equals <a href="#eq-l06-pseudoinverse-estimator" class="quarto-xref">Equation&nbsp;<span>12</span></a> under independent Bernoulli assignment. The centered basis diagonalizes the design inner product, doing the work that matrix inversion performs in the raw basis.</p>
+</section>
+<section id="a-pair-interaction-and-a-revealing-cancellation" class="level3">
+<h3 class="anchored" data-anchor-id="a-pair-interaction-and-a-revealing-cancellation">A pair interaction and a revealing cancellation</h3>
+<p>Consider again a two-person neighborhood, now with <span class="math inline">\(Y_i(z_1,z_2)=10+2z_1+3z_2+4z_1z_2\)</span>. Its global contrast is <span class="math inline">\(9\)</span>. Take common treatment probability <span class="math inline">\(p=1/4\)</span> and define <span class="math inline">\(q_j=(Z_j-p)/\{p(1-p)\}\)</span>. Each singleton has <span class="math inline">\(\Delta_{\{j\}}=1\)</span>, while <span class="math inline">\(\Delta_{\{1,2\}}=(1-p)^2-p^2=1-2p=1/2\)</span>. The order-two weight is</p>
+<p><span class="math display">\[
+\ell_i=q_1+q_2+\tfrac12q_1q_2.
+\]</span></p>
+<p>The first two terms alone recover the additive contribution <span class="math inline">\(5\)</span> plus <span class="math inline">\(2p\cdot4=2\)</span> from the pair interaction. To check the latter statement, <span class="math inline">\(\mathbb E_Z[Z_1Z_2q_1]=p\)</span> and <span class="math inline">\(\mathbb E_Z[Z_1Z_2q_2]=p\)</span>. The pair term supplies the missing amount: <span class="math inline">\(\mathbb E_Z[Z_1Z_2q_1q_2]=1\)</span>, so its contribution is <span class="math inline">\((1/2)\cdot4=2\)</span>. The expectation of the full contribution is therefore <span class="math inline">\(5+2+2=9\)</span>.</p>
+<p>This calculation also explains why the additive estimator is generally biased when pair interactions are present. It estimates only the part of the pair effect that appears when the other member is treated at the experiment’s assignment probability. The full rollout requires that other member to be treated with certainty.</p>
+<p>There is an instructive exception. At <span class="math inline">\(p=1/2\)</span>, the pair contrast <span class="math inline">\(\Delta_{\{1,2\}}\)</span> is zero, so the order-two and order-one SNIPE weights coincide. Pair effects still enter the GATE. They are already captured through the first-order centered coefficients: changing from raw to centered products moves part of a raw pair term into the linear terms. For the example above, the additive weight at <span class="math inline">\(p=1/2\)</span> recovers <span class="math inline">\(5+2p\cdot4=9\)</span>.</p>
+<p>This cancellation does not make arbitrary high-order interactions harmless. For a raw triple term <span class="math inline">\(\gamma z_1z_2z_3\)</span>, the order-one weight at common probability <span class="math inline">\(p\)</span> has expectation <span class="math inline">\(3p^2\gamma\)</span>, rather than <span class="math inline">\(\gamma\)</span>. At <span class="math inline">\(p=1/2\)</span> it recovers only <span class="math inline">\(3\gamma/4\)</span>. Correctness depends jointly on the target, the response model, and the design.</p>
+</section>
+</section>
+<section id="precision-requires-information-about-shared-assignments" class="level2">
+<h2 class="anchored" data-anchor-id="precision-requires-information-about-shared-assignments">Precision requires information about shared assignments</h2>
+<section id="interaction-order-controls-a-local-difficulty" class="level3">
+<h3 class="anchored" data-anchor-id="interaction-order-controls-a-local-difficulty">Interaction order controls a local difficulty</h3>
+<p>The centered representation makes the squared size of a unit’s weight explicit:</p>
+<p><span id="eq-l06-weight-energy"><span class="math display">\[
+\mathbb E_Z[\ell_i^2]
+=\sum_{\substack{S\in\mathcal S_i^\beta\\S\ne\varnothing}}
+\frac{\Delta_S^2}{\prod_{j\in S}\pi_j(1-\pi_j)}.
+\tag{15}\]</span></span></p>
+<p>Products of small treatment probabilities still matter. However, the largest product now involves at most <span class="math inline">\(\beta\)</span> units, rather than the entire neighborhood. For fixed <span class="math inline">\(\beta\)</span> and probabilities bounded away from zero and one, the number of terms grows polynomially with <span class="math inline">\(d_i\)</span>. This is the mechanism by which low order can improve precision relative to requiring full neighborhood exposure. It does not guarantee small variance for every network or every outcome schedule.</p>
+<p>For additive interference with common <span class="math inline">\(p\)</span>, the formula simplifies to <span class="math inline">\(\mathbb E_Z[\ell_i^2]=d_i/\{p(1-p)\}\)</span>. Each extra influencing assignment adds to the random fluctuation of the weight. A high-degree outcome can be informative about many treatment contributions, but that information is not costless.</p>
+</section>
+<section id="shared-neighbors-generate-covariance" class="level3">
+<h3 class="anchored" data-anchor-id="shared-neighbors-generate-covariance">Shared neighbors generate covariance</h3>
+<p>Let <span class="math inline">\(T_i=Y_i^{\mathrm{obs}}\ell_i(\mathbf Z)\)</span> be unit <span class="math inline">\(i\)</span>’s contribution. The exact variance is</p>
+<p><span id="eq-l06-estimator-variance"><span class="math display">\[
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{PI}})
+=\frac1{N^2}\sum_{i,k}\operatorname{Cov}_Z(T_i,T_k).
+\tag{16}\]</span></span></p>
+<p>Under independent unit assignment and neighborhood interference, <span class="math inline">\(T_i\)</span> and <span class="math inline">\(T_k\)</span> are independent when <span class="math inline">\(\mathcal N_i\cap\mathcal N_k=\varnothing\)</span>. When their neighborhoods overlap, one treatment coin can affect both weighted outcomes. The number of units is therefore not the number of independent pieces of information.</p>
+<p>A simple bound exposes this distinction. Suppose <span class="math inline">\(|Y_i(\mathbf z)|\leq B\)</span> for all units and assignments, let <span class="math inline">\(\mathbb E_Z[\ell_i^2]\leq A\)</span>, and suppose each neighborhood overlaps with at most <span class="math inline">\(D\)</span> neighborhoods, counting itself. By Cauchy–Schwarz, <span class="math inline">\(|\operatorname{Cov}_Z(T_i,T_k)|\leq B^2A\)</span>. There are at most <span class="math inline">\(ND\)</span> potentially nonzero covariance terms, so</p>
+<p><span id="eq-l06-simple-variance-bound"><span class="math display">\[
+\operatorname{Var}_Z(\widehat\tau_{\mathrm{PI}})
+\leq\frac{B^2AD}{N}.
+\tag{17}\]</span></span></p>
+<p>This deliberately elementary bound separates three difficulties: outcome magnitude, the size of the weights, and dependence across contributions. It also shows why bounding neighborhood size alone is insufficient in a directed network. A single influential unit may appear in many small neighborhoods, creating widespread dependence.</p>
+<p>Cortez-Rodriguez, Eichhorn, and Yu <span class="citation" data-cites="cortezRodriguez2023">(<a href="../L04-positivity-partial-identification/index.html#ref-cortezRodriguez2023" role="doc-biblioref">2023</a>)</span> give sharper variance bounds and asymptotic normality results under their network and outcome regularity conditions. Such results require a sequence of experiments in which dependence and influential contributions remain controlled. Exact unbiasedness by itself supplies neither a central limit theorem nor a reliable standard error.</p>
+</section>
+<section id="inference-is-a-further-problem" class="level3">
+<h3 class="anchored" data-anchor-id="inference-is-a-further-problem">Inference is a further problem</h3>
+<p>An empirical variance treating the <span class="math inline">\(T_i\)</span> as independent drops the covariance terms in <a href="#eq-l06-estimator-variance" class="quarto-xref">Equation&nbsp;<span>16</span></a>. A usual regression standard error does not recover those terms either. The relevant dependence comes from shared assignments, and uncertainty calculations must reflect it.</p>
+<p>Even with a known design, exact variance estimation is difficult. The variance contains products of unknown potential-outcome coefficients, while each unit reveals only one outcome. Unbiased estimation of each coefficient does not imply that multiplying two estimated coefficients gives an unbiased estimate of their product. Conservative bounds and dependence-aware asymptotic variance estimators address different parts of this difficulty. A normal approximation should be paired with a justified variance procedure and the assumptions under which the approximation is valid.</p>
+<p>For a small network, exact enumeration is useful for checking an implementation under a specified response schedule. It is a simulation exercise: the missing potential outcomes are supplied by the analyst. It does not turn the variance under the real, unknown schedule into an observed quantity.</p>
+</section>
+</section>
+<section id="changing-the-design-while-retaining-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="changing-the-design-while-retaining-the-model">Changing the design while retaining the model</h2>
+<p>The moment equations did not require independent treatment assignment. What changes under a different design is <span class="math inline">\(\mathbf M_i\)</span>, its column space, and the covariance between contributions. Eichhorn, Khan, Ugander, and Yu <span class="citation" data-cites="eichhorn2026loworder">(<a href="../L04-positivity-partial-identification/index.html#ref-eichhorn2026loworder" role="doc-biblioref">2026</a>)</span> develop this general-design perspective, with particular attention to clustered experiments.</p>
+<p>If two additive neighbors always receive the same cluster assignment <span class="math inline">\(W\)</span>, then</p>
+<p><span class="math display">\[
+Y_i=c_{i,\varnothing}+(c_{i,\{1\}}+c_{i,\{2\}})W.
+\]</span></p>
+<p>The separate effects are indistinguishable, but the sum is the global contrast and is identified when <span class="math inline">\(0&lt;\mathbb P_Z(W=1)&lt;1\)</span>. The moment matrix based on <span class="math inline">\((1,Z_1,Z_2)\)</span> is singular; its null direction changes the two coefficients by opposite amounts and leaves their sum unchanged. This is exactly the favorable case in <a href="#prp-l06-estimability" class="quarto-xref">Proposition&nbsp;<span>1</span></a>.</p>
+<p>More generally, under independent Bernoulli assignment of clusters, every configuration of the clusters touching a neighborhood has positive probability. If a polynomial vanishes on this support, it vanishes at both the all-treated and all-control cluster assignments, so its global contrast is zero. The desired contrast is therefore estimable even when the original unit-level coefficient vector is not.</p>
+<p>Complete randomization of a fixed number of clusters can behave differently. For an extreme example, take a two-unit neighborhood and always treat exactly one of its members. The two additive schedules <span class="math inline">\(Y_i(\mathbf z)=0\)</span> and <span class="math inline">\(Y_i(\mathbf z)=z_1+z_2-1\)</span> agree at both supported assignments. Their all-treated-minus-all-control contrasts are <span class="math inline">\(0\)</span> and <span class="math inline">\(2\)</span>. No estimator can distinguish them under this design. A restriction on total treatment count can remove precisely the variation needed to learn a global rollout effect.</p>
+<p>Clustering also changes precision. It can reduce the number of independently varying treatment components relevant to an outcome, while correlating the weighted outcomes of more units. The cited work combines these effects in design-specific bounds and uses the bounds to compare candidate clusterings. The lesson is to choose the design and analysis together: a low-order model does not eliminate the reasons to cluster, and clustering does not eliminate the value of outcome structure.</p>
+</section>
+<section id="covariate-adjustment-should-target-the-estimators-variance" class="level2">
+<h2 class="anchored" data-anchor-id="covariate-adjustment-should-target-the-estimators-variance">Covariate adjustment should target the estimator’s variance</h2>
+<p>The additive example showed that a large baseline outcome can create noise without changing the GATE. Suppose <span class="math inline">\(X_i\)</span> is a fixed vector of pretreatment covariates predictive of that baseline. Since the first coordinate of <a href="#eq-l06-weight-moments" class="quarto-xref">Equation&nbsp;<span>13</span></a> gives <span class="math inline">\(\mathbb E_Z[\ell_i]=0\)</span>, any fixed coefficient vector <span class="math inline">\(\theta\)</span> yields the adjusted estimator</p>
+<p><span id="eq-l06-adjustment"><span class="math display">\[
+\widehat\tau(\theta)
+=\frac1N\sum_i\ell_i(\mathbf Z)
+\{Y_i^{\mathrm{obs}}-X_i^\top\theta\}.
+\tag{18}\]</span></span></p>
+<p>Its expectation is still <span class="math inline">\(\tau_{\mathrm G}\)</span> whenever the original estimator is unbiased. The adjustment subtracts a random quantity with known mean zero. No correct linear model relating outcomes to <span class="math inline">\(X_i\)</span> is required for this fixed-<span class="math inline">\(\theta\)</span> statement.</p>
+<p>To see how to choose <span class="math inline">\(\theta\)</span>, define the random covariate vector <span class="math inline">\(\mathbf H=N^{-1}\sum_i\ell_iX_i\)</span>, with <span class="math inline">\(\mathbb E_Z[\mathbf H]=0\)</span>. Then <span class="math inline">\(\widehat\tau(\theta)=\widehat\tau(0)-\theta^\top\mathbf H\)</span> and</p>
+<p><span id="eq-l06-adjustment-variance"><span class="math display">\[
+\begin{aligned}
+\operatorname{Var}_Z\{\widehat\tau(\theta)\}
+=\operatorname{Var}_Z\{\widehat\tau(0)\}
+-2\theta^\top\operatorname{Cov}_Z\{\mathbf H,\widehat\tau(0)\}
++\theta^\top\operatorname{Var}_Z(\mathbf H)\theta.
+\end{aligned}
+\tag{19}\]</span></span></p>
+<p>If <span class="math inline">\(\operatorname{Var}_Z(\mathbf H)\)</span> is invertible, the oracle choice is its inverse times <span class="math inline">\(\operatorname{Cov}_Z\{\mathbf H,\widehat\tau(0)\}\)</span>. This choice minimizes the variance of the final effect estimator. Ordinary regression of observed outcomes on covariates solves a different objective, and can neglect cross-unit covariance induced by interference.</p>
+<p>Wang and Li <span class="citation" data-cites="wangLi2026">(<a href="../L04-positivity-partial-identification/index.html#ref-wangLi2026" role="doc-biblioref">2026</a>)</span> make this difference central. Their variance-improvement-maximized (VIM) procedure estimates the change in variance from adjusting and chooses coefficients to maximize that improvement. A useful cancellation makes this feasible: the variance of the unadjusted estimator contains quadratic terms in unknown response coefficients, but those terms cancel when subtracting the adjusted variance. The remaining improvement can be estimated using the coefficient-estimation machinery already developed.</p>
+<p>Their no-harm guarantee concerns the asymptotic variance of this particular procedure under the stated sparsity, moment, and coefficient-estimation conditions. It is not a guarantee for arbitrary regression adjustment or for every realized sample. Fixed coefficients preserve exact unbiasedness; fitting <span class="math inline">\(\widehat\theta\)</span> using the same experimental outcomes introduces additional randomness and requires an asymptotic argument. The paper also develops an asymptotically conservative variance estimator for inference.</p>
+<p>In practice, choose covariates before examining treatment effects, use the dependence-aware adjustment procedure rather than substituting a familiar regression by analogy, and inspect whether the network conditions supporting its approximation are plausible. Randomly splitting outcome units does not automatically produce independent training and evaluation data, because their outcomes can depend on the same treatment coins.</p>
+</section>
+<section id="other-structural-information-monotone-interference" class="level2">
+<h2 class="anchored" data-anchor-id="other-structural-information-monotone-interference">Other structural information: monotone interference</h2>
+<section id="restricting-directions-instead-of-interaction-order" class="level3">
+<h3 class="anchored" data-anchor-id="restricting-directions-instead-of-interaction-order">Restricting directions instead of interaction order</h3>
+<p>An intervention may plausibly benefit from wider adoption without producing an additive response. A messaging feature might become useful only when a critical mass of friends uses it. A vaccination may become more protective as more neighbors are vaccinated. In such settings, the sign of a spillover can be more defensible than a low-order polynomial model.</p>
+<p>One possible restriction is coordinatewise monotonicity: if <span class="math inline">\(\mathbf z\leq\mathbf z'\)</span> in every coordinate, then <span class="math inline">\(Y_i(\mathbf z)\leq Y_i(\mathbf z')\)</span>. For spillovers alone, one might impose this ordering only while holding <span class="math inline">\(z_i\)</span> fixed. The sign must match the outcome: beneficial vaccination could make disease incidence nonincreasing. These are substantive restrictions on potential outcomes, not consequences of randomization.</p>
+<p>Monotonicity and low order are distinct. The function <span class="math inline">\(\prod_{j\in\mathcal N_i}z_j\)</span> is monotone and can have arbitrarily high order. An additive model with one positive and one negative coefficient is low order but not coordinatewise nondecreasing. Nor does monotonicity force every raw polynomial coefficient to be nonnegative: the function <span class="math inline">\(z_1+z_2-z_1z_2\)</span>, representing whether at least one person is treated, is monotone and has a negative pair coefficient.</p>
+</section>
+<section id="what-monotonicity-can-provide" class="level3">
+<h3 class="anchored" data-anchor-id="what-monotonicity-can-provide">What monotonicity can provide</h3>
+<p>For a simple illustration, define the marginal-treatment estimator</p>
+<p><span class="math display">\[
+\widehat\tau_{\mathrm{marg}}
+=\frac1N\sum_i\left\{
+\frac{Z_iY_i^{\mathrm{obs}}}{\pi_i}
+-\frac{(1-Z_i)Y_i^{\mathrm{obs}}}{1-\pi_i}\right\}.
+\]</span></p>
+<p>Its expectation compares the outcome conditional on own treatment to that conditional on own control. Under full coordinatewise nondecreasing outcomes, every outcome observed when <span class="math inline">\(Z_i=1\)</span> is at most <span class="math inline">\(Y_i(\mathbf 1_N)\)</span>, and every outcome observed when <span class="math inline">\(Z_i=0\)</span> is at least <span class="math inline">\(Y_i(\mathbf 0_N)\)</span>. Consequently,</p>
+<p><span id="eq-l06-monotone-direction"><span class="math display">\[
+\mathbb E_Z[\widehat\tau_{\mathrm{marg}}]\leq\tau_{\mathrm G}.
+\tag{20}\]</span></span></p>
+<p>This is a directional bias statement. It is neither a point-identification result for <span class="math inline">\(\tau_{\mathrm G}\)</span> nor a claim that a realized estimate is a lower confidence bound. Establishing uncertainty around a bound needs further inference.</p>
+<p>Several papers use structural inequalities for different purposes:</p>
+<ul>
+<li>Choi <span class="citation" data-cites="choi2017">(<a href="../L04-positivity-partial-identification/index.html#ref-choi2017" role="doc-biblioref">2017</a>)</span> develops confidence intervals for attributable effects, comparing outcomes under the realized assignment with outcomes under no treatment. The restrictions resemble nonnegative treatment effects and do not require partial interference. That attributable-effect target differs from the all-treated-versus-all-control GATE.</li>
+<li>Eckles, Karrer, and Ugander <span class="citation" data-cites="ecklesKarrerUgander2017">(<a href="../L04-positivity-partial-identification/index.html#ref-ecklesKarrerUgander2017" role="doc-biblioref">2017</a>)</span> use monotonicity and related conditions to study bias reduction through correlated assignment and exposure-based analysis, allowing potentially global interference. Their conditions explain when moving experimental exposure closer to a global policy comparison reduces bias; they do not make every clustering universally preferable.</li>
+<li>Pouget-Abadie and colleagues <span class="citation" data-cites="pougetAbadie2018">(<a href="../L04-positivity-partial-identification/index.html#ref-pougetAbadie2018" role="doc-biblioref">2018</a>)</span> study comparing clustered designs when the corresponding estimators are biased in a common direction. If both expected estimates lie below the target, the larger expected estimate is closer to it. Their experiment-of-experiments design addresses how to compare clusterings experimentally. Here the relevant monotonicity is a property of bias across a family of designs, which should not be conflated with one generic unit-level inequality.</li>
+<li>Huang, Li, and Toulis <span class="citation" data-cites="huangLiToulis2025">(<a href="../L04-positivity-partial-identification/index.html#ref-huangLiToulis2025" role="doc-biblioref">2025</a>)</span> develop finite-sample-valid randomization tests for monotone spillover contrasts using appropriate conditioning and network constructions. An inequality null does not reveal every missing potential outcome as a sharp null does; valid testing needs that additional construction. Such tests concern directional hypotheses, not unrestricted estimation of the GATE.</li>
+</ul>
+<p>Submodularity is another possible restriction. Viewing an outcome as a function of the treated set, it says that the incremental effect of adding a given treated unit is no larger when the already-treated set is larger. It formalizes diminishing returns. It can coexist with monotonicity but is not implied by it, and it does not impose low polynomial order. The appropriate structure depends on the mechanism one is prepared to defend.</p>
+<p>The central lesson of the lecture is that a partially treated network can inform a global rollout through several different kinds of structure. Low order turns the rollout contrast into a linear coefficient functional, and randomization supplies unbiased estimating equations for that functional. Monotonicity instead supplies inequalities. In either case, the experiment’s design determines what variation is available, and the structural assumption determines what that variation can tell us about unobserved assignments.</p>
+</section>
+</section>
+<section id="advanced-material-model-error-and-the-cost-of-extrapolation" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-material-model-error-and-the-cost-of-extrapolation">Advanced material: model error and the cost of extrapolation</h2>
+<section id="an-exact-bias-decomposition" class="level3">
+<h3 class="anchored" data-anchor-id="an-exact-bias-decomposition">An exact bias decomposition</h3>
+<p>Suppose a chosen order-<span class="math inline">\(\beta\)</span> model leaves a remainder:</p>
+<p><span class="math display">\[
+Y_i(\mathbf z)=\mathbf v_i(\mathbf z)^\top\mathbf c_i+R_i(\mathbf z).
+\]</span></p>
+<p>Assume the contrast is estimable for the retained polynomial space. The polynomial part remains unbiased, so the bias of the estimator for the actual GATE is exactly</p>
+<p><span id="eq-l06-misspecification-bias"><span class="math display">\[
+\mathbb E_Z[\widehat\tau_{\mathrm{PI}}]-\tau_{\mathrm G}
+=\frac1N\sum_i\left[
+\mathbb E_Z\{\ell_i(\mathbf Z)R_i(\mathbf Z)\}
+-\{R_i(\mathbf 1_N)-R_i(\mathbf 0_N)\}
+\right].
+\tag{21}\]</span></span></p>
+<p>Two features matter: how the omitted response aligns with the estimator’s weight over the experimental distribution, and how much it contributes at the two policy endpoints. A model can fit typical experimental assignments well while misrepresenting the full rollout. With low treatment probability, a high-order interaction may rarely activate in the experiment yet contribute substantially when everyone is treated.</p>
+<p>For example, if <span class="math inline">\(|R_i(\mathbf z)|\leq\varepsilon_i\)</span> uniformly over all assignments, Cauchy–Schwarz yields the bound</p>
+<p><span class="math display">\[
+|\operatorname{Bias}_Z(\widehat\tau_{\mathrm{PI}})|
+\leq\frac1N\sum_i\varepsilon_i
+\left\{\sqrt{\mathbb E_Z[\ell_i^2]}+2\right\}.
+\]</span></p>
+<p>The uniform qualification is doing work: accuracy only on assignments that occur frequently does not control the endpoint remainder. Large weights also amplify model error over the experimental distribution.</p>
+<p>If the contrast is not estimable under the design, there is an additional polynomial bias term <span class="math inline">\(N^{-1}\sum_i\mathbf a_i^\top(\mathbf P_i-\mathbf I)\mathbf c_i\)</span>, where <span class="math inline">\(\mathbf P_i=\mathbf M_i^\dagger\mathbf M_i\)</span> and <span class="math inline">\(\mathbf I\)</span> is the identity matrix. This separates lack of design support from misspecifying the outcome class. Either can obstruct the target, and they call for different responses.</p>
+</section>
+<section id="choosing-an-order-and-extending-the-experiment" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-an-order-and-extending-the-experiment">Choosing an order and extending the experiment</h3>
+<p>Increasing <span class="math inline">\(\beta\)</span> includes more response schedules but can increase the number and size of weights. A defensible analysis should connect the chosen order to a mechanism, examine sensitivity to plausible higher-order effects, and consider whether the design can improve the relevant treatment variation. Selecting the order after searching for a favorable estimated effect is not covered by the fixed-model unbiasedness argument.</p>
+<p>The downstream literature also changes what data are collected. Under a common Bernoulli treatment probability <span class="math inline">\(p\)</span>, the design mean of an order-<span class="math inline">\(\beta\)</span> response is a univariate polynomial in <span class="math inline">\(p\)</span>:</p>
+<p><span class="math display">\[
+\frac1N\sum_i\mathbb E_{Z,p}[Y_i(\mathbf Z)]
+=\frac1N\sum_i\sum_{S\in\mathcal S_i^\beta}c_{i,S}p^{|S|}.
+\]</span></p>
+<p>Its value at one minus its value at zero is the GATE. Varying treatment saturation across rollout stages can therefore replace some detailed network information with observations at several values of <span class="math inline">\(p\)</span>. But extrapolating a polynomial from a narrow range of probabilities to a full rollout can be unstable. Repeated stages also require a stable response interpretation, with time and carryover effects addressed by the design and assumptions.</p>
+<p>Cortez-Rodriguez, Eichhorn, and Yu <span class="citation" data-cites="cortezRodriguez2025rollout">(<a href="../L04-positivity-partial-identification/index.html#ref-cortezRodriguez2025rollout" role="doc-biblioref">2025</a>)</span> study a two-stage rollout that first selects a subpopulation and then rolls out treatment within it. Their analysis connects bias to cut edges and variance to clustering properties including covariate balance. Alongside clustered pseudoinverse estimation and VIM covariate adjustment, this is a concrete development beyond the original SNIPE construction: improve the information available to the estimator, rather than expecting an outcome restriction alone to solve every precision problem.</p>
+</section>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<p>Cortez-Rodriguez, Eichhorn, and Yu <span class="citation" data-cites="cortezRodriguez2023">(<a href="../L04-positivity-partial-identification/index.html#ref-cortezRodriguez2023" role="doc-biblioref">2023</a>)</span> are the main source for this lecture. The centered-basis derivation above is a way to see the estimator’s mechanics; the paper supplies the broader variance and asymptotic analysis. Eichhorn and colleagues <span class="citation" data-cites="eichhorn2026loworder">(<a href="../L04-positivity-partial-identification/index.html#ref-eichhorn2026loworder" role="doc-biblioref">2026</a>)</span> extend the construction to general designs and make design selection part of the analysis. Their preprint first appeared in 2024; the cited version was revised in 2026.</p>
+<p>For subsequent work, Wang and Li <span class="citation" data-cites="wangLi2026">(<a href="../L04-positivity-partial-identification/index.html#ref-wangLi2026" role="doc-biblioref">2026</a>)</span> distinguish predicting outcomes well from reducing the variance of an interference estimator, while Cortez-Rodriguez and colleagues <span class="citation" data-cites="cortezRodriguez2025rollout">(<a href="../L04-positivity-partial-identification/index.html#ref-cortezRodriguez2025rollout" role="doc-biblioref">2025</a>)</span> develop the rollout-design direction. These are complementary routes: use covariates, change dependence through clustering, or observe more than one treatment saturation.</p>
+<p>The monotonicity papers cited above ask different causal questions with different inequalities. Reading them together is useful precisely because monotonicity is not one transferable assumption with one universal conclusion. Track the target, the direction of the restriction, the experimental design, and whether the result concerns bias, a bound, or a hypothesis test.</p>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-choi2017" class="csl-entry" role="listitem">
+Choi, David. 2017. <span>“Estimation of Monotone Treatment Effects in Network Experiments.”</span> <em>Journal of the American Statistical Association</em> 112 (519): 1147–55. <a href="https://doi.org/10.1080/01621459.2016.1194845">https://doi.org/10.1080/01621459.2016.1194845</a>.
+</div>
+<div id="ref-cortezRodriguez2025rollout" class="csl-entry" role="listitem">
+Cortez-Rodriguez, Mayleen, Matthew Eichhorn, and Christina Yu. 2025. <span>“Analysis of Two-Stage Rollout Designs with Clustering for Causal Inference Under Network Interference.”</span> In <em>Proceedings of the 28th International Conference on Artificial Intelligence and Statistics</em>, 258:3970–78. Proceedings of Machine Learning Research. PMLR. <a href="https://proceedings.mlr.press/v258/cortez-rodriguez25a.html">https://proceedings.mlr.press/v258/cortez-rodriguez25a.html</a>.
+</div>
+<div id="ref-cortezRodriguez2023" class="csl-entry" role="listitem">
+Cortez-Rodriguez, Mayleen, Matthew Eichhorn, and Christina Lee Yu. 2023. <span>“Exploiting Neighborhood Interference with Low-Order Interactions Under Unit Randomized Design.”</span> <em>Journal of Causal Inference</em> 11 (1): 20220051. <a href="https://doi.org/10.1515/jci-2022-0051">https://doi.org/10.1515/jci-2022-0051</a>.
+</div>
+<div id="ref-ecklesKarrerUgander2017" class="csl-entry" role="listitem">
+Eckles, Dean, Brian Karrer, and Johan Ugander. 2017. <span>“Design and Analysis of Experiments in Networks: Reducing Bias from Interference.”</span> <em>Journal of Causal Inference</em> 5 (1): 20150021. <a href="https://doi.org/10.1515/jci-2015-0021">https://doi.org/10.1515/jci-2015-0021</a>.
+</div>
+<div id="ref-eichhorn2026loworder" class="csl-entry" role="listitem">
+Eichhorn, Matthew, Samir Khan, Johan Ugander, and Christina Lee Yu. 2026. <span>“Low-Order Outcomes and Clustered Designs: Combining Design and Analysis for Causal Inference Under Network Interference.”</span> <a href="https://arxiv.org/abs/2405.07979v4">https://arxiv.org/abs/2405.07979v4</a>.
+</div>
+<div id="ref-huangLiToulis2025" class="csl-entry" role="listitem">
+Huang, Shunzhuang, Xinran Li, and Panos Toulis. 2025. <span>“Finite-Sample Valid Randomization Tests for Monotone Spillover Effects.”</span> <a href="https://arxiv.org/abs/2501.02454v2">https://arxiv.org/abs/2501.02454v2</a>.
+</div>
+<div id="ref-pougetAbadie2018" class="csl-entry" role="listitem">
+Pouget-Abadie, Jean, Vahab Mirrokni, David C. Parkes, and Edoardo M. Airoldi. 2018. <span>“Optimizing Cluster-Based Randomized Experiments Under Monotonicity.”</span> In <em>Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 2090–99. <a href="https://doi.org/10.1145/3219819.3220067">https://doi.org/10.1145/3219819.3220067</a>.
+</div>
+<div id="ref-wangLi2026" class="csl-entry" role="listitem">
+Wang, Xinyi, and Shuangning Li. 2026. <span>“Covariate Adjustment Cannot Hurt: Treatment Effect Estimation Under Interference with Low-Order Outcome Interactions.”</span> <a href="https://arxiv.org/abs/2509.03050v2">https://arxiv.org/abs/2509.03050v2</a>.
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

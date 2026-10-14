@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -75,6 +95,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -359,8 +408,46 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#evaluate-a-rule-not-just-a-treatment-label" id="toc-evaluate-a-rule-not-just-a-treatment-label" class="nav-link active" data-scroll-target="#evaluate-a-rule-not-just-a-treatment-label">Evaluate a rule, not just a treatment label</a>
+  <ul class="collapse">
+  <li><a href="#potential-outcomes-for-whole-seed-sets" id="toc-potential-outcomes-for-whole-seed-sets" class="nav-link" data-scroll-target="#potential-outcomes-for-whole-seed-sets">Potential outcomes for whole seed sets</a></li>
+  <li><a href="#a-four-person-example" id="toc-a-four-person-example" class="nav-link" data-scroll-target="#a-four-person-example">A four-person example</a></li>
+  </ul></li>
+  <li><a href="#evaluate-a-policy-using-the-experiment-we-actually-ran" id="toc-evaluate-a-policy-using-the-experiment-we-actually-ran" class="nav-link" data-scroll-target="#evaluate-a-policy-using-the-experiment-we-actually-ran">Evaluate a policy using the experiment we actually ran</a>
+  <ul class="collapse">
+  <li><a href="#the-design-and-the-target-need-not-be-the-same-distribution" id="toc-the-design-and-the-target-need-not-be-the-same-distribution" class="nav-link" data-scroll-target="#the-design-and-the-target-need-not-be-the-same-distribution">The design and the target need not be the same distribution</a></li>
+  <li><a href="#why-retain-seed-identities-when-strategies-were-randomized" id="toc-why-retain-seed-identities-when-strategies-were-randomized" class="nav-link" data-scroll-target="#why-retain-seed-identities-when-strategies-were-randomized">Why retain seed identities when strategies were randomized?</a></li>
+  <li><a href="#normalization-support-and-uncertainty" id="toc-normalization-support-and-uncertainty" class="nav-link" data-scroll-target="#normalization-support-and-uncertainty">Normalization, support, and uncertainty</a></li>
+  </ul></li>
+  <li><a href="#policy-evaluation-when-we-observe-a-panel" id="toc-policy-evaluation-when-we-observe-a-panel" class="nav-link" data-scroll-target="#policy-evaluation-when-we-observe-a-panel">Policy evaluation when we observe a panel</a>
+  <ul class="collapse">
+  <li><a href="#what-a-before-and-after-comparison-needs" id="toc-what-a-before-and-after-comparison-needs" class="nav-link" data-scroll-target="#what-a-before-and-after-comparison-needs">What a before-and-after comparison needs</a></li>
+  </ul></li>
+  <li><a href="#low-rank-means-shared-patterns-with-different-responses" id="toc-low-rank-means-shared-patterns-with-different-responses" class="nav-link" data-scroll-target="#low-rank-means-shared-patterns-with-different-responses">Low rank means shared patterns with different responses</a>
+  <ul class="collapse">
+  <li><a href="#which-missing-entries-are-determined" id="toc-which-missing-entries-are-determined" class="nav-link" data-scroll-target="#which-missing-entries-are-determined">Which missing entries are determined?</a></li>
+  </ul></li>
+  <li><a href="#estimating-a-mean-matrix-from-noisy-untreated-cells" id="toc-estimating-a-mean-matrix-from-noisy-untreated-cells" class="nav-link" data-scroll-target="#estimating-a-mean-matrix-from-noisy-untreated-cells">Estimating a mean matrix from noisy untreated cells</a>
+  <ul class="collapse">
+  <li><a href="#what-the-penalty-does-computationally" id="toc-what-the-penalty-does-computationally" class="nav-link" data-scroll-target="#what-the-penalty-does-computationally">What the penalty does computationally</a></li>
+  <li><a href="#turning-predictions-into-an-effect-estimate" id="toc-turning-predictions-into-an-effect-estimate" class="nav-link" data-scroll-target="#turning-predictions-into-an-effect-estimate">Turning predictions into an effect estimate</a></li>
+  <li><a href="#choosing-complexity-and-checking-the-comparison" id="toc-choosing-complexity-and-checking-the-comparison" class="nav-link" data-scroll-target="#choosing-complexity-and-checking-the-comparison">Choosing complexity and checking the comparison</a></li>
+  </ul></li>
+  <li><a href="#other-ways-to-construct-the-missing-comparison" id="toc-other-ways-to-construct-the-missing-comparison" class="nav-link" data-scroll-target="#other-ways-to-construct-the-missing-comparison">Other ways to construct the missing comparison</a>
+  <ul class="collapse">
+  <li><a href="#weighted-differences-rather-than-an-entire-completed-matrix" id="toc-weighted-differences-rather-than-an-entire-completed-matrix" class="nav-link" data-scroll-target="#weighted-differences-rather-than-an-entire-completed-matrix">Weighted differences rather than an entire completed matrix</a></li>
+  </ul></li>
+  <li><a href="#what-must-be-checked-before-calling-the-result-causal" id="toc-what-must-be-checked-before-calling-the-result-causal" class="nav-link" data-scroll-target="#what-must-be-checked-before-calling-the-result-causal">What must be checked before calling the result causal?</a></li>
+  <li><a href="#synthesis" id="toc-synthesis" class="nav-link" data-scroll-target="#synthesis">Synthesis</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -369,7 +456,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-title">L07: Policy Evaluation and Panel Data</span></h1>
-<p class="subtitle lead">Treatment rules, heavy-tailed outcomes, and panel estimators</p>
+<p class="subtitle lead">Stochastic seeding policies and low-rank counterfactuals</p>
 </div>
 
 
@@ -395,23 +482,454 @@ ul.task-list li input[type="checkbox"] {
 <div class="lecture-provenance">
 <p><strong>Lecture brief:</strong> <a href="brief.html">View the source <code>brief.md</code></a> · <a href="../../how-notes-are-made.html">How these notes are made</a></p>
 </div>
-<p><strong>Download:</strong> <a href="../../pdf/lectures/L07-policy-evaluation-panel-data.pdf">Lecture PDF</a></p>
-<!-- GENERATION: PENDING -->
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled" title="Lecture outline">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Lecture outline
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Lecture notes for this session have not yet been generated.</p>
+<ul>
+<li>Evaluate a rule for choosing treatments, using seeding strategies in networks as a concrete example.</li>
+<li>Use known assignment probabilities to learn about strategies other than the one that generated the data.</li>
+<li>Recast panel-data causal inference as a problem of missing untreated outcomes.</li>
+<li>Explain how shared temporal patterns make a low-rank model useful, and what additional assumptions make its predictions causal.</li>
+<li>Distinguish uncertainty from randomization from uncertainty that rests on an outcome model.</li>
+</ul>
+</div>
+</div>
+<p><strong>Download:</strong> <a href="../../pdf/lectures/L07-policy-evaluation-panel-data.pdf">Lecture PDF</a></p>
+<section id="evaluate-a-rule-not-just-a-treatment-label" class="level2">
+<h2 class="anchored" data-anchor-id="evaluate-a-rule-not-just-a-treatment-label">Evaluate a rule, not just a treatment label</h2>
+<p>A public-health campaign can contact a small number of people in each village and hope that information spreads. Suppose the budget permits contacting one person. One strategy chooses that person uniformly at random. Another chooses a random resident, asks them to name a friend, and contacts the friend. Both strategies deliver the same intervention to one person. They differ in which person is likely to receive it.</p>
+<p>The policy question is about the resulting diffusion through the village: which strategy produces more adoption, at the same contact budget? Comparing outcomes of contacted and uncontacted people is not the relevant comparison. An uncontacted person who learns from a neighbor is part of the strategy’s success. The causal intervention is the rule used to choose seeds, and its outcome includes the responses of people who were not seeded.</p>
+<p>Chin, Eckles, and Ugander <span class="citation" data-cites="chinEcklesUgander2022">(<a href="../L04-positivity-partial-identification/index.html#ref-chinEcklesUgander2022" role="doc-biblioref">2022</a>)</span> study precisely this evaluation problem. Their formulation connects network experiments to <strong>policy evaluation</strong>: learning the expected outcome under a specified rule for assigning an intervention. A policy can be stochastic, meaning that it assigns probabilities to several possible interventions rather than always choosing the same one.</p>
+<p>This perspective continues L05. There we distinguished changing a person’s own treatment from changing the surrounding treatment environment. Here we specify a distribution over those environments and ask how well that distribution performs. The known randomization law will let us evaluate more than the experimental arm labels alone.</p>
+<section id="potential-outcomes-for-whole-seed-sets" class="level3">
+<h3 class="anchored" data-anchor-id="potential-outcomes-for-whole-seed-sets">Potential outcomes for whole seed sets</h3>
+<p>Consider <span class="math inline">\(M\)</span> villages, indexed by <span class="math inline">\(g=1,\ldots,M\)</span>. Village <span class="math inline">\(g\)</span> has a fixed pretreatment graph with vertex set <span class="math inline">\(V_g\)</span>, and <span class="math inline">\(\mathcal S_g\)</span> is its set of allowable seed sets. For example, with a budget of <span class="math inline">\(k\)</span> distinct contacts, <span class="math inline">\(\mathcal S_g=\{s\subseteq V_g:|s|=k\}\)</span>. Let <span class="math inline">\(Y_g(s)\)</span> be the number of adopters in that village at a specified follow-up time if seed set <span class="math inline">\(s\)</span> were contacted.</p>
+<p>All of these potential outcomes and graphs are fixed in the initial design-based argument. Randomness comes from selecting the seed sets. If diffusion itself is modeled as random, an additional expectation over that process must be stated; it is not silently included in the assignment expectation below.</p>
+<p>Arbitrary interference within a village is allowed: <span class="math inline">\(Y_g(s)\)</span> summarizes the entire response to the selected set. Two other restrictions are important. First, one village’s seed set must not change another village’s outcome. Second, the strategy label must have no effect beyond the realized seed set. If two strategies select the same people but train them differently, their potential outcomes cannot be indexed by the set alone. The intervention would need to include the training protocol.</p>
+<p>A policy <span class="math inline">\(p\)</span> specifies known probabilities <span class="math inline">\(p_g(s)\)</span> over <span class="math inline">\(\mathcal S_g\)</span> for each village. Its finite-population value is</p>
+<p><span id="eq-l07-policy-value"><span class="math display">\[
+V_M(p)=\frac1M\sum_{g=1}^M
+\sum_{s\in\mathcal S_g}p_g(s)Y_g(s).
+\tag{1}\]</span></span></p>
+<p>There are two averages here: first over the policy’s possible seed sets in a particular village, then over the villages. This target is the average number of adopters per village, not the average treatment effect on a seeded person. If village sizes differ, average adoption rates or a resident-weighted target would be different choices. Specify that choice through the outcome and the village weights before estimating anything.</p>
+<p>For two fixed policies <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, write</p>
+<p><span id="eq-l07-policy-contrast"><span class="math display">\[
+\Delta_M(A,B)=V_M(p^A)-V_M(p^B)
+=\frac1M\sum_g\sum_s
+\{p_g^A(s)-p_g^B(s)\}Y_g(s).
+\tag{2}\]</span></span></p>
+<p>The same potential outcome can receive positive weight, negative weight, or zero weight depending on how the strategies change its probability. Evaluating a stochastic policy is thus an average of causal interventions, not an attempt to declare each realized seed set a new experimental arm.</p>
+</section>
+<section id="a-four-person-example" class="level3">
+<h3 class="anchored" data-anchor-id="a-four-person-example">A four-person example</h3>
+<p>Take a star with one center <span class="math inline">\(c\)</span> connected to three leaves <span class="math inline">\(a,b,d\)</span>. Consider one seed and a deliberately simple response: the seed adopts, and adoption then spreads to its immediate neighbors in one transmission step. It does not continue to a second step. Consequently, seeding the center produces four adopters, while seeding any leaf produces two.</p>
+<p>Policy <span class="math inline">\(B\)</span> chooses a uniform seed. Policy <span class="math inline">\(A\)</span> chooses a uniform resident and then a uniform neighbor of that resident. The center is named whenever one of the three leaves is chosen first. A particular leaf is named only when the center is chosen first and then selects that leaf.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Seed</th>
+<th style="text-align: right;">Uniform policy <span class="math inline">\(p^B\)</span></th>
+<th style="text-align: right;">One-hop policy <span class="math inline">\(p^A\)</span></th>
+<th style="text-align: right;">Adopters <span class="math inline">\(Y(s)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Center <span class="math inline">\(c\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/4\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(3/4\)</span></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Leaf <span class="math inline">\(a\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/4\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/12\)</span></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leaf <span class="math inline">\(b\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/4\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/12\)</span></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Leaf <span class="math inline">\(d\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/4\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/12\)</span></td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p>The two values are</p>
+<p><span class="math display">\[
+V(p^B)=\frac14(4)+\frac34(2)=\frac52,
+\qquad
+V(p^A)=\frac34(4)+\frac14(2)=\frac72.
+\]</span></p>
+<p>The policy gain is one additional adopter, averaged over the random choice of seed. This is an illustrative science table, not an empirical finding about one-hop targeting. If deterministic adoption instead continued until everyone reachable from the seed had adopted, all four seeds would produce four adopters and the policy contrast would be zero. The outcome horizon and diffusion mechanism matter as much as the graph.</p>
+<p>For a general undirected graph without isolated vertices, let <span class="math inline">\(\mathcal A_g(u)\)</span> be the neighbors of <span class="math inline">\(u\)</span>, excluding <span class="math inline">\(u\)</span> itself, and let <span class="math inline">\(\deg_g(u)=|\mathcal A_g(u)|\)</span>. The one-hop probability of selecting vertex <span class="math inline">\(v\)</span> is</p>
+<p><span id="eq-l07-one-hop"><span class="math display">\[
+p_g^A(\{v\})
+=\frac1{|V_g|}\sum_{u:\,v\in\mathcal A_g(u)}
+\frac1{\deg_g(u)}.
+\tag{3}\]</span></span></p>
+<p>Each possible nominator supplies one route to choosing <span class="math inline">\(v\)</span>. This distribution is not generally proportional to <span class="math inline">\(v\)</span>’s degree: being connected to a person with few friends gives a larger nomination probability than being connected to someone with many friends. Isolated vertices require an explicit protocol for failed nominations.</p>
+<p>For several seeds, the complete sampling algorithm matters. Sampling with replacement, conditioning all nominations on being distinct, and rejecting duplicates sequentially need not yield the same distribution over sets. Inverse-probability weights must use the probability of the actual seed set under the implemented algorithm. A verbal label such as “friend targeting” does not specify those probabilities.</p>
+</section>
+</section>
+<section id="evaluate-a-policy-using-the-experiment-we-actually-ran" class="level2">
+<h2 class="anchored" data-anchor-id="evaluate-a-policy-using-the-experiment-we-actually-ran">Evaluate a policy using the experiment we actually ran</h2>
+<section id="the-design-and-the-target-need-not-be-the-same-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="the-design-and-the-target-need-not-be-the-same-distribution">The design and the target need not be the same distribution</h3>
+<p>Suppose the experiment draws <span class="math inline">\(S_g\sim q_g\)</span> independently across villages and observes <span class="math inline">\(Y_g^{\mathrm{obs}}=Y_g(S_g)\)</span>. The distribution <span class="math inline">\(q_g\)</span> is the known experimental design; <span class="math inline">\(p_g^A\)</span> and <span class="math inline">\(p_g^B\)</span> are the policies we wish to evaluate. This is often called off-policy evaluation when a target policy differs from the data-generating policy.</p>
+<p>For now assume that <span class="math inline">\(q_g(s)&gt;0\)</span> whenever either target policy assigns positive probability to <span class="math inline">\(s\)</span>. Define</p>
+<p><span class="math display">\[
+w_g^a(s)=\frac{p_g^a(s)}{q_g(s)},\qquad a\in\{A,B\}.
+\]</span></p>
+<p>The ratio is defined only for <span class="math inline">\(q_g(s)&gt;0\)</span>, which includes every realized seed set. This ratio says how much more often the target would choose a seed set than the experiment does. It weights the entire village response, including spillovers. It is not the inverse probability that an individual resident is treated.</p>
+<p>The importance-weighted value and contrast estimators are</p>
+<p><span id="eq-l07-policy-ht"><span class="math display">\[
+\widehat V_{\mathrm{HT}}(p^a)
+=\frac1M\sum_g w_g^a(S_g)Y_g^{\mathrm{obs}},
+\qquad
+\widehat\Delta_{\mathrm{HT}}
+=\frac1M\sum_g\{w_g^A(S_g)-w_g^B(S_g)\}Y_g^{\mathrm{obs}}.
+\tag{4}\]</span></span></p>
+<p>Here HT emphasizes the same design-based cancellation used in L02, although the weight now contains a target-policy probability in its numerator.</p>
+<div id="prp-l07-policy-unbiased" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 1 (Unbiased evaluation of a fixed stochastic policy)</strong></span> Under the stated consistency and support conditions, <span class="math inline">\(\mathbb E_q\{\widehat V_{\mathrm{HT}}(p^a)\}=V_M(p^a)\)</span> and <span class="math inline">\(\mathbb E_q(\widehat\Delta_{\mathrm{HT}})=\Delta_M(A,B)\)</span>. The subscript <span class="math inline">\(q\)</span> denotes randomness under the experimental seed-selection design, with graphs and potential outcomes held fixed.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>For each village,</p>
+<p><span class="math display">\[
+\mathbb E_q[w_g^a(S_g)Y_g^{\mathrm{obs}}]
+=\sum_{s:q_g(s)&gt;0}q_g(s)
+\frac{p_g^a(s)}{q_g(s)}Y_g(s)
+=\sum_s p_g^a(s)Y_g(s).
+\]</span></p>
+<p>Support coverage justifies the last equality. Averaging over villages estimates the policy value; subtracting the two identities estimates the contrast. Independence across villages is useful for variance analysis but is not needed for this expectation calculation if the correct marginal design probabilities are used.</p>
+</div>
+<p>On the star, suppose only uniform seeding was used. To evaluate one-hop seeding, the center receives weight <span class="math inline">\(3\)</span> and each leaf weight <span class="math inline">\(1/3\)</span>. The weighted outcome is therefore <span class="math inline">\(12\)</span> when the center is selected and <span class="math inline">\(2/3\)</span> otherwise. Its expectation is <span class="math inline">\((1/4)12+(3/4)(2/3)=7/2\)</span>, the one-hop value. The counterfactual policy is evaluated without pretending that we observed the same village under a second seed.</p>
+<p>The policy contrast uses contributions <span class="math inline">\(8\)</span> at the center and <span class="math inline">\(-4/3\)</span> at a leaf. Their expectation is one. A single contribution is a noisy estimate; the unbiasedness statement concerns repetitions of the experiment, and precision requires enough independent villages.</p>
+</section>
+<section id="why-retain-seed-identities-when-strategies-were-randomized" class="level3">
+<h3 class="anchored" data-anchor-id="why-retain-seed-identities-when-strategies-were-randomized">Why retain seed identities when strategies were randomized?</h3>
+<p>An experiment might first randomize a strategy label <span class="math inline">\(R_g\sim\operatorname{Bernoulli}(\rho)\)</span>, with <span class="math inline">\(R_g=1\)</span> selecting policy <span class="math inline">\(A\)</span> and <span class="math inline">\(R_g=0\)</span> selecting <span class="math inline">\(B\)</span>, then draw the seed set from that policy. After averaging over the label, the seed-set distribution is</p>
+<p><span id="eq-l07-mixture-design"><span class="math display">\[
+q_g(s)=\rho p_g^A(s)+(1-\rho)p_g^B(s),
+\qquad 0&lt;\rho&lt;1.
+\tag{5}\]</span></span></p>
+<p>An ordinary arm-based HT contribution is</p>
+<p><span class="math display">\[
+T_g^{\mathrm{label}}
+=\left\{\frac{R_g}{\rho}
+-\frac{1-R_g}{1-\rho}\right\}Y_g^{\mathrm{obs}}.
+\]</span></p>
+<p>Its expectation is the village-specific policy contrast. But a seed set often could have been generated by either strategy. The label retains random variation that does not matter for the outcome once the seed set is known. Bayes’ rule gives</p>
+<p><span class="math display">\[
+\mathbb P(R_g=1\mid S_g=s)
+=\frac{\rho p_g^A(s)}{q_g(s)}.
+\]</span></p>
+<p>Because the outcome depends only on <span class="math inline">\(s\)</span>, conditioning the label-based contribution on that set yields</p>
+<p><span id="eq-l07-rao-blackwell"><span class="math display">\[
+\mathbb E_q[T_g^{\mathrm{label}}\mid S_g]
+=\frac{p_g^A(S_g)-p_g^B(S_g)}{q_g(S_g)}
+Y_g^{\mathrm{obs}}.
+\tag{6}\]</span></span></p>
+<p>This is exactly the seed-set contribution in <a href="#eq-l07-policy-ht" class="quarto-xref">Equation&nbsp;<span>4</span></a>. The law of total variance therefore proves that replacing the label contribution by this conditional expectation cannot increase its variance. For independent villages, the same comparison holds for their averages. This is a Rao–Blackwell argument relative to the specified label-HT estimator, not a universal efficiency ordering over every difference-in-means or normalized estimator.</p>
+<p>The practical implication is simple: record which seeds were selected, not only which strategy was assigned. These details reveal how much the two policies agree about the realized intervention.</p>
+<p>For the star with <span class="math inline">\(\rho=1/2\)</span>, the mixture chooses the center with probability <span class="math inline">\(1/2\)</span> and each leaf with probability <span class="math inline">\(1/6\)</span>. The seed-set contrast contribution is <span class="math inline">\(4\)</span> for the center and <span class="math inline">\(-2\)</span> for a leaf. Its mean is one and its variance is <span class="math inline">\(\tfrac12(4^2)+\tfrac12(-2)^2-1^2=9\)</span>. The label-HT contribution has the same mean but variance <span class="math inline">\(39\)</span>. This is an exact calculation for the illustrative schedule, not a general numerical efficiency claim.</p>
+</section>
+<section id="normalization-support-and-uncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="normalization-support-and-uncertainty">Normalization, support, and uncertainty</h3>
+<p>As in L02, a normalized estimator may stabilize random total weights:</p>
+<p><span id="eq-l07-policy-hajek"><span class="math display">\[
+\widehat V_{\mathrm H}(p^a)
+=\frac{\sum_g w_g^a(S_g)Y_g^{\mathrm{obs}}}
+{\sum_g w_g^a(S_g)},
+\qquad
+\widehat\Delta_{\mathrm H}
+=\widehat V_{\mathrm H}(p^A)-\widehat V_{\mathrm H}(p^B).
+\tag{7}\]</span></span></p>
+<p>Under full target support, each weight has expectation one, so the denominator fluctuates around <span class="math inline">\(M\)</span>. The ratio need not be exactly unbiased; a zero denominator must also be handled. Normalization changes the estimator, not which unobserved seed sets the experiment can inform.</p>
+<p>The two policy estimates use the same villages. Their covariance is part of the uncertainty of the contrast. To see this directly, define the signed contribution <span class="math inline">\(D_g=\{w_g^A(S_g)-w_g^B(S_g)\}Y_g^{\mathrm{obs}}\)</span>. Under independent village assignments,</p>
+<p><span id="eq-l07-policy-variance"><span class="math display">\[
+\operatorname{Var}_q(\widehat\Delta_{\mathrm{HT}})
+=\frac1{M^2}\sum_g
+\left[
+\sum_{s:q_g(s)&gt;0}
+\frac{\{p_g^A(s)-p_g^B(s)\}^2Y_g(s)^2}{q_g(s)}
+-\Delta_g^2
+\right],
+\tag{8}\]</span></span></p>
+<p>where <span class="math inline">\(\Delta_g=\sum_s\{p_g^A(s)-p_g^B(s)\}Y_g(s)\)</span>. The difference of policy probabilities appears inside the square. Adding two separate value variances would discard the covariance that produces this expression.</p>
+<p>For fixed, potentially heterogeneous villages, let <span class="math inline">\(s_D^2=(M-1)^{-1}\sum_g(D_g-\overline D)^2\)</span> with <span class="math inline">\(\overline D=M^{-1}\sum_gD_g\)</span>. Independence gives</p>
+<p><span class="math display">\[
+\mathbb E_q\left[\frac{s_D^2}{M}\right]
+=\operatorname{Var}_q(\widehat\Delta_{\mathrm{HT}})
++\frac{\sum_g\{\Delta_g-\Delta_M(A,B)\}^2}{M(M-1)}.
+\]</span></p>
+<p>Thus the familiar sample-variance calculation is conservative in expectation in this setting; between-village contrast heterogeneity contributes an extra term. It is not an exact estimate of the assignment variance, nor does conservativeness in expectation alone justify a normal confidence interval. An appropriate many-village approximation and control of influential contributions are still needed. Counting thousands of residents does not create thousands of independent village-level experiments.</p>
+<p>Under an explicitly stated iid-village sampling framework, full target support and finite second moments give the usual ratio expansion when the denominators converge to their positive expectations. The leading Hájek contrast fluctuation instead uses <span class="math inline">\(w^A(Y-V_A)-w^B(Y-V_B)\)</span>, where <span class="math inline">\(V_A,V_B\)</span> are the corresponding population policy values. This again requires the covariance between policy estimates. It also changes the source of uncertainty by treating villages as a sample from a larger population rather than conditioning on the particular graphs.</p>
+<p>The mixture design in <a href="#eq-l07-mixture-design" class="quarto-xref">Equation&nbsp;<span>5</span></a> bounds <span class="math inline">\(w_g^A\)</span> by <span class="math inline">\(1/\rho\)</span> and <span class="math inline">\(w_g^B\)</span> by <span class="math inline">\(1/(1-\rho)\)</span>. A policy evaluated from an unrelated design can have much larger weights. Inspect the distribution of signed contributions, not just the average weight. Rare seed sets with large outcomes can dominate precision.</p>
+<p>There is a subtle support distinction. Estimating both policy values requires coverage of their combined support. Estimating only their unnormalized contrast requires coverage wherever <span class="math inline">\(p_g^A(s)\ne p_g^B(s)\)</span>: unobserved sets with equal probabilities cancel. For example, with <span class="math inline">\(p^A=(.4,.2,.4)\)</span>, <span class="math inline">\(p^B=(.2,.4,.4)\)</span>, and <span class="math inline">\(q=(.5,.5,0)\)</span>, the identifiable contrast is <span class="math inline">\(.2Y(s_1)-.2Y(s_2)\)</span>, although neither complete policy value is identified. Separate Hájek normalization would divide each observable weighted mean by a quantity converging to <span class="math inline">\(.6\)</span> across independent copies of this three-set setup, and generally would not recover that contrast. The weaker support argument applies to the signed, unnormalized estimator, not automatically to ratios.</p>
+<p>Finally, evaluation of a fixed policy is not the same problem as learning which policy to deploy. Selecting a rule because it has the largest estimated value and reporting that estimate as if the rule were prespecified introduces selection bias. Independent evaluation villages or a suitable policy-learning analysis are needed. Splitting residents within a village does not, by itself, remove the dependence created by diffusion.</p>
+</section>
+</section>
+<section id="policy-evaluation-when-we-observe-a-panel" class="level2">
+<h2 class="anchored" data-anchor-id="policy-evaluation-when-we-observe-a-panel">Policy evaluation when we observe a panel</h2>
+<p>The seeding problem asks what would happen under a different distribution over actions, using a known experiment to connect observed outcomes to that policy. Now change the information available. A city introduces a policy, a firm changes a practice, or a school adopts a program. We observe outcomes before and after adoption and observe other units over the same periods, but we do not necessarily know a credible randomization distribution for adoption. Can repeated observations supply the missing comparison?</p>
+<p>A panel is a collection of units observed over time. Index units by <span class="math inline">\(i=1,\ldots,N\)</span> and periods by <span class="math inline">\(t=1,\ldots,T\)</span>. Let <span class="math inline">\(Z_{it}\in\{0,1\}\)</span> indicate treatment, and let <span class="math inline">\(Y_{it}^{\mathrm{obs}}\)</span> be the observed outcome. Initially, assume that the outcome depends on the unit’s current treatment rather than its past treatment history or other units’ assignments. We can then write potential outcomes <span class="math inline">\(Y_{it}(0)\)</span> and <span class="math inline">\(Y_{it}(1)\)</span>, with <span class="math inline">\(Y_{it}^{\mathrm{obs}}=Y_{it}(Z_{it})\)</span>. We will return to treatment histories and spillovers before applying this formulation.</p>
+<p>The object of interest is not necessarily the effect on all units in every period. Define the sets of untreated and treated cells by <span class="math display">\[
+\mathcal O=\{(i,t):Z_{it}=0\},
+\qquad
+\mathcal T=\{(i,t):Z_{it}=1\}.
+\]</span> For a nonempty <span class="math inline">\(\mathcal T\)</span>, consider the average effect on the units and periods actually treated: <span id="eq-l07-panel-target"><span class="math display">\[
+\tau_{\mathcal T}
+=\frac{1}{|\mathcal T|}
+\sum_{(i,t)\in\mathcal T}
+\{Y_{it}(1)-Y_{it}(0)\}.
+\tag{9}\]</span></span> Each treated cell receives equal weight; an average over units, cohorts, or event times would be a different target and should be defined accordingly. All the <span class="math inline">\(Y_{it}(1)\)</span> appearing here are observed. The problem is to recover the untreated outcomes for these same cells.</p>
+<p>This gives a useful rearrangement of the data. Form an <span class="math inline">\(N\)</span>-by-<span class="math inline">\(T\)</span> matrix of <em>untreated potential outcomes</em>. An untreated cell is observed, while a treated cell is missing. The observed treated outcome is not an observation of that missing entry: it belongs to a different potential-outcome matrix. The causal question becomes a matrix-completion problem, but changing its description does not supply an identification assumption.</p>
+<section id="what-a-before-and-after-comparison-needs" class="level3">
+<h3 class="anchored" data-anchor-id="what-a-before-and-after-comparison-needs">What a before-and-after comparison needs</h3>
+<p>Suppose one unit adopts between periods 2 and 3. Its change in outcome mixes the policy’s effect with anything that would have changed without the policy. Difference-in-differences uses the change among untreated comparison units to account for the latter.</p>
+<p>Let <span class="math inline">\(\overline Y_{\mathrm{tr},t}\)</span> and <span class="math inline">\(\overline Y_{\mathrm{co},t}\)</span> denote the observed averages for the treated and control groups in period <span class="math inline">\(t\)</span>. A two-period DID estimator is <span id="eq-l07-did"><span class="math display">\[
+\widehat\tau_{\mathrm{DID}}
+=(\overline Y_{\mathrm{tr},3}
+  -\overline Y_{\mathrm{tr},2})
+-(\overline Y_{\mathrm{co},3}
+  -\overline Y_{\mathrm{co},2}).
+\tag{10}\]</span></span> The identifying comparison concerns what would have happened <em>without</em> treatment: the mean untreated change in the treated group must equal the mean untreated change in the controls. Equality of their outcome values is not required. Conversely, similar pretreatment values alone do not imply that their untreated changes would agree.</p>
+<p>Why might DID fail while the rest of the panel still be useful? Different units may respond differently to common changes: a national demand shift may help one industry and hurt another. The following deliberately noiseless example isolates that issue. There are two never-treated controls and one unit treated only in the final period:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Unit</th>
+<th style="text-align: right;">Period 1</th>
+<th style="text-align: right;">Period 2</th>
+<th style="text-align: right;">Period 3: untreated outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Control A</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Control B</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Treated unit</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">?</td>
+</tr>
+</tbody>
+</table>
+<p>Suppose the treated unit’s untreated trajectory is twice A’s trajectory plus B’s trajectory. The first two entries satisfy this relation: <span class="math inline">\(4=2(1)+2\)</span> and <span class="math inline">\(5=2(2)+1\)</span>. If the same relation continues, the missing entry is <span class="math inline">\(2(3)+0=6\)</span>. If the observed treated outcome is 8, the treatment effect is 2. Equal-weight controls instead average 1.5 in every period. DID therefore predicts no untreated change for the treated unit, imputes 5, and estimates an effect of 3. The problem is not a shortage of time observations in principle: it is the assumption that the unweighted control change is the right comparison.</p>
+<p>The relation used to obtain 6 needs justification. It is not guaranteed because it fits two observations. We next express precisely what it means to assume that a small collection of stable patterns governs the panel.</p>
+</section>
+</section>
+<section id="low-rank-means-shared-patterns-with-different-responses" class="level2">
+<h2 class="anchored" data-anchor-id="low-rank-means-shared-patterns-with-different-responses">Low rank means shared patterns with different responses</h2>
+<p>Imagine that untreated outcomes reflect a small number of common time patterns. One might represent national demand, another the relative cost of energy. Units have different sensitivities to these patterns. Let <span class="math inline">\(\mathbf u_i\in\mathbb R^r\)</span> collect unit <span class="math inline">\(i\)</span>’s sensitivities, called <em>loadings</em>, and let <span class="math inline">\(\mathbf f_t\in\mathbb R^r\)</span> collect the common factors in period <span class="math inline">\(t\)</span>. The interaction component of the mean is <span id="eq-l07-factor-entry"><span class="math display">\[
+L_{it}=\mathbf u_i^\top\mathbf f_t
+      =\sum_{k=1}^r u_{ik}f_{tk}.
+\tag{11}\]</span></span> The loadings do not receive a time index: their stability is part of the model. Factors may vary over time without following a linear or smooth trend. A single factor can increase, fall, and increase again, while units respond with different magnitudes and even different signs.</p>
+<p>Stack the row vectors <span class="math inline">\(\mathbf u_i^\top\)</span> into an <span class="math inline">\(N\)</span>-by-<span class="math inline">\(r\)</span> matrix <span class="math inline">\(\mathbf U\)</span> and <span class="math inline">\(\mathbf f_t^\top\)</span> into a <span class="math inline">\(T\)</span>-by-<span class="math inline">\(r\)</span> matrix <span class="math inline">\(\mathbf F\)</span>. Then <span id="eq-l07-factor-matrix"><span class="math display">\[
+\mathbf L=\mathbf U\mathbf F^\top,
+\qquad
+\operatorname{rank}(\mathbf L)\le r.
+\tag{12}\]</span></span> Every row of <span class="math inline">\(\mathbf L\)</span> is a linear combination of the same <span class="math inline">\(r\)</span> time patterns, and every column is a linear combination of the same <span class="math inline">\(r\)</span> loading patterns across units. Low rank is therefore a restriction in both directions, not merely a claim that outcomes are highly correlated.</p>
+<p>The factors need not have unique scientific names. Replacing <span class="math inline">\(\mathbf U\)</span> by <span class="math inline">\(\mathbf U\mathbf H\)</span> and <span class="math inline">\(\mathbf F\)</span> by <span class="math inline">\(\mathbf F\mathbf H^{-\top}\)</span>, for an invertible <span class="math inline">\(r\)</span>-by-<span class="math inline">\(r\)</span> matrix <span class="math inline">\(\mathbf H\)</span>, leaves <span class="math inline">\(\mathbf L\)</span> unchanged. Identifying a counterfactual mean can be possible without identifying a uniquely labeled set of latent mechanisms.</p>
+<p>For policy evaluation, separate persistent unit differences and common time changes from the interaction component. A working model is <span id="eq-l07-panel-model"><span class="math display">\[
+Y_{it}(0)
+=\underbrace{\alpha_i+\delta_t+L_{it}}_{M_{it}^{0}}
++\varepsilon_{it},
+\qquad
+\mathbf L=\mathbf U\mathbf F^\top.
+\tag{13}\]</span></span> Here <span class="math inline">\(M_{it}^{0}\)</span> is the systematic untreated mean and <span class="math inline">\(\varepsilon_{it}\)</span> is a residual. The additive terms allow, for example, one city to have a persistently higher outcome while all cities experience a common period shock. The interaction terms allow the same shock to have different effects across cities. This is the interactive-fixed-effects perspective developed in the panel literature <span class="citation" data-cites="bai2009interactive">(<a href="../L04-positivity-partial-identification/index.html#ref-bai2009interactive" role="doc-biblioref">Bai 2009</a>)</span>.</p>
+<p>Three distinctions matter. First, the <em>mean</em> is modeled as low dimensional; independent measurement noise will generally make the realized outcome matrix full rank. Second, the rank bound <span class="math inline">\(r\)</span> applies to <span class="math inline">\(\mathbf L\)</span>. The full mean matrix <span class="math inline">\(\mathbf M^0\)</span> has rank at most <span class="math inline">\(r+2\)</span>, since each additive component contributes at most one. Third, this is now an outcome-model argument. Without a randomized adoption design, the model and the way treated cells differ from untreated cells must do work that randomization previously did for us.</p>
+<p>Here a mean refers to an expectation over residual variation, holding the systematic components fixed. Mean-zero residuals before conditioning on treatment need not remain mean zero among treated cells. A causal analysis needs restrictions on that selection as well as on the rank of the signal; we will make their role explicit in the estimator’s error decomposition.</p>
+<section id="which-missing-entries-are-determined" class="level3">
+<h3 class="anchored" data-anchor-id="which-missing-entries-are-determined">Which missing entries are determined?</h3>
+<p>Return to the noiseless example, now imposing rank two directly on its untreated mean matrix. The first two control rows are independent. Their first two coordinates determine the coefficients of the treated row: <span class="math display">\[
+a+2b=4,\qquad 2a+b=5
+\quad\Longrightarrow\quad a=2,\quad b=1.
+\]</span> Rank two says the third row stays in their span, which determines the final entry as 6. Both the structural restriction and the observed arrangement are essential.</p>
+<p>For a general noiseless matrix, reorder rows into controls followed by treated units and columns into pre- and post-treatment periods. Write <span id="eq-l07-block-matrix"><span class="math display">\[
+\mathbf M^0=
+\begin{pmatrix}
+\mathbf A&amp;\mathbf B\\
+\mathbf C&amp;\mathbf D
+\end{pmatrix}.
+\tag{14}\]</span></span> We observe control outcomes before and after treatment, <span class="math inline">\(\mathbf A\)</span> and <span class="math inline">\(\mathbf B\)</span>, and treated-unit outcomes before treatment, <span class="math inline">\(\mathbf C\)</span>. The block <span class="math inline">\(\mathbf D\)</span> is missing.</p>
+<div id="prp-l07-block-completion" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 2 (Completing a noiseless block)</strong></span> If <span class="math inline">\(\operatorname{rank}(\mathbf M^0)=\operatorname{rank}(\mathbf A)=r_0\)</span>, then <span id="eq-l07-block-completion"><span class="math display">\[
+\mathbf D=\mathbf C\mathbf A^\dagger\mathbf B,
+\tag{15}\]</span></span> where <span class="math inline">\(\mathbf A^\dagger\)</span> is the Moore–Penrose pseudoinverse.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Stack the two observed pretreatment blocks vertically to form <span class="math inline">\(\mathbf K=\begin{pmatrix}\mathbf A\\\mathbf C\end{pmatrix}\)</span>. Its columns have rank <span class="math inline">\(r_0\)</span> and span the columns of the complete matrix. Thus the post-treatment columns can be written <span class="math inline">\(\begin{pmatrix}\mathbf B\\\mathbf D\end{pmatrix}=\mathbf K\mathbf H\)</span> for some coefficient matrix <span class="math inline">\(\mathbf H\)</span>. Reading its upper and lower blocks gives <span class="math inline">\(\mathbf B=\mathbf A\mathbf H\)</span> and <span class="math inline">\(\mathbf D=\mathbf C\mathbf H\)</span>. Also, <span class="math inline">\(\operatorname{rank}(\mathbf K)
+=\operatorname{rank}(\mathbf A)\)</span> implies that each row of <span class="math inline">\(\mathbf C\)</span> lies in the row space of <span class="math inline">\(\mathbf A\)</span>. Thus <span class="math inline">\(\mathbf C=\mathbf C\mathbf A^\dagger\mathbf A\)</span>. Substituting, <span class="math display">\[
+\mathbf C\mathbf A^\dagger\mathbf B
+=\mathbf C\mathbf A^\dagger\mathbf A\mathbf H
+=\mathbf C\mathbf H=\mathbf D.
+\]</span></p>
+</div>
+<p>The rank condition says that the controls in the pretreatment periods reveal all the directions needed elsewhere in the matrix. It is a form of overlap in latent structure. A policy-responsive group cannot have an additional untreated pattern that is completely invisible in the observed comparison data.</p>
+<p>Low rank alone does not supply that overlap. Suppose the three observed entries of a two-by-two matrix are zero and only its bottom-right entry is missing: <span class="math display">\[
+\begin{pmatrix}0&amp;0\\0&amp;d\end{pmatrix}.
+\]</span> Every value of <span class="math inline">\(d\)</span> is compatible with rank at most one; restricting rank to exactly one still allows every nonzero <span class="math inline">\(d\)</span>. Nothing observed tells us how large the missing entry is. Even when completion is unique, it may be unstable: for a rank-one matrix <span class="math inline">\(\left(\begin{smallmatrix}a&amp;b\\c&amp;d\end{smallmatrix}\right)\)</span> with <span class="math inline">\(a\ne0\)</span>, the missing value is <span class="math inline">\(d=bc/a\)</span>. A small error in a nearly zero <span class="math inline">\(a\)</span> can produce a large prediction error.</p>
+</section>
+</section>
+<section id="estimating-a-mean-matrix-from-noisy-untreated-cells" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-a-mean-matrix-from-noisy-untreated-cells">Estimating a mean matrix from noisy untreated cells</h2>
+<p>In a realistic panel, exact algebraic completion is too brittle. Untreated observations contain noise, rank is unknown, and adoption may create a staircase of missing cells rather than a single rectangle. We need a method that rewards fitting untreated observations while discouraging elaborate patterns supported only by noise.</p>
+<p>Without a complexity restriction, minimizing squared errors over <span class="math inline">\(\mathcal O\)</span> reproduces every observed untreated value and leaves every missing entry arbitrary. A rank constraint would connect these entries, but choosing a rank and solving the resulting factorization problem can be difficult. The nuclear norm provides a convex alternative.</p>
+<p>Let <span class="math inline">\(\sigma_k(\mathbf L)\)</span> be the singular values of a matrix, the nonnegative strengths of its orthogonal row-column patterns. Its rank counts nonzero singular values; its <em>nuclear norm</em> adds their magnitudes: <span id="eq-l07-nuclear-norm"><span class="math display">\[
+\|\mathbf L\|_*=\sum_{k=1}^{\min(N,T)}\sigma_k(\mathbf L).
+\tag{16}\]</span></span> Penalizing this sum encourages weak patterns to vanish and strong patterns to shrink. It is not a penalty on the absolute values of individual cells. Changing a missing cell can change the singular values and therefore change the penalty even though that cell has no observed-data loss.</p>
+<p>A matrix-completion estimator developed for causal panels by <span class="citation" data-cites="athey2021matrix">Athey et al. (<a href="../L04-positivity-partial-identification/index.html#ref-athey2021matrix" role="doc-biblioref">2021</a>)</span> solves the following optimization problem. Write <span class="math inline">\(\alpha=(\alpha_1,\ldots,\alpha_N)\)</span> and <span class="math inline">\(\delta=(\delta_1,\ldots,\delta_T)\)</span> for the vectors of additive effects: <span id="eq-l07-mc-objective"><span class="math display">\[
+(\widehat\alpha,\widehat\delta,\widehat{\mathbf L})
+\in\arg\min_{\alpha,\delta,\mathbf L}
+\left[
+\frac{1}{2|\mathcal O|}
+\sum_{(i,t)\in\mathcal O}
+\{Y_{it}^{\mathrm{obs}}-\alpha_i-\delta_t-L_{it}\}^2
++\lambda\|\mathbf L\|_*
+\right],
+\tag{17}\]</span></span> where <span class="math inline">\(\lambda\ge0\)</span> controls regularization. The factor of two merely sets the scale of <span class="math inline">\(\lambda\)</span>. The prediction is <span class="math inline">\(\widehat M_{it}^{0}=\widehat\alpha_i+\widehat\delta_t+\widehat L_{it}\)</span>. An additive normalization, such as <span class="math inline">\(\sum_i\alpha_i=0\)</span>, can fix the redundancy between unit and time intercepts; the fitted sum is the object we need.</p>
+<p>The additive effects are unpenalized so that a large persistent difference between units need not be shrunk merely to achieve a simpler interaction matrix. Crucially, the summation uses only untreated cells. Including treated outcomes in this same loss would invite the model to explain the policy’s effect as part of the untreated signal. Doing that legitimately would require additional restrictions on the treatment-effect component.</p>
+<section id="what-the-penalty-does-computationally" class="level3">
+<h3 class="anchored" data-anchor-id="what-the-penalty-does-computationally">What the penalty does computationally</h3>
+<p>The complete-data analogue makes the mechanism transparent. If a matrix <span class="math inline">\(\mathbf R\)</span> is fully observed and additive effects have been removed, consider <span id="eq-l07-threshold-objective"><span class="math display">\[
+\min_{\mathbf L}
+\frac12\|\mathbf R-\mathbf L\|_F^2+\kappa\|\mathbf L\|_*,
+\tag{18}\]</span></span> where <span class="math inline">\(\|\cdot\|_F^2\)</span> adds squared entries and <span class="math inline">\(\kappa\ge0\)</span>. Write a singular-value decomposition <span class="math inline">\(\mathbf R=\mathbf P\operatorname{diag}(s_k)\mathbf Q^\top\)</span>. The optimizer retains these singular-vector directions and replaces each <span class="math inline">\(s_k\)</span> by <span class="math inline">\((s_k-\kappa)_+=\max(s_k-\kappa,0)\)</span>. Along one such direction, the remaining optimization is simply <span class="math inline">\(\min_{\ell\ge0}\frac12(s_k-\ell)^2+\kappa\ell\)</span>: an interior solution has <span class="math inline">\(\ell=s_k-\kappa\)</span>, and otherwise the minimum is at zero. Thus weak directions disappear instead of being fitted exactly.</p>
+<p>With missing entries we cannot take one decomposition of a complete observed matrix. Soft-impute algorithms repeatedly fill missing entries with current predictions and shrink the resulting singular values, updating until convergence <span class="citation" data-cites="mazumder2010spectral">(<a href="../L04-positivity-partial-identification/index.html#ref-mazumder2010spectral" role="doc-biblioref">Mazumder, Hastie, and Tibshirani 2010</a>)</span>. Missing entries are working predictions, not new observations. A one-time replacement of missing values by zero followed by an ordinary SVD does not generally solve the masked fitting problem.</p>
+</section>
+<section id="turning-predictions-into-an-effect-estimate" class="level3">
+<h3 class="anchored" data-anchor-id="turning-predictions-into-an-effect-estimate">Turning predictions into an effect estimate</h3>
+<p>Average the differences between observed treated outcomes and predicted untreated means: <span id="eq-l07-mc-effect"><span class="math display">\[
+\widehat\tau_{\mathrm{MC}}
+=\frac{1}{|\mathcal T|}
+\sum_{(i,t)\in\mathcal T}
+\{Y_{it}^{\mathrm{obs}}-\widehat M_{it}^{0}\}.
+\tag{19}\]</span></span> This formula is simple, but its error exposes two different tasks. Under <a href="#eq-l07-panel-model" class="quarto-xref">Equation&nbsp;<span>13</span></a>, <span id="eq-l07-mc-error"><span class="math display">\[
+\widehat\tau_{\mathrm{MC}}-\tau_{\mathcal T}
+=\frac{1}{|\mathcal T|}
+\sum_{(i,t)\in\mathcal T}(M_{it}^{0}-\widehat M_{it}^{0})
++\frac{1}{|\mathcal T|}
+\sum_{(i,t)\in\mathcal T}\varepsilon_{it}.
+\tag{20}\]</span></span> The first term is error in estimating untreated means. The second is the average untreated residual for the treated cells. Even knowing the mean matrix exactly would not reveal each unobserved realization of <span class="math inline">\(Y_{it}(0)\)</span>. To estimate the realized finite-panel effect precisely, we need that residual average to be small or an uncertainty analysis that accounts for it.</p>
+<p>A condition such as mean-zero residuals given the signal and the treatment pattern helps prevent selection on unexplained shocks; suitable independence or weak dependence then makes averaging informative. If cities adopt precisely when their unmodeled outcome shocks worsen, the residual average need not be zero. Better matrix fitting cannot repair that selection automatically. Alternatively, an analyst might target an average effect in conditional expectation under a stated model. That is a legitimate change of estimand, but not a reason to equate a predicted mean with an individual missing potential outcome.</p>
+</section>
+<section id="choosing-complexity-and-checking-the-comparison" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-complexity-and-checking-the-comparison">Choosing complexity and checking the comparison</h3>
+<p>Larger <span class="math inline">\(\lambda\)</span> more strongly favors fewer and smaller interaction patterns; too much regularization misses real heterogeneity, while too little can fit noise. Choose it using untreated outcomes only. A basic cross-validation procedure withholds some untreated cells, fits on the rest, and compares predictions with the withheld values over a grid of penalties. Refit the chosen model using all available untreated cells.</p>
+<p>The arrangement of holdouts matters. Predicting randomly scattered entries with neighbors observed on both sides is easier than predicting a long post-adoption block. In addition to ordinary masking, examine pseudo-adoption dates or withheld time blocks that resemble the intended extrapolation, while leaving enough controls and periods to estimate the model. This is a diagnostic design choice, not a theorem that cross-validation identifies causal effects. If final control-period outcomes will be available for the retrospective analysis, they may legitimately inform its fit; forecasting before those periods occur is a different information problem.</p>
+<p>Inspect sensitivity to penalty strength, donor units, the pretreatment window, and the treatment date. Large changes reveal dependence on particular extrapolations. Good held-out predictions support the model in regions where outcomes can be checked; they do not test whether a new unobserved shock affects only the treated cells.</p>
+</section>
+</section>
+<section id="other-ways-to-construct-the-missing-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="other-ways-to-construct-the-missing-comparison">Other ways to construct the missing comparison</h2>
+<p>Low rank connects two familiar approaches. A <em>synthetic control</em> predicts a treated unit’s counterfactual from other units’ contemporaneous outcomes. For a single treated unit <span class="math inline">\(i_\star\)</span>, choose donor weights using pretreatment data, then predict <span class="math inline">\(\widehat Y_{i_\star t}(0)=\sum_{j\in\mathrm{co}}w_jY_{jt}^{\mathrm{obs}}\)</span> in post-treatment periods. The canonical construction uses nonnegative weights summing to one <span class="citation" data-cites="abadie2010synthetic">(<a href="../L04-positivity-partial-identification/index.html#ref-abadie2010synthetic" role="doc-biblioref">Abadie, Diamond, and Hainmueller 2010</a>)</span>. Under a factor model, a successful comparison reproduces the treated unit’s relevant loadings. The restrictions also limit extrapolation: the toy example’s coefficients <span class="math inline">\((2,1)\)</span> are not convex weights, so its algebraic completion is not a canonical synthetic control.</p>
+<p>A <em>horizontal prediction</em> instead learns, among controls, how later outcomes relate to earlier outcomes and applies that relation to the treated units’ earlier outcomes. These are different uses of the panel: synthetic control learns combinations across units that continue over time, while horizontal prediction learns combinations across times that continue across units. Matrix completion estimates a shared representation that links both directions.</p>
+<section id="weighted-differences-rather-than-an-entire-completed-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="weighted-differences-rather-than-an-entire-completed-matrix">Weighted differences rather than an entire completed matrix</h3>
+<p>Sometimes the target is one average effect, not every missing entry. Synthetic difference-in-differences combines unit and time weighting with the removal of additive differences <span class="citation" data-cites="arkhangelsky2021">(<a href="../L04-positivity-partial-identification/index.html#ref-arkhangelsky2021" role="doc-biblioref">Arkhangelsky et al. 2021</a>)</span>. Consider a common adoption date, control units <span class="math inline">\(\mathrm{co}\)</span>, treated units <span class="math inline">\(\mathrm{tr}\)</span>, pretreatment periods <span class="math inline">\(\mathrm{pre}\)</span>, and post-treatment periods <span class="math inline">\(\mathrm{post}\)</span>. Define the treated mean in period <span class="math inline">\(t\)</span> as <span class="math inline">\(\overline Y_{\mathrm{tr},t}\)</span>, and choose control weights <span class="math inline">\(w_j\)</span> and pretreatment time weights <span class="math inline">\(v_t\)</span>, each nonnegative and summing to one.</p>
+<p>For fixed such weights, the weighted DID contrast is <span id="eq-l07-sdid"><span class="math display">\[
+\begin{aligned}
+\widehat\tau(w,v)&amp;=
+\frac{1}{T_{\mathrm{post}}}
+\sum_{t\in\mathrm{post}}
+\left(\overline Y_{\mathrm{tr},t}
+-\sum_{j\in\mathrm{co}}w_jY_{jt}^{\mathrm{obs}}\right)\\
+&amp;\quad-\sum_{t\in\mathrm{pre}}v_t
+\left(\overline Y_{\mathrm{tr},t}
+-\sum_{j\in\mathrm{co}}w_jY_{jt}^{\mathrm{obs}}\right),
+\end{aligned}
+\tag{21}\]</span></span> where <span class="math inline">\(T_{\mathrm{post}}\)</span> is the number of post-treatment periods. It compares the treated-control difference after treatment with a weighted version of that same difference before treatment.</p>
+<p>To see the benefit, hold weights fixed and ignore noise. Under the factor model, the remaining untreated-mean discrepancy is <span id="eq-l07-sdid-bias"><span class="math display">\[
+\underbrace{\left(
+\overline{\mathbf u}_{\mathrm{tr}}
+-\sum_{j\in\mathrm{co}}w_j\mathbf u_j\right)^\top}
+_{\text{difference in factor loadings}}
+\quad
+\underbrace{\left(
+\overline{\mathbf f}_{\mathrm{post}}
+-\sum_{t\in\mathrm{pre}}v_t\mathbf f_t\right)}
+_{\text{difference in factor averages}}.
+\tag{22}\]</span></span> Here bars denote arithmetic averages over the indicated group or periods. Unit intercepts cancel when taking the weighted time difference; common time effects cancel in the unit comparison. The interaction discrepancy is a product. Matching loadings well or matching the relevant time-factor average well can reduce it; neither requires explicitly interpreting each latent factor.</p>
+<p>The actual method learns weights from observed outcomes. Unit weights match treated and weighted-control pretreatment trajectories up to a constant, with regularization to discourage concentration. Time weights make a weighted pretreatment average resemble post-treatment averages among controls, again allowing a constant. Neither fit uses treated post-treatment outcomes as an untreated target. The learned weights then enter a weighted two-way fixed-effects regression, equivalently <a href="#eq-l07-sdid" class="quarto-xref">Equation&nbsp;<span>21</span></a>.</p>
+<p>The product in <a href="#eq-l07-sdid-bias" class="quarto-xref">Equation&nbsp;<span>22</span></a> explains a mechanism, not an unconditional guarantee for data-fitted weights. Good pretreatment fit must generalize into the missing block; noisy adaptive weights and residual dependence require additional analysis. Nor are these weights assignment probabilities like those in the seeding experiment. They construct comparisons from outcomes under structural assumptions.</p>
+</section>
+</section>
+<section id="what-must-be-checked-before-calling-the-result-causal" class="level2">
+<h2 class="anchored" data-anchor-id="what-must-be-checked-before-calling-the-result-causal">What must be checked before calling the result causal?</h2>
+<p>Panel structure supplies repeated measurements, not randomized adoption. The scientific justification should specify which untreated comparison can travel across units and time, and why treatment does not select residual changes left out of that comparison. The recovery assumptions also need enough untreated information in relevant periods and enough pretreatment information for relevant units. If everyone adopts and no post-adoption controls remain, unrestricted future factors cannot generally be learned from these data alone.</p>
+<p>The indexing of potential outcomes must fit the policy. A treatment may have effects that accumulate, persist after withdrawal, or begin in anticipation. With irreversible adoption, one can instead index outcomes by adoption date <span class="math inline">\(g\)</span> and compare <span class="math inline">\(Y_{it}(g)\)</span> with the never-adopted outcome <span class="math inline">\(Y_{it}(\infty)\)</span>. No anticipation allows pre-adoption observations to inform the latter. This formulation permits duration-dependent treatment effects; it does not make a current-treatment-only model correct. Staggered adoption then produces different missing blocks for different cohorts. Specify the cohort-period effects being averaged, and do not use already-treated observations as untreated controls without additional assumptions.</p>
+<p>The units must also be chosen with spillovers in mind. If a city’s policy changes outcomes in neighboring control cities, their observed outcomes need not be observations of the counterfactual world being imputed. The interference issues of L05 have not disappeared; a useful panel method must either rule them out, model them, or redefine the comparison.</p>
+<p>Finally, prediction and inference are separate achievements. A small matrix-reconstruction error does not by itself produce a confidence interval for a particular treated-cell average. A small error averaged over the whole panel can even hide a large error in a small target block. Uncertainty can include counterfactual prediction error, regularization bias, the unobserved residual average, and estimation of weights or factors. Resampling cells independently ignores serial dependence within units. Unit-level resampling is more appropriate under independent-unit models, but few treated units and dependence between units create further limitations. Placebo comparisons are informative diagnostics; they are exact randomization tests only when a suitable assignment mechanism actually justifies those permutations.</p>
+<p>For contrast, <span class="citation" data-cites="atheyImbens2022">Athey and Imbens (<a href="../L04-positivity-partial-identification/index.html#ref-atheyImbens2022" role="doc-biblioref">2022</a>)</span> study panels from an explicitly design-based perspective in which adoption dates are randomly assigned. That returns uncertainty to the randomization distribution and provides a different justification from assuming a low-rank untreated mean. One should say which argument is being used rather than blending them.</p>
+</section>
+<section id="synthesis" class="level2">
+<h2 class="anchored" data-anchor-id="synthesis">Synthesis</h2>
+<p>Both halves of this lecture begin by specifying an intervention and its missing comparison. In seeding experiments, the policy is a distribution over seed sets, and known randomization can identify its value through reweighting. In a nonrandomized panel, repeated observations can reveal shared patterns from which to construct an untreated comparison, but only if those patterns remain informative where the counterfactuals are missing.</p>
+<p>The common question is not whether an estimator has an appealing name. It is what connects the observed outcomes to the proposed intervention. Support in the experiment and informative factor variation in the panel both limit extrapolation, although they are different mathematical conditions. A useful analysis makes that connection explicit, then separates estimating the comparison from quantifying its uncertainty.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<p>Chin, Eckles, and Ugander <span class="citation" data-cites="chinEcklesUgander2022">(<a href="../L04-positivity-partial-identification/index.html#ref-chinEcklesUgander2022" role="doc-biblioref">2022</a>)</span> develop the seeding-policy evaluation framework. The seed-set calculations above connect it to the change-of-distribution argument behind importance sampling and to Rao–Blackwellization. Their applications also illustrate why the relative performance of targeting rules is an empirical question, not a conclusion that follows from centrality alone.</p>
+<p><span class="citation" data-cites="athey2021matrix">Athey et al. (<a href="../L04-positivity-partial-identification/index.html#ref-athey2021matrix" role="doc-biblioref">2021</a>)</span> connect causal-panel imputation to matrix completion and to prediction across units and across time. <span class="citation" data-cites="bai2009interactive">Bai (<a href="../L04-positivity-partial-identification/index.html#ref-bai2009interactive" role="doc-biblioref">2009</a>)</span> supplies earlier foundations for panels with interactive fixed effects, while <span class="citation" data-cites="mazumder2010spectral">Mazumder, Hastie, and Tibshirani (<a href="../L04-positivity-partial-identification/index.html#ref-mazumder2010spectral" role="doc-biblioref">2010</a>)</span> develops the spectral regularization algorithms.</p>
+<p><span class="citation" data-cites="abadie2010synthetic">Abadie, Diamond, and Hainmueller (<a href="../L04-positivity-partial-identification/index.html#ref-abadie2010synthetic" role="doc-biblioref">2010</a>)</span> develop synthetic controls for comparative case studies. <span class="citation" data-cites="arkhangelsky2021">Arkhangelsky et al. (<a href="../L04-positivity-partial-identification/index.html#ref-arkhangelsky2021" role="doc-biblioref">2021</a>)</span> combine unit and time weighting with difference-in-differences. Their inferential analysis, and <span class="citation" data-cites="chernozhukov2023lowrank">Chernozhukov et al. (<a href="../L04-positivity-partial-identification/index.html#ref-chernozhukov2023lowrank" role="doc-biblioref">2023</a>)</span> on inference after low-rank estimation, show why uncertainty requires more than an accurate fitted matrix.</p>
+<p><span class="citation" data-cites="atheyImbens2022">Athey and Imbens (<a href="../L04-positivity-partial-identification/index.html#ref-atheyImbens2022" role="doc-biblioref">2022</a>)</span> offer the contrasting design-based treatment of staggered adoption. Their separation of assignment assumptions from restrictions on anticipation and treatment history is useful even when one ultimately chooses a model-based analysis.</p>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-abadie2010synthetic" class="csl-entry" role="listitem">
+Abadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2010. <span>“Synthetic Control Methods for Comparative Case Studies: Estimating the Effect of <span>California</span>’s Tobacco Control Program.”</span> <em>Journal of the American Statistical Association</em> 105 (490): 493–505. <a href="https://doi.org/10.1198/jasa.2009.ap08746">https://doi.org/10.1198/jasa.2009.ap08746</a>.
+</div>
+<div id="ref-arkhangelsky2021" class="csl-entry" role="listitem">
+Arkhangelsky, Dmitry, Susan Athey, David A. Hirshberg, Guido W. Imbens, and Stefan Wager. 2021. <span>“Synthetic Difference-in-Differences.”</span> <em>American Economic Review</em> 111 (12): 4088–118. <a href="https://doi.org/10.1257/aer.20190159">https://doi.org/10.1257/aer.20190159</a>.
+</div>
+<div id="ref-athey2021matrix" class="csl-entry" role="listitem">
+Athey, Susan, Mohsen Bayati, Nikolay Doudchenko, Guido Imbens, and Khashayar Khosravi. 2021. <span>“Matrix Completion Methods for Causal Panel Data Models.”</span> <em>Journal of the American Statistical Association</em> 116 (536): 1716–30. <a href="https://doi.org/10.1080/01621459.2021.1891924">https://doi.org/10.1080/01621459.2021.1891924</a>.
+</div>
+<div id="ref-atheyImbens2022" class="csl-entry" role="listitem">
+Athey, Susan, and Guido W. Imbens. 2022. <span>“Design-Based Analysis in Difference-in-Differences Settings with Staggered Adoption.”</span> <em>Journal of Econometrics</em> 226 (1): 62–79. <a href="https://doi.org/10.1016/j.jeconom.2020.10.012">https://doi.org/10.1016/j.jeconom.2020.10.012</a>.
+</div>
+<div id="ref-bai2009interactive" class="csl-entry" role="listitem">
+Bai, Jushan. 2009. <span>“Panel Data Models with Interactive Fixed Effects.”</span> <em>Econometrica</em> 77 (4): 1229–79. <a href="https://doi.org/10.3982/ECTA6135">https://doi.org/10.3982/ECTA6135</a>.
+</div>
+<div id="ref-chernozhukov2023lowrank" class="csl-entry" role="listitem">
+Chernozhukov, Victor, Christian Hansen, Yuan Liao, and Yinchu Zhu. 2023. <span>“Inference for Low-Rank Models.”</span> <em>The Annals of Statistics</em> 51 (3): 1309–30. <a href="https://doi.org/10.1214/23-AOS2293">https://doi.org/10.1214/23-AOS2293</a>.
+</div>
+<div id="ref-chinEcklesUgander2022" class="csl-entry" role="listitem">
+Chin, Alex, Dean Eckles, and Johan Ugander. 2022. <span>“Evaluating Stochastic Seeding Strategies in Networks.”</span> <em>Management Science</em> 68 (3): 1714–36. <a href="https://doi.org/10.1287/mnsc.2021.3963">https://doi.org/10.1287/mnsc.2021.3963</a>.
+</div>
+<div id="ref-mazumder2010spectral" class="csl-entry" role="listitem">
+Mazumder, Rahul, Trevor Hastie, and Robert Tibshirani. 2010. <span>“Spectral Regularization Algorithms for Learning Large Incomplete Matrices.”</span> <em>Journal of Machine Learning Research</em> 11 (80): 2287–2322. <a href="https://www.jmlr.org/papers/v11/mazumder10a.html">https://www.jmlr.org/papers/v11/mazumder10a.html</a>.
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
