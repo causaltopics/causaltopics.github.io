@@ -9,7 +9,7 @@ title: "Yale S&DS 6165: Topics in Causal Inference"
 ## NOTE: Sylalbus in progress -- will be removed when syllabus is finalized.
 -->
 
-
+ 
 ## Course Description
 
 This course explores modern topics in causal inference with a focus on randomized experiments and experimental design. The course develops the potential outcomes framework and builds toward advanced topics including covariate balancing, overlap conditions and positivity violations, causal inference under interference, and policy evaluation. The emphasis is on both theoretical foundations and applied practice. Causal inference from observational data is de-emphasized.
