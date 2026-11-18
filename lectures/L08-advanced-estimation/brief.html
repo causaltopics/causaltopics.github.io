@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-11-18">
+
+<title>Advanced Estimation Topics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<header id="title-block-header">
+<h1 class="title">Advanced Estimation Topics</h1>
+
+<p class="date">2026-11-18</p>
+</header>
+
+
+<h1 id="lecture-scope">Lecture scope</h1>
+<ul>
+<li><p>Augmented inverse probability weighting (AIPW). In practice I haven’t really introduced this well in any lecture, so let’s do that.</p></li>
+<li><p>Double robustness, and what it means to establish double robustness. Give a parenthetical example of the double robustness in the context of sample trimming, from the Biometrika 2024 paper with Samir Khan.</p></li>
+<li><p>Keep the exposition streamlined. Define a doubly robust estimator explicitly and use a worked comparison with regression-only and IPW estimators to show what the property buys when one model is wrong. Put detailed confidence-interval theory in advanced material.</p></li>
+<li><p>Mention/point to “double machine learning” for causal inference.</p></li>
+<li><p>Perhaps discuss particular issues with high-dimensional regression controls, eg https://arxiv.org/abs/1607.06801</p></li>
+</ul>
+<h1 id="literature">Literature</h1>
+<ul>
+<li>Robins, Rotnitzky, and Zhao (1994), “Estimation of Regression Coefficients When Some Regressors Are Not Always Observed.” https://doi.org/10.1080/01621459.1994.10476818</li>
+<li>Bang and Robins (2005), “Doubly Robust Estimation in Missing Data and Causal Inference Models.” https://doi.org/10.1111/j.1541-0420.2005.00377.x</li>
+<li>Tsiatis, Davidian, Zhang, and Lu (2008), “Covariate Adjustment for Two-Sample Treatment Comparisons in Randomized Clinical Trials: A Principled Yet Flexible Approach.” https://doi.org/10.1002/sim.3113</li>
+<li>Wager, Du, Taylor, and Tibshirani (2016), “High-Dimensional Regression Adjustments in Randomized Experiments.” https://arxiv.org/abs/1607.06801</li>
+<li>Chernozhukov et al.&nbsp;(2018), “Double/Debiased Machine Learning for Treatment and Structural Parameters.” https://arxiv.org/abs/1608.00060</li>
+<li>Khan and Ugander (2025; online 2024), “Doubly Robust and Heteroscedasticity-Aware Sample Trimming for Causal Inference.” https://doi.org/10.1093/biomet/asae053</li>
+</ul>
+
+
+
+
+
+</body></html>
